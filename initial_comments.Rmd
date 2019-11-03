@@ -59,6 +59,9 @@ Note for the rest of the document - I will use ISLR to refer to *Introduction to
 
 ## Classification
 
+* I would at the end compare logistic regression with LDA (especially with assumptions made about each)
+* Missing graphics towards the end
+
 ## Resampling
 
 * Missing graphics throughout these slides
@@ -69,13 +72,23 @@ Note for the rest of the document - I will use ISLR to refer to *Introduction to
 
 ## Dimension reduction
 
+* PCA needs more explanation (intuitive)
+* Equations are small
+* A lot of stuff crammed into slides
+* Table with PC components is jarring
+
 ## Dimension reduction 2
+
+* Elaborate more on PCA vs LDA
+* This lecture needs more of a 'goal'
 
 # Week 5: Visualisation
 
 ## Visualisation
 
 ## Visualisation 2
+
+* Some of the graphics are low resolution
 
 # Week 6: Classification
 
