@@ -1,0 +1,130 @@
+---
+title: "Initial Comments on Slides"
+author: "Sarah Romanes"
+date: "31 October 2019"
+output: 
+  html_document:
+    theme: spacelab
+    toc: true
+    toc_float: true
+    df_print: "paged"
+    code_folding: "hide"
+    code_download: true
+    number_sections: true
+---
+
+# monba website
+
+* The topics mentioned in the following do not match up with lecture content
+
+![](img/LectureNotes.JPG)
+
+* **Week 6** *Classification* Perhaps should be called *tree based methods* since the first lecture is Regression via regression trees.
+* **Week 8** *Ensembles and boosted models* should cover RandomForest etc, however covers NN and Regulatisation part 1.
+* **Week 9** *Regularization methods* covers Regularisation part 2 and Model assessment. 
+
+
+Note for the rest of the document - I will use ISLR to refer to *Introduction to Statistical Learning* and ESL to refer to *Elements of Statistical Learning*. 
+
+
+# Week 1: Introduction to statistical learning
+
+## Introduction
+
+## Introduction 2
+
+# Week 2: Linear regression
+
+## Regression
+
+## Regression 2
+
+# Week 3: Classification, Resampling
+
+## Classification
+
+## Resampling
+
+# Week 4: Dimension reduction
+
+## Dimension reduction
+
+## Dimension reduction 2
+
+# Week 5: Visualisation
+
+## Visualisation
+
+## Visualisation 2
+
+# Week 6: Classification
+
+## Tree-based Models
+
+## Classification trees
+
+# Week 7: Classification
+
+## Random forests
+
+* No definition of *ensemble learning* to begin with - the motivation of why we combine many weak learners might be useful to describe. Why do we use RF etc instead of a single tree? Ans: overfitting
+* Remind the student of bias/variance tradeoff. Bagged trees/ RF approach variance component.
+* A graphic describing bagging would be useful.
+* Slide 4 is too text heavy
+* The reason why we don't use all of the predictors is not stated at all. Its the clear distinction between straight bagging and randomforests
+* Animated text is distracting
+* Should be consistent style for title of slide
+* What is the second GGally plotting?
+* Boosting is very quickly stated!!
+* Why do we boost? Show graphic of the boosting process.
+* No R packages for boosting have been shown. `gbm` and `XGBoost`.
+* Perhaps compare RF and boosting? Most Kaggle competitions have `XGBoost` models as the winner - but there is a tradeoff in their use - speed/ number of tuning parameters!
+
+## Support vector machines
+
+# Week 8: Ensembles and boosted models
+
+## Neural networks
+
+ * I note that NN are not covered in ISLR. Perhaps reference to ESL Chapter 11 would be useful, especially "11.5 Some Issues in Training Neural Networks".
+ * A motivation to *why* NN are useful is not provided. Perhaps elaborating on the image processing example at the end as a motivator might be more useful! Link to 3Blue1Brown NN video. I think a NN trained on MINST data might be a better motivator than the chocolate example.
+ * On the same note, issues with NN are not discussed either.
+ * Perhaps mention other NN packages for R? `keras` `tensorflow` etc
+ * Link Linear/Logistic regression to NN (See Galit's video below)
+ 
+ 
+ **Advantages**
+ 
+ * Capture highly complex relationships
+ * Works well when there are lots of training samples available.
+ 
+ **Disadvantages**
+ 
+ * Interpretability - prediction vs inference. NN are seen as a black box type of model.
+ * Requires ine tuning and prone to overfitting - the model is generally overparameterised to begin with.
+ * Computationally intensive. Many NN applications are now built upon GPUs rather than CPUs.
+ 
+ 
+ **Extra Resources**
+ 
+ * Galit Shmueli [YouTube Videos](https://www.youtube.com/watch?v=3N4M7jmPD9Q)
+ * 3Blue1Brown [YouTube Videos](https://www.youtube.com/watch?v=aircAruvnKk&t=258s)
+ 
+## Regularization
+ 
+# Week 9: Regularization methods
+
+## Regularization 2
+
+## Model assessment
+
+# Week 10: Clustering
+
+## k-means clustering
+
+## hierarchical clustering
+
+# Week 11: Guest lecturer and review 
+
+
+ 
