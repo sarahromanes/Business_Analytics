@@ -33,17 +33,37 @@ Note for the rest of the document - I will use ISLR to refer to *Introduction to
 
 ## Introduction 2
 
+* Equations are too small!
+* Emphasise inference vs prediction
+* pdf file name appears on slides
+* I think this lecture should be called *Introduction to Supervised Learning* 
+
+
+
 # Week 2: Linear regression
 
 ## Regression
 
+* define WHAT regression is. Ie, regression vs classification
+* perhaps name 'linear regression'
+* regression equation hard to read! (slide 1)
+* missing graphics
+* `\mbox{}` should be used for words in latex
+
+
 ## Regression 2
+
+* perhaps name 'non-linear regression'
 
 # Week 3: Classification, Resampling
 
 ## Classification
 
 ## Resampling
+
+* Missing graphics throughout these slides
+* `\mbox{}` should be used for text (slide 5)
+* describe cross validation in general before LOOCV
 
 # Week 4: Dimension reduction
 
@@ -77,8 +97,19 @@ Note for the rest of the document - I will use ISLR to refer to *Introduction to
 * What is the second GGally plotting?
 * Boosting is very quickly stated!!
 * Why do we boost? Show graphic of the boosting process.
-* No R packages for boosting have been shown. `gbm` and `XGBoost`.
-* Perhaps compare RF and boosting? Most Kaggle competitions have `XGBoost` models as the winner - but there is a tradeoff in their use - speed/ number of tuning parameters!
+* No R packages for boosting have been shown. `gbm` and `xgboost`.
+* Perhaps compare RF and boosting? Most Kaggle competitions have `xgboost` models as the winner - but there is a tradeoff in their use - speed/ number of tuning parameters!
+
+
+*Notes for me*
+
+* Say that you have very unreliable models, such as Decision Trees. (Why unreliable? Because if you change your data a little bit, the decision tree created can be very different.) In such a case, you can build a robust model (reduce variance) through bagging -- bagging is when you create different models by resampling your data to make the resulting model more robust.
+* Both xgboost and gbm follows the principle of gradient boosting. There are however, the difference in modeling details. Specifically, xgboost used a more regularized model formalization to control over-fitting, which gives it better performance.
+* C) Weaknesses of the Boosting
+GBMs are more sensitive to overfitting if the data is noisy.
+Training generally takes longer because of the fact that trees are built sequentially.
+GBMs are harder to tune than RF. There are typically three parameters: number of trees, depth of trees and learning rate, and each tree built is generally shallow.
+* Boosting reduces variance, and also reduces bias. It reduces variance because you are using multiple models (bagging). It reduces bias by training the subsequent model by telling them what errors the previous models made (the boosting part).
 
 ## Support vector machines
 
@@ -111,6 +142,9 @@ Note for the rest of the document - I will use ISLR to refer to *Introduction to
  * 3Blue1Brown [YouTube Videos](https://www.youtube.com/watch?v=aircAruvnKk&t=258s)
  
 ## Regularization
+
+* I would move this to straight after logistic regression / linear regression.
+
  
 # Week 9: Regularization methods
 
