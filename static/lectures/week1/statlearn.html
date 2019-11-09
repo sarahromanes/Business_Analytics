@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>ETC3250: Introduction</title>
-    <meta charset="utf-8">
+    <title>ETC3250: Introduction to Supervised Learning</title>
+    <meta charset="utf-8" />
     <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
-    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="..\..\..\assets\mystyle.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# ETC3250: Introduction
+# ETC3250: Introduction to Supervised Learning
 ## Semester 1, 2019
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 1 (b)
@@ -22,19 +22,7 @@ class: center, middle, inverse, title-slide
 
 
 
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Introduction]
-    - Learning from data
-
-
-
-]]
-.column[.top50px[
-
+# .orange[Learning from Data]
 
 - .orange[Better understand] or .orange[make predictions] about a certain
 phenomenon under study &lt;br&gt; &lt;br&gt;
@@ -42,37 +30,19 @@ phenomenon under study &lt;br&gt; &lt;br&gt;
 - If phenomenon is complex or depends on a large number of variables, an .orange[analytical solution] might not be available  &lt;br&gt; &lt;br&gt;
 - However, we can  .orange[collect data] and learn a model that  .orange[approximates] the true underlying phenomenon
 
-]]
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- .green[Introduction]
-    - Learning from data
+# Learning from Data
 
-]]
-.column[.top50px[
 
 &lt;img src="statlearn_files/figure-html/unnamed-chunk-1-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
-`\(\mathcal{D} = \{(x_i, y_i)\}_{i = 1}^N, ~~~ \mbox{where}~ x_i = (x_{i1}, \dots, x_{ip})^{T}\)`
+.tip[**Statistical learning** provides a framework for constructing models from the data.]
 
-.boxshadow[.green[Statistical learning] provides a framework for constructing models from the data.]
-
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- .green[Introduction]
-    - Learning from data
-    - Different learning problems
-
-]]
-.column[.top50px[
+## Different Learning Problems
 
 - .green[Supervised] learning, `\(y_i\)` .orange[available] for all `\(x_i\)`
     - Regression (or prediction)
@@ -82,53 +52,28 @@ class: split-30
 - Other types of learning: reinforcement learning, online learning, active learning, etc. 
 
 
-.boxshadow[Being able to .green[identify] which is the type of learning problem you have is important in practice]]
+.tip[Being able to .green[**identify**] which is the type of learning problem you have is important in practice]
 
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-
-]]
-.column[.top50px[
+# Supervised learning
 
 `\(\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N\)` 
 
 where `\((y_i, x_i) \sim P(Y, X) = P(X) \underbrace{P(Y|X)}_{}\)` where `\(P(Y, X)\)` means that these arise from some probability distribution. `\(``\sim"\)` means distributed as, arise from. Typically, we only are interested in `\(P(Y|X)\)`, the distribution of `\(Y\)` conditional on `\(X\)`.
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-
-]]
-.column[.top50px[
+# Supervised learning
 
 - `\(Y = (Y_1, \dots, Y_q)\)`: response (output) (could be multivariate, `\(q=1\)` for us)
 - `\(X = (X_1, \dots, X_p)\)`: set of `\(p\)` predictors (input)
 
 We seek a function `\(h(X)\)` for predicting `\(Y\)` given values of the input `\(X\)`. This function is computed using `\(\mathcal{D}\)`.
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-
-]]
-.column[.top50px[
+# Supervised learning
 
 `\(\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N \mbox{ where } (y_i, x_i) \sim P(Y, X)\)`
 
@@ -138,21 +83,15 @@ We are interested in minimizing the expected .orange[out-of-sample] prediction e
 
 where `\(L(y, {\hat{y}})\)` is a non-negative real-valued .orange[loss function], such as `\(L(y, \hat{y}) = (y - \hat{y})^2\)` and `\(L(y, \hat{y}) = I(y \neq \hat{y})\)`.
 
-.boxshadow[The goal is that the predictions from the model are accurate for future samples.]
+.tip[The goal is that the predictions from the model are accurate for future samples.]
 
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+# Regression vs Classification Problems
 
-- Introduction
-- .green[Supervised learning]
-    - Regression
+---
 
-]]
-.column[.top50px[
+# Regression 
 
 We often assume that our data arose from a statistical model
 
@@ -161,19 +100,9 @@ We often assume that our data arose from a statistical model
 - The additive error model is a useful approximation to the truth
 - `\(f(x) = E[Y|X = x]\)`
 - Not a deterministic relationship: `\(Y \neq f(X)\)`
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-
-]]
-.column[.nopadding[
 
 
 
@@ -183,19 +112,9 @@ class: split-30
 
 .font_tiny[(Chapter2/2.2.pdf)]
 
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- Introduction
-- .green[Supervised learning]
-    - Regression
-
-]]
-.column[.nopadding[
 
 
 
@@ -205,40 +124,18 @@ class: split-30
 
 .font_tiny[(Chapter2/2.3.pdf)]
 
-]]
+
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-
-]]
-.column[.top50px[
+# Goals of a regression analysis
 
 - **Prediction**: 
     - `\(\hat{y}_{*} = \hat f(x_{*})\)` for a new observation `\(x_{*}\)`
 - **Inference (or explanation)**:
     - Which predictors are associated with the response?
     - What is the relationship between the response and each predictor?
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-    - Estimation
-
-]]
-.column[.pad10px[
+# Estimation
 
 
 
@@ -252,23 +149,8 @@ Linear model: `\(\hat f(\mbox{education}, \mbox{seniority}) =\)`
 
 .boxshadow[Why would we ever choose to use a **more restrictive method** instead of a **very flexible approach**?]
 
-.font_tiny[(Chapter2/2.3.pdf, 2.4.pdf)]
-
-]]
-
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-    - Estimation
-
-]]
-.column[.nopadding[
+# Estimation
 
 
 
@@ -278,52 +160,31 @@ class: split-30
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf" target="_BLANK"&gt; &lt;img src="images/2.6.png" style="width: 30%; align: center"/&gt; &lt;/a&gt;
 
 .font_tiny[(Chapter2/2.3.pdf, 2.4.pdf, 2.5.pdf, 2.6.pdf)]
-]]
 
 
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-    - Estimation
-    - Methods
-
-]]
-.column[.nopadding[
+# Methods
 
 
 
-- .orange[Parametric methods]
+.orange[Parametric methods]
     &lt;br&gt; ➕ Assumption about the form of `\(f\)`, e.g. linear
     &lt;br&gt; 😄 The problem of estimating `\(f\)` reduces to estimating a set of parameters
     &lt;br&gt; 😄 Usually a good starting point for many learning problems
     &lt;br&gt; 🙁 Poor performance if linearity assumption is wrong
-- .orange[Non-parametric methods]
+    
+  &lt;br&gt;
+  
+.orange[Non-parametric methods]
     &lt;br&gt; 😄 No *explicit* assumptions about the  form of `\(f\)`, e.g. nearest neighbours: `\(\hat Y(x) = \frac1k \sum_{x_i \in N_k(x)} y_i\)`
     &lt;br&gt;  😄 High flexibility: it can potentially fit a range of shapes
     &lt;br&gt; 🙁 A large number of observations is required to estimate `\(f\)` with good accuracy
 
-]]
 
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-]]
-.column[.top50px[
+# Measures of accuracy
 
 Suppose we have a regression model `\(y=f(x)+\varepsilon\)`. .orange[Estimate]
 `\(\hat{f}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_{i=1}^n\)`.
@@ -336,20 +197,8 @@ One common measure of accuracy is:
 
 
 
-]]
-
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-]]
-.column[.top50px[
+# Measures of accuracy
 
 Suppose we have a regression model `\(y=f(x)+\varepsilon\)`. .orange[Estimate]
 `\(\hat{f}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_{i=1}^n\)`.
@@ -364,20 +213,8 @@ Measure .orange[real accuracy] using .orange[test data] `\(Te=\{x_j,y_j\}_{j=1}^
 `\(MSE_{Te} = \mathop{\mbox{Ave}}\limits_{j\in Te}[y_j-\hat{f}(x_j)]^2 = \frac{1}{m}\sum_{j=1}^m [(y_j-\hat{f}(x_j)]^2\)`
 
 
-]]
-
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-        - Training vs Test MSEs
-]]
-.column[.top50px[
+# Training vs Test MSEs
 
 - In general, the more .orange[flexible] a method is, the .orange[lower] its
 .orange[training MSE] will be. i.e. it will “fit” the training data very well.
@@ -385,24 +222,10 @@ class: split-30
 - Flexibility also makes interpretation more difficult. There is
 a trade-off between .orange[flexibility] and .orange[model interpretability].
 
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-    - Estimation
-    - Methods
-    - Interpretability vs flexibility
-
-]]
-.column[.nopadding[
+# Interpretability vs Flexibility
 
 
 
@@ -412,7 +235,6 @@ Simplistic overview of methods on the flexibility vs interpretability scale. Int
 
 .font_tiny[(Chapter2/2.7.pdf)]
 
- ]]
 
 ---
 
@@ -982,6 +804,7 @@ layout: false
 &lt;br&gt; 
 &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "ratio": "16:9",
@@ -992,16 +815,57 @@ layout: false
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
 })();</script>
 
 <script>
 (function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -1015,7 +879,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

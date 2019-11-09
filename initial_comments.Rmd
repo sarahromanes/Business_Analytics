@@ -26,6 +26,14 @@ output:
 
 Note for the rest of the document - I will use ISLR to refer to *Introduction to Statistical Learning* and ESL to refer to *Elements of Statistical Learning*. 
 
+**Comments from Di**
+
+* Go over the notes
+* Check the R code
+* Make better explanatory plots
+* Make some animations
+* Make some memes for tough parts or key concepts to reinforce
+* Make alternative examples
 
 # Week 1: Introduction to statistical learning
 
@@ -49,11 +57,18 @@ Note for the rest of the document - I will use ISLR to refer to *Introduction to
 * regression equation hard to read! (slide 1)
 * missing graphics
 * `\mbox{}` should be used for words in latex
+* Consider formatting for model equations
+* Describe some of the graphics in more detail eg difference between transformed and non-transformed wage data
 
 
 ## Regression 2
 
 * perhaps name 'non-linear regression'
+* I think a lot more visuals are needed in order to portray what a spline is
+* I will draw inspiration from here http://madrury.github.io/jekyll/update/statistics/2017/08/04/basis-expansions.html http://environmentalcomputing.net/intro-to-gams/
+https://www.youtube.com/watch?v=q4_t8jXcQgc
+* Question remaining after first pass of lecture notes: what is the difference between spline model and GAM? can I fit more than one function type on a GAM? what are the benefits of GAMs compared to polynomial fits?
+* insert XKCD meme here
 
 # Week 3: Classification, Resampling
 
@@ -61,6 +76,7 @@ Note for the rest of the document - I will use ISLR to refer to *Introduction to
 
 * I would at the end compare logistic regression with LDA (especially with assumptions made about each)
 * Missing graphics towards the end
+* perhaps start with multivariate DA and then show univariate simplification
 
 ## Resampling
 

@@ -1,11 +1,11 @@
 ---
-title: "ETC3250: Introduction"
+title: "ETC3250: Introduction to Supervised Learning"
 subtitle: "Semester 1, 2019"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 1 (b)"
 output:
   xaringan::moon_reader:
-    css: ["kunoichi", "ninjutsu", "mystyle.css"]
+    css: ["kunoichi", "ninjutsu", "../../../assets/mystyle.css"]
     lib_dir: libs
     nature:
       ratio: '16:9'
@@ -25,19 +25,7 @@ options(htmltools.dir.version = FALSE)
 library(magick)
 ```
 
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Introduction]
-    - Learning from data
-
-
-
-]]
-.column[.top50px[
-
+# .orange[Learning from Data]
 
 - .orange[Better understand] or .orange[make predictions] about a certain
 phenomenon under study <br> <br>
@@ -45,17 +33,10 @@ phenomenon under study <br> <br>
 - If phenomenon is complex or depends on a large number of variables, an .orange[analytical solution] might not be available  <br> <br>
 - However, we can  .orange[collect data] and learn a model that  .orange[approximates] the true underlying phenomenon
 
-]]
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- .green[Introduction]
-    - Learning from data
+# Learning from Data
 
-]]
-.column[.top50px[
 
 ```{r fig.width=10, fig.height=4, fig.align='center'}
 library(tidyverse)
@@ -83,23 +64,12 @@ p3 <- ggplot(flea, aes(x=tars1, y=aede1)) +
 grid.arrange(p1, p2, p3, ncol=3)
 ```
 
-$\mathcal{D} = \{(x_i, y_i)\}_{i = 1}^N, ~~~ \mbox{where}~ x_i = (x_{i1}, \dots, x_{ip})^{T}$
+.tip[**Statistical learning** provides a framework for constructing models from the data.]
 
-.boxshadow[.green[Statistical learning] provides a framework for constructing models from the data.]
-
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- .green[Introduction]
-    - Learning from data
-    - Different learning problems
-
-]]
-.column[.top50px[
+## Different Learning Problems
 
 - .green[Supervised] learning, $y_i$ .orange[available] for all $x_i$
     - Regression (or prediction)
@@ -109,53 +79,28 @@ class: split-30
 - Other types of learning: reinforcement learning, online learning, active learning, etc. 
 
 
-.boxshadow[Being able to .green[identify] which is the type of learning problem you have is important in practice]]
+.tip[Being able to .green[**identify**] which is the type of learning problem you have is important in practice]
 
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-
-]]
-.column[.top50px[
+# Supervised learning
 
 $\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N$ 
 
 where $(y_i, x_i) \sim P(Y, X) = P(X) \underbrace{P(Y|X)}_{}$ where $P(Y, X)$ means that these arise from some probability distribution. $``\sim"$ means distributed as, arise from. Typically, we only are interested in $P(Y|X)$, the distribution of $Y$ conditional on $X$.
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-
-]]
-.column[.top50px[
+# Supervised learning
 
 - $Y = (Y_1, \dots, Y_q)$: response (output) (could be multivariate, $q=1$ for us)
 - $X = (X_1, \dots, X_p)$: set of $p$ predictors (input)
 
 We seek a function $h(X)$ for predicting $Y$ given values of the input $X$. This function is computed using $\mathcal{D}$.
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-
-]]
-.column[.top50px[
+# Supervised learning
 
 $\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N \mbox{ where } (y_i, x_i) \sim P(Y, X)$
 
@@ -165,21 +110,15 @@ $\mbox{Err}_{\mbox{out}}(h) = E[L(Y, h(X))]$
 
 where $L(y, {\hat{y}})$ is a non-negative real-valued .orange[loss function], such as $L(y, \hat{y}) = (y - \hat{y})^2$ and $L(y, \hat{y}) = I(y \neq \hat{y})$.
 
-.boxshadow[The goal is that the predictions from the model are accurate for future samples.]
+.tip[The goal is that the predictions from the model are accurate for future samples.]
 
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+# Regression vs Classification Problems
 
-- Introduction
-- .green[Supervised learning]
-    - Regression
+---
 
-]]
-.column[.top50px[
+# Regression 
 
 We often assume that our data arose from a statistical model
 
@@ -188,19 +127,9 @@ $Y=f(X) + \varepsilon,$ where $f$ is the true unknown function, $\varepsilon$ is
 - The additive error model is a useful approximation to the truth
 - $f(x) = E[Y|X = x]$
 - Not a deterministic relationship: $Y \neq f(X)$
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-
-]]
-.column[.nopadding[
 
 ```{r}
 if (!file.exists("images/2.2.png"))
@@ -214,19 +143,9 @@ if (!file.exists("images/2.2.png"))
 
 .font_tiny[(Chapter2/2.2.pdf)]
 
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- Introduction
-- .green[Supervised learning]
-    - Regression
-
-]]
-.column[.nopadding[
 
 ```{r}
 if (!file.exists("images/2.3.png"))
@@ -240,40 +159,18 @@ if (!file.exists("images/2.3.png"))
 
 .font_tiny[(Chapter2/2.3.pdf)]
 
-]]
+
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-
-]]
-.column[.top50px[
+# Goals of a regression analysis
 
 - **Prediction**: 
     - $\hat{y}_{*} = \hat f(x_{*})$ for a new observation $x_{*}$
 - **Inference (or explanation)**:
     - Which predictors are associated with the response?
     - What is the relationship between the response and each predictor?
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-    - Estimation
-
-]]
-.column[.pad10px[
+# Estimation
 
 ```{r}
 if (!file.exists("images/2.3.png"))
@@ -295,23 +192,8 @@ $~~~~~~~~\hat \beta_0 + \hat \beta_1 \times \mbox{education} + \hat \beta_2 \tim
 
 .boxshadow[Why would we ever choose to use a **more restrictive method** instead of a **very flexible approach**?]
 
-.font_tiny[(Chapter2/2.3.pdf, 2.4.pdf)]
-
-]]
-
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-    - Estimation
-
-]]
-.column[.nopadding[
+# Estimation
 
 ```{r}
 if (!file.exists("images/2.5.png"))
@@ -329,54 +211,33 @@ if (!file.exists("images/2.6.png"))
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf" target="_BLANK"> <img src="images/2.6.png" style="width: 30%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.3.pdf, 2.4.pdf, 2.5.pdf, 2.6.pdf)]
-]]
 
 
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-    - Estimation
-    - Methods
-
-]]
-.column[.nopadding[
+# Methods
 
 ```{r}
 library(emo)
 ```
 
-- .orange[Parametric methods]
+.orange[Parametric methods]
     <br> `r set.seed(1000); emo::ji("math")` Assumption about the form of $f$, e.g. linear
     <br> `r set.seed(1000); emo::ji("smile")` The problem of estimating $f$ reduces to estimating a set of parameters
     <br> `r set.seed(1000); emo::ji("smile")` Usually a good starting point for many learning problems
     <br> `r set.seed(1000); emo::ji("frown")` Poor performance if linearity assumption is wrong
-- .orange[Non-parametric methods]
+    
+  <br>
+  
+.orange[Non-parametric methods]
     <br> `r set.seed(1000); emo::ji("smile")` No *explicit* assumptions about the  form of $f$, e.g. nearest neighbours: $\hat Y(x) = \frac1k \sum_{x_i \in N_k(x)} y_i$
     <br>  `r set.seed(1000); emo::ji("smile")` High flexibility: it can potentially fit a range of shapes
     <br> `r set.seed(1000); emo::ji("frown")` A large number of observations is required to estimate $f$ with good accuracy
 
-]]
 
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-]]
-.column[.top50px[
+# Measures of accuracy
 
 Suppose we have a regression model $y=f(x)+\varepsilon$. .orange[Estimate]
 $\hat{f}$ from some .orange[training data], $Tr=\{x_i,y_i\}_{i=1}^n$.
@@ -389,20 +250,8 @@ $MSE_{Tr} = \mathop{\mbox{Ave}}\limits_{i\in Tr}[y_i-\hat{f}(x_i)]^2 = \frac{1}{
 
 
 
-]]
-
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-]]
-.column[.top50px[
+# Measures of accuracy
 
 Suppose we have a regression model $y=f(x)+\varepsilon$. .orange[Estimate]
 $\hat{f}$ from some .orange[training data], $Tr=\{x_i,y_i\}_{i=1}^n$.
@@ -417,20 +266,8 @@ Measure .orange[real accuracy] using .orange[test data] $Te=\{x_j,y_j\}_{j=1}^m$
 $MSE_{Te} = \mathop{\mbox{Ave}}\limits_{j\in Te}[y_j-\hat{f}(x_j)]^2 = \frac{1}{m}\sum_{j=1}^m [(y_j-\hat{f}(x_j)]^2$
 
 
-]]
-
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-        - Training vs Test MSEs
-]]
-.column[.top50px[
+# Training vs Test MSEs
 
 - In general, the more .orange[flexible] a method is, the .orange[lower] its
 .orange[training MSE] will be. i.e. it will “fit” the training data very well.
@@ -438,24 +275,10 @@ class: split-30
 - Flexibility also makes interpretation more difficult. There is
 a trade-off between .orange[flexibility] and .orange[model interpretability].
 
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-
-- Introduction
-- .green[Supervised learning]
-    - Regression
-    - Why?
-    - Estimation
-    - Methods
-    - Interpretability vs flexibility
-
-]]
-.column[.nopadding[
+# Interpretability vs Flexibility
 
 ```{r}
 if (!file.exists("images/2.7.png"))
@@ -469,7 +292,6 @@ Simplistic overview of methods on the flexibility vs interpretability scale. Int
 
 .font_tiny[(Chapter2/2.7.pdf)]
 
- ]]
 
 ---
 

@@ -1,11 +1,11 @@
 ---
-title: "ETC3250: Regression"
+title: "ETC3250: Linear Regression"
 subtitle: "Semester 1, 2019"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 2 (a)"
 output:
   xaringan::moon_reader:
-    css: ["kunoichi", "ninjutsu", "mystyle.css"]
+    css: ["kunoichi", "ninjutsu", "../../../assets/mystyle.css"]
     lib_dir: libs
     nature:
       ratio: '16:9'
@@ -20,70 +20,32 @@ knitr::opts_chunk$set(tidy = FALSE,
                       message = FALSE,
                       warning = FALSE,
                       echo = FALSE, 
-                      fig.retina = 2)
+                      fig.retina = 4)
 options(htmltools.dir.version = FALSE)
 ```
 
-class: split-30
-layout: true
 
-.column[.pad10px[
-## Outline
+# Multiple Regression
 
-- .green[Multiple regression]
-    - Model
+<br>
 
-]]
-.column[.top50px[
+.tip[
+$$Y_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \cdots + \beta_pX_{p,i} + e_i.$$]
 
-.split-5[
-.row.bg-light-gray[.boxshadow[.content[
-$$Y_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \cdots + \beta_pX_{p,i} + e_i.$$
-]]]
-.row[.content[
 - Each $X_{j,i}$ is .orange[numerical] and is called a .orange[predictor].
-]]
-.row[.content[
 - The coefficients $\beta_1,\dots,\beta_p$ measure the .orange[effect] of each
 predictor after taking account of the effect of all other predictors
 in the model.
-]]
-.row[.content[
 - Predictors may be .orange[transforms] of other predictors. e.g., $X_2=X_1^2$.
-]]
-.row[.content[
-- The model describes a .orange[line, plane or hyperplane] in the predictor space.
-]]]
 
-]]
----
-class: fade-row3-col2 fade-row4-col2 fade-row5-col2
-count: false
 
 ---
-class: fade-row2-col2 fade-row4-col2 fade-row5-col2
-count: false
 
----
-class: fade-row2-col2 fade-row3-col2 fade-row5-col2
-count: false
+# Multiple Regression
 
----
-class: fade-row2-col2 fade-row3-col2 fade-row4-col2
-count: false
 
----
-layout: false
-class: split-30
+- The model describes a .orange[**line**, plane or hyperplane] in the predictor space.
 
-.column[.pad10px[
-## Outline
-
-- .green[Multiple regression]
-    - Model
-
-]]
-.column[.top50px[
 
 ```{r}
 library(magick)
@@ -92,24 +54,14 @@ if (!file.exists("images/3.1.png"))
       format = "png", density = 300)
 ```
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" target="_BLANK"> <img src="images/3.1.png" style="width: 100%; align: center"/> </a>
-
-.font_tiny[(Chapter3/3.1.pdf)]
-
-]]
+<center><a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" target="_BLANK"> <img src="images/3.1.png" style="width: 60%"/> </a>
+</center>
 
 ---
-layout: false
-class: split-30
+# Multiple Regression
 
-.column[.pad10px[
-## Outline
 
-- .green[Multiple regression]
-    - Model
-
-]]
-.column[.top50px[
+- The model describes a .orange[line, **plane** or hyperplane] in the predictor space.
 
 ```{r}
 if (!file.exists("images/3.5.png"))
@@ -117,45 +69,31 @@ if (!file.exists("images/3.5.png"))
       format = "png", density = 300)
 ```
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf" target="_BLANK"> <img src=""images/3.5.png"" style="width: 100%; align: center"/> </a>
-
-.font_tiny[(Chapter3/3.5.pdf)]
-
-]]
+<center>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf" target="_BLANK"> <img src="images/3.5.png" style="width: 60%"/> </a>
+</center>
 
 ---
-layout: false
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Multiple regression]
-    - Model
-    - Categorical variables
-    
-]]
-.column[.top50px[
+# Categorical Variables
 
 Qualitative variables need to be converted to numeric.
 
 $$x_i = \left\{\begin{array}
 {ll}
-1 & if ~~~ i'th ~ obs~ is~ a ~koala  \\
-0 & otherwise  
+1 & \mbox{if} ~~~ i^{\text{th}} \mbox{ obs is a koala}  \\
+0 & \mbox{otherwise}  
 \end{array}\right\}$$
 
 which would result in the model
 
 $$\hat{y}_i = \left\{\begin{array}
 {ll}
-\beta_0+\beta_1 & if ~~~ i'th ~ obs~ is~ a ~koala  \\
-\beta_0 & otherwise  
+\beta_0+\beta_1 & \mbox{if} ~~~ i^{\text{th}} \mbox{ obs is a koala}   \\
+\beta_0 & \mbox{otherwise}  
 \end{array}\right\}$$
 
 These are called .orange[dummy variables].
 
-]]
 
 ---
 class: split-30
@@ -174,23 +112,23 @@ More than two categories
 
 $$x_{i1} = \left\{\begin{array}
 {ll}
-1 & if ~~~ i'th ~ obs~ is~ a ~koala  \\
-0 & otherwise  
+1 & \mbox{if} ~~~ i^{\text{th}} \mbox{ obs is a koala}  \\
+0 & \mbox{otherwise}  
 \end{array}\right\}$$
 
 $$x_{i2} = \left\{\begin{array}
 {ll}
-1 & if ~~~ i'th ~ obs~ is~ a ~bilby  \\
-0 & otherwise  
+1 & \mbox{if} ~~~ i^{\text{th}} \mbox{ obs is a bilby}  \\
+0 & \mbox{otherwise}  
 \end{array}\right\}$$
 
 which would result in the model
 
 $$\hat{y}_i = \left\{\begin{array}
 {ll}
-\beta_0+\beta_1 & if ~~~ i'th ~ obs~ is~ a ~koala  \\
-\beta_0+\beta_2 & if ~~~ i'th ~ obs~ is~ a ~bilby  \\
-\beta_0 & otherwise  
+\beta_0+\beta_1 & \mbox{if} ~~~ i^{\text{th}} \mbox{ obs is a koala}   \\
+\beta_0+\beta_2 & \mbox{if} ~~~  i^{\text{th}}  \mbox{ obs is a bilby}  \\
+\beta_0 & \mbox{otherwise}  
 \end{array}\right\}$$
 
 These are called .orange[dummy variables].
@@ -198,36 +136,16 @@ These are called .orange[dummy variables].
 ]]
 
 ---
-class: split-30
+# Ordinary Least Squares (OLS)
 
-.column[.pad10px[
-## Outline
-
-- .green[Multiple regression]
-    - Model
-    - Categorical variables
-    - OLS
-]]
-.column[.top50px[
+<br>
 
 .orange[Ordinary least squares] is the simplest way to fit the model. Geometrically, this is  the sum of the squared distances, parallel to the axis of the dependent variable, between each observed data point and the corresponding point on the regression surface – the .orange[smaller the sum] of differences, the .orange[better] the model fits the data.
 
 
-]] 
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Multiple regression]
-    - Model
-    - Categorical variables
-    - OLS
-    - Diagnostics
-]]
-.column[.top50px[
+# Model Diagnostics
 
 $R^2$ is the proportion of variation explained by the model, and measures the goodness of the fit, close to 1 the model explains most of the variability in $Y$, close to 0 it explains very little. 
 
@@ -235,123 +153,77 @@ $$R^2 = 1 - \frac{RSS}{TSS}$$
 
 where $RSS = \sum_{i=1}^n (y_i-\hat{y})^2$ (read: Residual Sum of Squares), and $TSS=\sum_{i=1}^n (y_i-\bar{y})^2$ (read: Total Sum of Squares).
 
-]]   
+ 
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
-
-- .green[Multiple regression]
-    - Model
-    - Categorical variables
-    - OLS
-    - Diagnostics
-]]
-.column[.top50px[
+# Model Diagnostics
 
 .orange[Residual Standard Error (RSE)] is an estimate of the standard deviation of $\varepsilon$. This is meaningful with the assumption that $\varepsilon \sim N(0, \sigma^2)$. 
 
 $$RSE = \sqrt{\frac{1}{n-p-1}RSS}$$
 
-]] 
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Multiple regression]
-    - Model
-    - Categorical variables
-    - OLS
-    - Diagnostics
-]]
-.column[.top50px[
+# Model Diagnostics
 
 F statistic tests whether any predictor explains response, by testing
 
-$H_o: \beta_1=\beta_2=...=\beta_p=0$ vs $H_a:$ at least one is not 0
+$H_0: \beta_1=\beta_2=...=\beta_p=0$ vs $H_A:$ at least one is not 0
 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Multiple regression]
-    - Model
-    - Categorical variables
-    - OLS
-    - Diagnostics
-    - Think about
-]]
-.column[.top50px[
+# Think about ...
 
 - Is at least one of the predictors useful in predicting the response?
 - Do all the predictors help to explain $Y$, or is only a subset of the predictors useful?
 - How well does the model fit the data?
 - Given a set of predictor values, what response value should we predict and how accurate is our prediction?
 
-]]
 
 ---
-class: split-30
+# Example - Wages
 
-.column[.pad10px[
-## Outline
-
-- Multiple regression
-- .green[Example]
-
-]]
-.column[.top50px[
-
-Wage and other data for a group of 3000 male workers in the Mid-Atlantic region. Interested in predicting wage based on worker characteristics.
+Wage and other data for a group of 3000 male workers in the Mid-Atlantic region. 
+.orange[Goal:] .green[Predict wage based on worker characteristics.]
 
 ```{r}
 library(tidyverse)
 library(ISLR)
 glimpse(Wage)
 ```
-]]
+
 ---
-class: split-30
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- Multiple regression
-- .green[Example]
-    - Take a look
+# Take a look
+
+- Pairwise comparisons of select columns reveal...
 
 ]]
-.column[.top50px[
 
+.column[.content.vmiddle.center[
 ```{r}
 library(GGally)
 ggpairs(Wage, columns=c(1,2,5,11))
 ```
-
 ]]
 
 ---
-class: split-30
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- Multiple regression
-- .green[Example]
-    - Take a look
-    - Transform
+# Take a look
+
+- Pairwise comparisons of select columns reveal...
+- Examining .. instead of ... reveals..
 
 ]]
-.column[.top50px[
+
+.column[.content.vmiddle.center[
 ```{r}
 library(GGally)
 ggpairs(Wage, columns=c(1,2,5,10))
@@ -359,45 +231,19 @@ ggpairs(Wage, columns=c(1,2,5,10))
 ]]
 
 ---
-class: split-30
+# Model for wage data
 
-.column[.pad10px[
-## Outline
+<br>
 
-- Multiple regression
-- .green[Example]
-    - Take a look
-    - Transform
-    - Model
-
-]]
-.column[.top50px[
-
-Proposed model
-
-.boxshadow[.content[
+.tip[
 $Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3X_3 + e$
-]]
+]
 
-.row[.content[
-where $Y=$ log Wage, $X_1=$ Year information collected, $X_2=Age$, $X_3=$ Education.
-]]
-]]
+where $Y=$ `logwage`, $X_1=$ `year`, $X_2=$ `age`, and $X_3=$ `education`.
+
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Multiple regression
-- .green[Example]
-    - Take a look
-    - Transform
-    - Model
-
-]]
-.column[.top50px[
+# Fitting the model in R
 
 ```{r results='hide'}
 fit <- lm(logwage~year+age+education, data=Wage)
@@ -421,21 +267,9 @@ Multiple R-squared:  0.2631,	Adjusted R-squared:  0.2616
 F-statistic: 178.1 on 6 and 2993 DF,  p-value: < 2.2e-16
 ```
 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Multiple regression
-- Example
-- .green[Modelling]
-    - Interpretation
-
-]]
-.column[.top50px[
+# Interpretation
 
 - The ideal scenario is when the predictors are uncorrelated.
     - Each coefficient can be interpreted and tested separately.
@@ -445,45 +279,19 @@ class: split-30
     - Predictions still work provided new $X$ values are within the range of training $X$ values.
 - Claims of causality should be avoided for observational data.
 
-]]
-
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Multiple regression
-- Example
-- .green[Modelling]
-    - Interpretation
-    - Interactions
-
-]]
-.column[.top50px[
+# Interactions
 
 - An interaction occurs when the one variable changes the effect of a second variable. (e.g., spending on radio advertising increases the effectiveness of TV advertising).
 - To model an interaction, include the product $X_1X_2$ in the model in addition to $X_1$ and $X_2$.
+
+
 - **Hierarchy principle**: If we include an interaction in a model, we should also include the main effects, even if the p-values associated
 with their coefficients are not significant. (This is because the interactions are almost impossible to interpret without the main effects.)
 
-]]
 
 ---
-layout: false
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Multiple regression
--  Example
-- .green[Modelling]
-    - Interpretation
-    - Interactions
-
-]]
-.column[.top50px[
+# Interactions
 
 ```{r}
 if (!file.exists("images/3.7.png"))
@@ -493,8 +301,6 @@ if (!file.exists("images/3.7.png"))
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf" target="_BLANK"> <img src="images/3.7.png" style="width: 100%; align: center"/> </a>
 
-.font_tiny[(Chapter3/3.7.pdf)]
-]]
 ---
 class: split-30
 layout: true
