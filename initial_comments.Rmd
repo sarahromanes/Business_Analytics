@@ -63,12 +63,14 @@ Note for the rest of the document - I will use ISLR to refer to *Introduction to
 
 ## Regression 2
 
-* perhaps name 'non-linear regression'
 * I think a lot more visuals are needed in order to portray what a spline is
 * I will draw inspiration from here http://madrury.github.io/jekyll/update/statistics/2017/08/04/basis-expansions.html http://environmentalcomputing.net/intro-to-gams/
 https://www.youtube.com/watch?v=q4_t8jXcQgc
 * Question remaining after first pass of lecture notes: what is the difference between spline model and GAM? can I fit more than one function type on a GAM? what are the benefits of GAMs compared to polynomial fits?
-* insert XKCD meme here
+* insert XKCD meme here (done) - need to add citation
+* Slide 27 states that "Degrees of Freedom `df` = K" for natural splines. However looking at the documentation, states
+"One can supply df rather than knots; ns() then chooses (df - 1 - intercept) knots " (intercept by default is FALSE, so choosing df = 4 say will yield 4-1 =3 knots)
+* Change data story to be hits for the whole slide deck
 
 # Week 3: Classification, Resampling
 

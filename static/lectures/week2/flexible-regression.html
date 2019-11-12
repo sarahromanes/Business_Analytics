@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>ETC3250: Regression</title>
+    <title>ETC3250: Flexible Regression</title>
     <meta charset="utf-8" />
     <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
-    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\..\..\assets\mystyle.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# ETC3250: Regression
+# ETC3250: Flexible Regression
 ## Semester 1, 2019
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 2 (b)
@@ -22,48 +23,66 @@ class: center, middle, inverse, title-slide
 
 
 
-class: split-30
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- .green[Moving beyond linearity]
+# Moving beyond linearity
 
+Sometimes the relationships we discover are not linear... ]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="images/curves.jpg", width="60%"&gt;
 
 ]]
-.column[.top50px[
+
+
+
+
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+# Moving beyond linearity
+
+- Consider the following Major League Baseball data from the 1986 and 1987 seasons.
+- Would a linear model be appropriate for modelling the relationship between Salary and Career hits, captured in the variables `logSalary` and `logCHits`?
+
+]]
+
+.column[.content.vmiddle.center[
 
 &lt;img src="flexible-regression_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
 
 ]]
 
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Moving beyond linearity]
-    - splines and GAMs
-
-]]
-.column[.top50px[
-
-&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-2-1.png" width="792" /&gt;
-]]
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
+class: split-two
 
-- .green[Moving beyond linearity]
-    - splines and GAMs
-    - and more
+.column[.pad50px[
+
+# Moving beyond linearity
+
+
+- Perhaps a more flexible regression model is needed!
 
 ]]
-.column[.top50px[
+
+.column[.content.vmiddle.center[
+
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+
+]]
+---
+# Flexible regression fits
+
+
 The truth is rarely linear, 
 but often the linearity assumption is good enough. 
 
@@ -76,19 +95,11 @@ When it's not ...
 - .orange[generalized additive models]
 
 offer a lot of flexibility, without losing the ease and interpretability of linear models.
-]]
+
 
 ---
-class: split-30
+# Polynomial basis functions
 
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- .green[polynomials]
-    - basis functions
-]]
-.column[.top50px[
 
 Instead of fitting a linear model (in `\(X\)`), we fit the model
 
@@ -100,38 +111,17 @@ where `\(b_1(X), b_2(X), \dots, b_K(X)\)` are a family of functions or transform
 - Piecewise constant functions: `\(b_k(x_i) = I(c_k \leq x_i \leq c_{k+1})\)`
 
 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- .green[polynomials]
-    - basis functions
-]]
-.column[.top50px[
+# Polynomial basis functions 
 
 &lt;img src="flexible-regression_files/figure-html/basis-functions-1.png" width="800" height="500" /&gt;
 
 x1 `\(=x\)`, x2= `\(x^2\)`, x3= `\(x^3\)`, x4= `\(x^4\)`, x5= `\(x^5\)`
 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-]]
-.column[.top50px[
+# Splines
 
 Knots: `\(\kappa_1,\dots,\kappa_K\)`.
 
@@ -140,65 +130,28 @@ A spline is a continuous function `\(f(x)\)` consisting of polynomials between e
 - Parameters constrained so that `\(f(x)\)` is continuous.
 - Further constraints imposed to give continuous derivatives.
 
-]]
 
 ---
-class: split-30
+# Piecewise Cubic Poly Spline
 
-.column[.pad10px[
-## Outline
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-]]
-.column[.top50px[
 Piecewise cubic polynomial with a single knot at a point `\(c\)`:
 
 `$$\hat{y}_i = \left\{ \begin{array}{l} 
 \beta_{01}+\beta_{11}x_i+\beta_{21}x_i^2+\beta_{31}x_i^3~~~if~x_i&lt; c\\
 \beta_{02}+\beta_{12}x_i+ \beta_{22}x_i^2+\beta_{32}x_i^3~~~if~x_i \geq c\end{array}\right\}$$`
 
-]]
+
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-
-]]
-.column[.top50px[
+# Piecewise Poly
 
 
 
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" target="_BLANK"&gt; &lt;img src="images/7.3.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
 
-.font_tiny[(Chapter7/7.3.pdf)]
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-
-]]
-.column[.top50px[
+# Basis Functions
 
 - Truncated power basis
 - Predictors: `\(x\)`, ..., `\(x^p\)`, `\((x-\kappa_{1})_+^p\)`, ..., `\((x-\kappa_{K})_+^p\)`
@@ -208,285 +161,93 @@ Then the regression is piecewise order- `\(p\)` polynomials.
 - Usually choose `\(p=1\)` or `\(p=3\)`.
 - `\(p+K+1\)` degrees of freedom
 
-]]
 
 ---
-class: split-30
+# Basis functions
 
-.column[.pad10px[
-## Outline
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-
-]]
-.column[.top50px[
 
 &lt;img src="flexible-regression_files/figure-html/truncated-1.png" width="800" height="500" /&gt;
 
 x1 `\(=x\)`, x2= `\(x^2\)`, x3= `\(x^3\)`, x4= `\((x+0.5)^3_+\)`, x5= `\((x-0.5)^3_+\)`
 
-]]
 
 ---
-class: split-30
+# Natural splines
 
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-
-]]
-.column[.top50px[
 - Splines based on truncated power bases have high variance at the outer range of the predictors.
 - Natural splines are similar, but have additional .orange[boundary constraints]: the function is linear at the boundaries. This reduces the variance.
 
 Degrees of freedom `\(\verb|df|=K\)`.
 
 Create predictors using `\(\verb|ns|\)` function in R (automatically chooses knots given `\(\verb|df|\)`).
+
+
+---
+
+
+class: split-two
+
+.column[.pad50px[
+
+# Comparison with Cubic splines
+
+
+We can fit a cubic spline in `R` using `splines::bs()`, and fit a natural cubic spline using `splines::ns()`
+
+- Notice the difference between the fits towards the end of the curves.
+
+]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+
 ]]
 
 ---
-class: split-30
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
+# Comparison with Polynomial Regression
+
+
+- Notice the difference between the fits towards the end of the curves.
 
 ]]
-.column[.top50px[
 
+.column[.content.vmiddle.center[
 
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
 
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.4.pdf" target="_BLANK"&gt; &lt;img src="images/7.4.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
-
-.font_tiny[(Chapter7/7.4.pdf)]
 ]]
-
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-
-]]
-.column[.top50px[
-
-
-
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.7.pdf" target="_BLANK"&gt; &lt;img src="images/7.7.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
-
-.font_tiny[(Chapter7/7.7.pdf)]
-]]
-
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-
-]]
-.column[.top50px[
-
-Natural cubic splines
+# Natural cubic splines
 
 &lt;img src="flexible-regression_files/figure-html/natural-1.png" width="800" height="500" /&gt;
 
-]]
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
+# Knot placement
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
+&lt;br&gt;
 
-]]
-.column[.top50px[
+.green[<i class="fas  fa-chart-bar "></i>] **Strategy 1:** specify `df` (which creates `df-1` internal knots and 2 boundary knots, so that `df` = `\(K+1\)`) and let `ns()` place them at appropriate quantiles of the observed `\(X\)`. 
 
-Knot placement
+&lt;br&gt;
 
-- Strategy 1: specify `\(\verb|df|\)` (equivalently `\(K\)`) and let `\(\verb|ns|\)` place them at appropriate quantiles of the observed `\(X\)`.
-- Strategy 2: choose `\(K\)` and their locations.
+.green[<i class="fas  fa-chart-bar "></i>] **Strategy 2:** choose `\(K\)` and their locations.
 
-]]
 
 ---
-class: split-30
+## Natural cubic splines with differing knots
 
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 2 (linear fit)
-
-&lt;img src="flexible-regression_files/figure-html/splinesdf-1.png" width="800" height="500" /&gt;
-
-
-
-]]
-
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-6-1.png" width="936" /&gt;
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 3
-
-&lt;img src="flexible-regression_files/figure-html/splinesdf2-1.png" width="800" height="500" /&gt;
-
-]]
-
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 8
-
-&lt;img src="flexible-regression_files/figure-html/splinesdf3-1.png" width="800" height="500" /&gt;
-
-]]
-
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 15
-
-&lt;img src="flexible-regression_files/figure-html/splinesdf4-1.png" width="800" height="500" /&gt;
-
-]]
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 50
-
-&lt;img src="flexible-regression_files/figure-html/splinesdf5-1.png" width="800" height="500" /&gt;
-
-]]
-
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-
-]]
-.column[.top50px[
+# Generalised additive models (GAMs)
 
 Why is it hard to fit models of the form
 
@@ -495,50 +256,25 @@ Why is it hard to fit models of the form
 - Model assumes `\(p\)`-way interactions which are hard to estimate.
 
 
-]]
 
 ---
-class: split-30
+# Additive functions
 
-.column[.pad10px[
-## Outline
+&lt;br&gt;
 
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-    - Additive functions
-
-]]
-.column[.top50px[
-
-.boxshadow[.content[
+.tip[
 `\(y_i=\beta_0+f_1(x_{i,1})+f_2(x_{i,2})+...+f_p(x_{p,1})+e_i\)`
-]]
+]
 
-where each f is a smooth univariate function.
+where each `\(f\)` is a smooth univariate function.
 
 Allows for flexible nonlinearities in several variables, but retains
 the additive structure of linear models.
 
-]]
+
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-    - Additive functions
-
-]]
-.column[.top50px[
+# Additive functions
 
 `$$wage = \beta_0 + f_1(year) + f_2(age) + f_3(education) + \varepsilon$$`
 
@@ -547,25 +283,10 @@ class: split-30
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf" target="_BLANK"&gt; &lt;img src="images/7.11.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
 
 
-.font_tiny[(Chapter7/7.11.pdf)]
-]]
-
 ---
-class: split-30
+# Generalisations
 
-.column[.pad10px[
-## Outline
 
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-    - Additive functions
-    - Generalisation
-
-]]
-.column[.top50px[
 - Can fit a GAM simply using, e.g. natural splines:
 - Coefficients not that interesting; fitted functions are. 
 - Use `plot.gam` from `gam` package.
@@ -575,28 +296,15 @@ class: split-30
 included in a natural way using, e.g. bivariate smoothers or
 interactions of the form `ns(age,df=5):ns(year,df=5)`.
 
-]]
 
 ---
-class: split-30 vmiddle
+# Can we include interaction effects?
 
-.column[.top50px[
 
-## Outline
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-    - Additive functions
-    - Generalisation
-    - Interaction
-]]
-.column[.top50px[
 - Additive models assume no interactions. 
 - Add bivariate smooths for two-way interactions.
 - Graphically check for interactions using faceting.
-]]
+
 
 ---
 layout: false

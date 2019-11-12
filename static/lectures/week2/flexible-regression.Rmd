@@ -5,13 +5,15 @@ author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <
 date: "Week 2 (b)"
 output:
   xaringan::moon_reader:
-    css: ["kunoichi", "ninjutsu", "mystyle.css"]
+    css: ["kunoichi", "ninjutsu", "../../../assets/mystyle.css"]
     lib_dir: libs
     nature:
       ratio: '16:9'
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -24,63 +26,100 @@ knitr::opts_chunk$set(tidy = FALSE,
 options(htmltools.dir.version = FALSE)
 ```
 
-class: split-30
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- .green[Moving beyond linearity]
+# Moving beyond linearity
 
+Sometimes the relationships we discover are not linear... ]]
+
+.column[.content.vmiddle.center[
+
+<img src="images/curves.jpg", width="60%">
 
 ]]
-.column[.top50px[
 
-```{r}
+
+
+
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+# Moving beyond linearity
+
+- Consider the following Major League Baseball data from the 1986 and 1987 seasons.
+- Would a linear model be appropriate for modelling the relationship between Salary and Career hits, captured in the variables `logSalary` and `logCHits`?
+
+]]
+
+.column[.content.vmiddle.center[
+
+```{r, fig.retina = 4}
 library(tidyverse)
 library(ISLR)
-ggplot(Wage, aes(x=age, y=wage)) + geom_point() + geom_smooth(method="lm")
-```
-
-]]
-
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Moving beyond linearity]
-    - splines and GAMs
-
-]]
-.column[.top50px[
-
-```{r fig.width=11}
 library(splines)
 library(gridExtra)
-library(rpart)
-p1 <- ggplot(Wage, aes(x=age, y=wage)) + geom_point() + 
-  geom_smooth(method = "glm", formula = y ~ splines::bs(x, df = 4), colour="orange", size=1.5)
-rt <- rpart(wage~age, data=Wage)
-Wage <- Wage %>% mutate(wagert = predict(rt, Wage))
-p2 <- ggplot(Wage, aes(x=age, y=wage)) + geom_point() + 
-  geom_line(aes(y=wagert), colour="orange", size=1.5)
-grid.arrange(p1, p2, ncol=2)
+library(grid)
+
+hits <- Hitters %>% 
+        filter(CHits > 9) %>% 
+        filter(!is.na(Salary)) %>%
+        mutate(logSalary = log10(Salary), logCHits = log10(CHits))
+
+        ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+          geom_point(alpha = 0.2, size = 2) + 
+          geom_smooth(method="lm", se = FALSE, size = 1.5) +
+          theme_minimal(base_size = 18) 
 ```
+
 ]]
+
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
+class: split-two
 
-- .green[Moving beyond linearity]
-    - splines and GAMs
-    - and more
+.column[.pad50px[
+
+# Moving beyond linearity
+
+
+- Perhaps a more flexible regression model is needed!
 
 ]]
-.column[.top50px[
+
+.column[.content.vmiddle.center[
+
+```{r, fig.height=8, fig.retina=4}
+
+library(rpart)
+
+p1 <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+      geom_point(alpha = 0.2, size = 2) + 
+      geom_smooth(method = "lm", formula = y ~ splines::bs(x, df = 4), colour="orange", size=1.5, se = FALSE) +
+      theme_minimal(base_size = 18) 
+
+rt <- rpart(logSalary~logCHits, data=hits)
+hits <- hits %>% mutate(hitsrt = predict(rt, hits))
+
+p2 <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+      geom_point(alpha = 0.2, size = 2) + 
+      geom_line(aes(y=hitsrt), colour="orange", size=1.5) +
+      theme_minimal(base_size = 18)
+
+grid.arrange(p1, p2, nrow=2)
+```
+
+]]
+---
+# Flexible regression fits
+
+
 The truth is rarely linear, 
 but often the linearity assumption is good enough. 
 
@@ -93,19 +132,11 @@ When it's not ...
 - .orange[generalized additive models]
 
 offer a lot of flexibility, without losing the ease and interpretability of linear models.
-]]
+
 
 ---
-class: split-30
+# Polynomial basis functions
 
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- .green[polynomials]
-    - basis functions
-]]
-.column[.top50px[
 
 Instead of fitting a linear model (in $X$), we fit the model
 
@@ -117,19 +148,9 @@ where $b_1(X), b_2(X), \dots, b_K(X)$ are a family of functions or transformatio
 - Piecewise constant functions: $b_k(x_i) = I(c_k \leq x_i \leq c_{k+1})$
 
 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- .green[polynomials]
-    - basis functions
-]]
-.column[.top50px[
+# Polynomial basis functions 
 
 ```{r basis-functions, out.width=800, out.height=500, fig.width=8, fig.height=5}
 x <- seq(-1,1,l=100)
@@ -143,20 +164,9 @@ ggplot(df_m, aes(x=x, y=value, colour=poly)) +
 
 x1 $=x$, x2= $x^2$, x3= $x^3$, x4= $x^4$, x5= $x^5$
 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-]]
-.column[.top50px[
+# Splines
 
 Knots: $\kappa_1,\dots,\kappa_K$.
 
@@ -165,42 +175,20 @@ A spline is a continuous function $f(x)$ consisting of polynomials between each 
 - Parameters constrained so that $f(x)$ is continuous.
 - Further constraints imposed to give continuous derivatives.
 
-]]
 
 ---
-class: split-30
+# Piecewise Cubic Poly Spline
 
-.column[.pad10px[
-## Outline
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-]]
-.column[.top50px[
 Piecewise cubic polynomial with a single knot at a point $c$:
 
 $$\hat{y}_i = \left\{ \begin{array}{l} 
 \beta_{01}+\beta_{11}x_i+\beta_{21}x_i^2+\beta_{31}x_i^3~~~if~x_i< c\\
 \beta_{02}+\beta_{12}x_i+ \beta_{22}x_i^2+\beta_{32}x_i^3~~~if~x_i \geq c\end{array}\right\}$$
 
-]]
+
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-
-]]
-.column[.top50px[
+# Piecewise Poly
 
 ```{r}
 library(magick)
@@ -211,24 +199,9 @@ if (!file.exists("images/7.3.png"))
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" target="_BLANK"> <img src="images/7.3.png" style="width: 80%; align: center"/> </a>
 
-.font_tiny[(Chapter7/7.3.pdf)]
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-
-]]
-.column[.top50px[
+# Basis Functions
 
 - Truncated power basis
 - Predictors: $x$, ..., $x^p$, $(x-\kappa_{1})_+^p$, ..., $(x-\kappa_{K})_+^p$
@@ -238,23 +211,11 @@ Then the regression is piecewise order- $p$ polynomials.
 - Usually choose $p=1$ or $p=3$.
 - $p+K+1$ degrees of freedom
 
-]]
 
 ---
-class: split-30
+# Basis functions
 
-.column[.pad10px[
-## Outline
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-
-]]
-.column[.top50px[
 
 ```{r truncated, out.width=800, out.height=500, fig.width=8, fig.height=5}
 x <- seq(-1,1,l=100)
@@ -268,106 +229,82 @@ ggplot(df_m, aes(x=x, y=value, colour=poly)) +
 
 x1 $=x$, x2= $x^2$, x3= $x^3$, x4= $(x+0.5)^3_+$, x5= $(x-0.5)^3_+$
 
-]]
 
 ---
-class: split-30
+# Natural splines
 
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-
-]]
-.column[.top50px[
 - Splines based on truncated power bases have high variance at the outer range of the predictors.
 - Natural splines are similar, but have additional .orange[boundary constraints]: the function is linear at the boundaries. This reduces the variance.
 
 Degrees of freedom $\verb|df|=K$.
 
 Create predictors using $\verb|ns|$ function in R (automatically chooses knots given $\verb|df|$).
-]]
+
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
+class: split-two
+
+.column[.pad50px[
+
+# Comparison with Cubic splines
+
+
+We can fit a cubic spline in `R` using `splines::bs()`, and fit a natural cubic spline using `splines::ns()`
+
+- Notice the difference between the fits towards the end of the curves.
 
 ]]
-.column[.top50px[
 
-```{r}
-if (!file.exists("images/7.4.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.4.pdf", density = 300), "images/7.4.png", 
-      format = "png", density = 300)
+.column[.content.vmiddle.center[
+
+```{r, fig.height=8, fig.retina=4}
+
+ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point(alpha = 0.2, size = 2) +
+  stat_smooth(method = lm, formula = y ~ns(x, df = 10), se = FALSE, aes(color = "orangered3"), show.legend = TRUE) +
+  stat_smooth(method = lm, formula = y ~ bs(x, df =10), se = FALSE, aes(color = "blue"), show.legend = TRUE) +
+  scale_color_manual(name='', values=c("orangered3", "blue"), labels = c("Cubic Spline", "Natural Spline")) +
+  theme_minimal(base_size = 18) +
+  theme(legend.position="bottom")
+
+
 ```
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.4.pdf" target="_BLANK"> <img src="images/7.4.png" style="width: 80%; align: center"/> </a>
-
-.font_tiny[(Chapter7/7.4.pdf)]
 ]]
 
 ---
-class: split-30
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
+# Comparison with Polynomial Regression
+
+
+- Notice the difference between the fits towards the end of the curves.
 
 ]]
-.column[.top50px[
 
-```{r}
-if (!file.exists("images/7.7.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.7.pdf", density = 300), "images/7.7.png", 
-      format = "png", density = 300)
+.column[.content.vmiddle.center[
+
+```{r, fig.height=8, fig.retina=4}
+
+ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point(alpha = 0.2, size = 2) +
+  stat_smooth(method = lm, formula = y ~ns(x, df = 10), se = FALSE, aes(color = "orangered3"), show.legend = TRUE) +
+  stat_smooth(method = lm, formula = y ~ poly(x, df =10), se = FALSE, aes(color = "blue"), show.legend = TRUE) +
+  scale_color_manual(name='', values=c("orangered3", "blue"), labels = c("Polynomial", "Natural Spline")) +
+  theme_minimal(base_size = 18)+
+  theme(legend.position="bottom")
+
+
 ```
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.7.pdf" target="_BLANK"> <img src="images/7.7.png" style="width: 80%; align: center"/> </a>
-
-.font_tiny[(Chapter7/7.7.pdf)]
 ]]
-
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-
-]]
-.column[.top50px[
-
-Natural cubic splines
+# Natural cubic splines
 
 ```{r natural, out.width=800, out.height=500, fig.width=8, fig.height=5}
 x <- seq(-1,1,l=100)
@@ -380,218 +317,97 @@ ggplot(df_m, aes(x=x, y=value, colour=poly)) +
   ylab("b(x)") + theme_bw()
 ```
 
-]]
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
+# Knot placement
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
+<br>
 
-]]
-.column[.top50px[
+.green[`r icon::fa("chart-bar", size=1)`] **Strategy 1:** specify `df` (which creates `df-1` internal knots and 2 boundary knots, so that `df` = $K+1$) and let `ns()` place them at appropriate quantiles of the observed $X$. 
 
-Knot placement
+<br>
 
-- Strategy 1: specify $\verb|df|$ (equivalently $K$) and let $\verb|ns|$ place them at appropriate quantiles of the observed $X$.
-- Strategy 2: choose $K$ and their locations.
+.green[`r icon::fa("chart-bar", size=1)`] **Strategy 2:** choose $K$ and their locations.
 
-]]
 
 ---
-class: split-30
+## Natural cubic splines with differing knots
 
-.column[.pad10px[
-## Outline
+```{r, warning = FALSE, message = FALSE, fig.width=13, fig.retina=4}
 
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
 
-]]
-.column[.top50px[
+p_0 <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point(alpha = 0.2, size = 2) +
+  stat_smooth(method = lm, formula = y ~ns(x, df = 1), se = FALSE, colour = "orangered3") +
+  ylim(c(1.5,3.2)) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Natural Spline w/ 2 Knots") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("") +
+  ylab("")
 
-DF = 2 (linear fit)
 
-```{r splinesdf, out.width=800, out.height=500, fig.width=8, fig.height=5}
-hits <- Hitters %>% filter(CHits > 9) %>% 
-  filter(!is.na(Salary)) %>%
-  mutate(logSalary = log10(Salary), logCHits = log10(CHits))
-fit1 <- lm(logSalary~logCHits, data=hits)
-fit2 <- lm(logSalary~ns(logCHits, df=3), data=hits)
-fit3 <- lm(logSalary~ns(logCHits, df=8), data=hits)
-fit4 <- lm(logSalary~ns(logCHits, df=15), data=hits)
-fit5 <- lm(logSalary~ns(logCHits, df=50), data=hits)
-newdat <- data.frame(logCHits=seq(1.5, 4.0, 0.1))
-newdat$fit1 <- predict(fit1, newdat)
-newdat$fit2 <- predict(fit2, newdat)
-newdat$fit3 <- predict(fit3, newdat)
-newdat$fit4 <- predict(fit4, newdat)
-newdat$fit5 <- predict(fit5, newdat)
-ggplot(hits, aes(x=logCHits, y=logSalary)) + 
-  geom_point() +
-  geom_line(data=newdat, aes(x=logCHits, y=fit1), colour="blue") + 
-  ylim(c(1.5,3.2))
+p_2 <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point(alpha = 0.2, size = 2) +
+  stat_smooth(method = lm, formula = y ~ns(x, df = 3), se = FALSE, colour = "orangered3") +
+  ylim(c(1.5,3.2)) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Natural Spline w/ 4 Knots") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p_3 <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point(alpha = 0.2, size = 2) +
+  stat_smooth(method = lm, formula = y ~ns(x, df = 4), se = FALSE, colour = "orangered3") +
+  ylim(c(1.5,3.2)) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Natural Spline w/ 5 Knots") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("") +
+  ylab("")
+
+p_8 <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point(alpha = 0.2, size = 2) +
+  stat_smooth(method = lm, formula = y ~ns(x, df = 9), se = FALSE, colour = "orangered3") +
+  ylim(c(1.5,3.2)) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Natural Spline w/ 10 Knots") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("") +
+  ylab("")
+
+
+p_15 <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point(alpha = 0.2, size = 2) +
+  stat_smooth(method = lm, formula = y ~ns(x, df = 15), se = FALSE, colour = "orangered3") +
+  ylim(c(1.5,3.2)) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Natural Spline w/ 16 Knots") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("") +
+  ylab("")
+
+
+p_50 <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point(alpha = 0.2, size = 2) +
+  stat_smooth(method = lm, formula = y ~ns(x, df = 49), se = FALSE, colour = "orangered3") +
+  ylim(c(1.5,3.2)) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Natural Spline w/ 50 Knots") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("") +
+  ylab("")
+
+
+
+
+grid.arrange(p_0, p_2, p_3, p_8, p_15, p_50, nrow = 2, 
+             bottom= textGrob("logCHits", gp=gpar(fontsize=18,font=1)),
+             left= textGrob("logSalary", rot = 90, gp=gpar(fontsize=18,font=1)))
+
 ```
-
-```{r eval=FALSE}
-fit6 <- lm(logSalary~ns(logCHits, knots=mean(hits$logCHits)), data=hits)
-newdat$fit6 <- predict(fit6, newdat)
-ggplot(hits, aes(x=logCHits, y=logSalary)) + 
-  geom_point() +
-  geom_line(data=newdat, aes(x=logCHits, y=fit6), colour="blue") + 
-  ylim(c(1.5,3.2))
-```
-
-]]
-
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 3
-
-```{r splinesdf2, out.width=800, out.height=500, fig.width=8, fig.height=5}
-
-ggplot(hits, aes(x=logCHits, y=logSalary)) + 
-  geom_point() +
-  geom_line(data=newdat, aes(x=logCHits, y=fit2), colour="blue") + 
-  ylim(c(1.5,3.2))
-```
-
-]]
-
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 8
-
-```{r splinesdf3, out.width=800, out.height=500, fig.width=8, fig.height=5}
-
-ggplot(hits, aes(x=logCHits, y=logSalary)) + 
-  geom_point() +
-  geom_line(data=newdat, aes(x=logCHits, y=fit3), colour="blue") + 
-  ylim(c(1.5,3.2))
-```
-
-]]
-
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 15
-
-```{r splinesdf4, out.width=800, out.height=500, fig.width=8, fig.height=5}
-
-ggplot(hits, aes(x=logCHits, y=logSalary)) + 
-  geom_point() +
-  geom_line(data=newdat, aes(x=logCHits, y=fit4), colour="blue") + 
-  ylim(c(1.5,3.2))
-```
-
-]]
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- .green[splines]
-    - knots
-    - piecewise poly
-    - basis fns
-    - natural
-    - knots
-
-]]
-.column[.top50px[
-
-DF = 50
-
-```{r splinesdf5, out.width=800, out.height=500, fig.width=8, fig.height=5}
-
-ggplot(hits, aes(x=logCHits, y=logSalary)) + 
-  geom_point() +
-  geom_line(data=newdat, aes(x=logCHits, y=fit5), colour="blue") + 
-  ylim(c(1.5,3.2))
-```
-
-]]
-
----
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-
-]]
-.column[.top50px[
+# Generalised additive models (GAMs)
 
 Why is it hard to fit models of the form
 
@@ -600,50 +416,25 @@ $$y = f(x_1,x_2,\dots,x_p) + e?$$
 - Model assumes $p$-way interactions which are hard to estimate.
 
 
-]]
 
 ---
-class: split-30
+# Additive functions
 
-.column[.pad10px[
-## Outline
+<br>
 
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-    - Additive functions
-
-]]
-.column[.top50px[
-
-.boxshadow[.content[
+.tip[
 $y_i=\beta_0+f_1(x_{i,1})+f_2(x_{i,2})+...+f_p(x_{p,1})+e_i$
-]]
+]
 
-where each f is a smooth univariate function.
+where each $f$ is a smooth univariate function.
 
 Allows for flexible nonlinearities in several variables, but retains
 the additive structure of linear models.
 
-]]
+
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-    - Additive functions
-
-]]
-.column[.top50px[
+# Additive functions
 
 $$wage = \beta_0 + f_1(year) + f_2(age) + f_3(education) + \varepsilon$$
 
@@ -656,25 +447,10 @@ if (!file.exists("images/7.11.png"))
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf" target="_BLANK"> <img src="images/7.11.png" style="width: 100%; align: center"/> </a>
 
 
-.font_tiny[(Chapter7/7.11.pdf)]
-]]
-
 ---
-class: split-30
+# Generalisations
 
-.column[.pad10px[
-## Outline
 
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-    - Additive functions
-    - Generalisation
-
-]]
-.column[.top50px[
 - Can fit a GAM simply using, e.g. natural splines:
 - Coefficients not that interesting; fitted functions are. 
 - Use `plot.gam` from `gam` package.
@@ -684,28 +460,15 @@ class: split-30
 included in a natural way using, e.g. bivariate smoothers or
 interactions of the form `ns(age,df=5):ns(year,df=5)`.
 
-]]
 
 ---
-class: split-30 vmiddle
+# Can we include interaction effects?
 
-.column[.top50px[
 
-## Outline
-- Moving beyond linearity
-- polynomials
-- splines
-- .green[Generalised additive models (GAMs)]
-    - Curse of dimensionality
-    - Additive functions
-    - Generalisation
-    - Interaction
-]]
-.column[.top50px[
 - Additive models assume no interactions. 
 - Add bivariate smooths for two-way interactions.
 - Graphically check for interactions using faceting.
-]]
+
 
 ---
 layout: false
