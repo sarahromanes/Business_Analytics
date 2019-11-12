@@ -8,6 +8,7 @@
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
     <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="..\..\..\assets\mystyle.css" type="text/css" />
   </head>
   <body>
@@ -83,7 +84,9 @@ layout: false
 
 &lt;br&gt;
 
-- **Question**: Why is a linear model not appropriate for this data?
+Consider the following data `simcredit` which looks at the default status based on credit balance.
+
+ **Question**: Why is a linear model not appropriate for this data?
 
 ]]
 .column[.content.vmiddle.center[
@@ -177,24 +180,13 @@ The left-hand side `\(\log_e\frac{f(x)}{1 - f(x)}\)` is called the .orange[log-o
 
 ]]
 ---
-class: split-30
+# The logistic regression model 
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-    - Logistic model - GLM
-]]
-.column[.top50px[
-
-.boxshadow[
 The fitted model is then written as:
 
-.content[
+.tip[
 `\(\log_e\frac{P(Y=1|X)}{1 - P(Y=1|X)} = \beta_0+\beta_1X\)`
-]]
+]
 
 and then 
 
@@ -202,50 +194,19 @@ and then
 
 *Multiple categories*: This formula can be extended to more than binary response variables. Writing the equation is not simple, but follows from the above, extending it to provide probabilities for each level/category. The sum of all  probabilities is 1.
 
-
-
-]]
-
 ---
-class: split-30
+# Interpretation
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-    - Logistic model - GLM
-    - Interpretation
-]]
-.column[.top50px[
-
-- Linear regression	
+- .green[**Linear regression**]	
     - `\(\beta_1\)` gives the average change in `\(Y\)` associated with a one-unit increase in `\(X\)`
-- Logistic regression
+- .green[**Logistic regression**]
     - Increasing `\(X\)` by one unit changes the log odds by `\(\beta_1\)`, or equivalently it multiplies the odds by `\(e^{\beta_1}\)`
     - However, because the model is not linear in `\(X\)`, `\(\beta_1\)` does not correspond to the change in response associated with a one-unit increase in `\(X\)`
     
-]]
-
 ---
-class: split-30
+# Maximum Likelihood Estimation
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-    - Logistic model - GLM
-    - Interpretation
-    - Estimation
-]]
-.column[.top50px[
-
-Maximum Likelihood Estimation
-
-Given the logistic `\(p(x_i) = \frac{1}{e^{-(\beta_0+\beta_1x})+1}\)`
+Given the logistic `\(p(x_i) = \frac{1}{e^{-(\beta_0+\beta_1x_i)}+1}\)`
 
 We choose parameters `\(\beta_0, \beta_1\)` to maximize the likelihood of the data given the model. The likelihood function is
 
@@ -253,80 +214,48 @@ We choose parameters `\(\beta_0, \beta_1\)` to maximize the likelihood of the da
 
 It is more convenient to maximize the *log-likelihood*:
 
-`$$\text{max}_{\beta_0, \beta_1} ~ l_n(\beta_0, \beta_1) =  - \sum_{i = 1}^n \log(1 + e^{-(\beta_0+\beta_1x}) )$$`
-
-
-]]
+`$$\text{max}_{\beta_0, \beta_1} ~ \log  l_n(\beta_0, \beta_1) = \text{max}_{\beta_0, \beta_1}  - \sum_{i = 1}^n \log\big(1 + e^{-(\beta_0+\beta_1x_i)} \big)$$`
 
 ---
-class: split-30
+# Making predictions 
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-    - Logistic model - GLM
-    - Interpretation
-    - Estimation
-    - Making predictions
-]]
-.column[.top50px[
-
-With estimates from the model fit, `\(\hat{\beta_0}, \hat{\beta_1}\)`, predict the response using:
+With estimates from the model fit, `\(\hat{\beta_0}, \hat{\beta_1}\)`, we can predict the **probability of belonging to class 1** using:
 
 
-`$$\hat{p}(x) = \frac{e^{\hat{\beta_0}+ \hat{\beta_1}x}}{1+e^{\hat{\beta_0}+ \hat{\beta_1}x}}$$`
+`$$p(y=1|\hat{\beta_0} + \hat{\beta_1} x) = \frac{e^{\hat{\beta_0}+ \hat{\beta_1}x}}{1+e^{\hat{\beta_0}+ \hat{\beta_1}x}}$$`
 
-It is a proportion, but can be rounded to 0 or 1 for class prediction.
+This probability can be rounded to 0 or 1 for class prediction.
 
-]]
+In `R`, we simply use the `predict()` function.
+
 
 ---
-class: split-30
+class: center
 
-.column[.pad10px[
-## Outline
+### Of course, probabilities close to 0.5 are hard to classify!
 
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-    - Logistic model - GLM
-    - Interpretation
-    - Estimation
-    - Making predictions
-    - Example
-]]
-.column[.top50px[
+&lt;br&gt;
 
-Simulated data to predict which customers will default on their credit card debt.
-
-&lt;img src="classification_files/figure-html/unnamed-chunk-5-1.png" width="504" style="display: block; margin: auto;" /&gt;
-
-]]
+&lt;img src="images/response.jpg", width="60%"&gt;
 
 ---
-class: split-30
+class: split-40
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-    - Logistic model - GLM
-    - Interpretation
-    - Estimation
-    - Making predictions
-    - Example
+# Fitting credit data in R <i class="fas  fa-credit-card "></i>
+
+&lt;br&gt;
+
+ We use the `glm` function in R to fit a logistic regression model. The `glm` function can support many response types, so we specify `family="binomial"` to let R know that our response is *binary*.
 ]]
-.column[.top50px[
+.column[.content.vmiddle[
 
 
 ```r
 library(broom)
-fit &lt;- glm(default~balance, data=simcredit, family="binomial")
+*fit &lt;- glm(default~balance,
+*          data=simcredit, family="binomial")
 tidy(fit)
 ```
 
@@ -338,70 +267,112 @@ tidy(fit)
 ## 2 balance       0.00550  0.000220      25.0 1.98e-137
 ```
 
-<span>&lt;i class="fas  fa-broom fa-lg faa-passing animated " style=" color:orange;"&gt;&lt;/i&gt;</span>
+]]
+
+
+---
+
+class: split-40
+
+.column[.pad50px[
+
+# Fitting credit data in R <i class="fas  fa-credit-card "></i>
+
+&lt;br&gt;
+
+We can use the `predict()` function to predict the probability of default, given credit balance. We then round these probabilities to predict default status.
+
+]]
+.column[.content.vmiddle[
+
+
+```r
+*probs &lt;- predict(fit, simcredit ,type="response")
+head(probs, 4) 
+```
+
+```
+##            1            2            3            4 
+## 0.0013056797 0.0021125949 0.0085947405 0.0004344368
+```
+
+```r
+head(round(probs), 4) 
+```
+
+```
+## 1 2 3 4 
+## 0 0 0 0
+```
 
 ]]
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
+class: middle center purple
 
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-    - Logistic model - GLM
-    - Interpretation
-    - Estimation
-    - Making predictions
-    - Example
+<span>&lt;i class="fas  fa-exclamation-triangle fa-7x faa-flash animated "&gt;&lt;/i&gt;</span>
+
+# .purple[A warning for using GLMs!]
+
+---
+class: split-40
+
+.column[.pad50px[
+
+# When logistic regression fails
+
+&lt;br&gt;
+
+Consider the case when the data is *perfectly* seperated. 
+
+Here, we can see that all balances above $1500 default.
 ]]
-.column[.top50px[
+.column[.content.vmiddle[
+
+&lt;img src="classification_files/figure-html/unnamed-chunk-7-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]]
+
+---
+
+class: split-40
+
+.column[.pad50px[
+
+# When logistic regression fails
+
+&lt;br&gt;
+
+If we fit a `glm` model to this data, the MLE fit will try and fit a step-wise function to this graph, pushing coefficients sizes towards infinity and produce large standard errors. R will warn us that the algorithm does not converge.
+]]
+.column[.content.vmiddle[
 
 
 ```r
-glance(fit)
+fit &lt;- glm(default_new~balance, 
+           data=simcredit, family="binomial")
+tidy(fit)
 ```
 
-```
-## # A tibble: 1 x 7
-##   null.deviance df.null logLik   AIC   BIC deviance df.residual
-##           &lt;dbl&gt;   &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt;
-## 1         2921.    9999  -798. 1600. 1615.    1596.        9998
+
+```r
+# A tibble: 2 x 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+*1 (Intercept)   -41692.    57581.   -0.724   0.469
+*2 balance         27.8      38.4     0.724   0.469
 ```
 ]]
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
+class: center 
 
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-    - Logistic model - GLM
-    - Interpretation
-    - Estimation
-    - Making predictions
-    - Example
-]]
-.column[.top50px[
+## Take home message - take note of R warnings
 
+&lt;img src="images/warning.jpg", width="60%"&gt;
 
-```r
-simcredit_fit &lt;- augment(fit, simcredit, type.predict="response")
-ggplot(simcredit_fit, aes(x=balance, y=default_bin)) + 
-  geom_point() +
-  geom_ribbon(aes(ymin=.fitted-2*.se.fit, ymax=.fitted+2*.se.fit), 
-              fill = "orange", alpha=0.3) +
-  geom_line(aes(y=.fitted), colour = "orange") + 
-  ylab("default")
-```
-
-&lt;img src="classification_files/figure-html/unnamed-chunk-9-1.png" width="500" style="display: block; margin: auto;" /&gt;
-]]
 ---
 class: split-30
 
