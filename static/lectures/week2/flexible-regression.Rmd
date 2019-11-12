@@ -22,7 +22,7 @@ knitr::opts_chunk$set(tidy = FALSE,
                       message = FALSE,
                       warning = FALSE,
                       echo = FALSE, 
-                      fig.retina = 2)
+                      fig.retina = 4)
 options(htmltools.dir.version = FALSE)
 ```
 
@@ -251,7 +251,7 @@ class: split-two
 # Comparison with Cubic splines
 
 
-We can fit a cubic spline in `R` using `splines::bs()`, and fit a natural cubic spline using `splines::ns()`
+We can fit a cubic spline in `R` using `splines::bs()`, and fit a natural cubic spline using `splines::ns()`.
 
 - Notice the difference between the fits towards the end of the curves.
 
@@ -306,7 +306,7 @@ ggplot(hits, aes(x=logCHits, y=logSalary)) +
 
 # Natural cubic splines
 
-```{r natural, out.width=800, out.height=500, fig.width=8, fig.height=5}
+```{r natural, out.width=800, out.height=500, fig.width=8, fig.height=5, fig.retina = 4}
 x <- seq(-1,1,l=100)
 xb <- ns(x, df=5)
 df <- tibble(x, x1=xb[,1], x2=xb[,2], x3=xb[,3], x4=xb[,4], x5=xb[,5])
