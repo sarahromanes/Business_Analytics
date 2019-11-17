@@ -5,7 +5,7 @@ author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <
 date: "Week 2 (b)"
 output:
   xaringan::moon_reader:
-    css: ["kunoichi", "ninjutsu", "../../../assets/mystyle.css"]
+    css: ["kunoichi", "ninjutsu", "mystyle.css"]
     lib_dir: libs
     nature:
       ratio: '16:9'
