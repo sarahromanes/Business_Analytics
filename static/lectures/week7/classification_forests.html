@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>ETC3250: Random forests</title>
+    <title>ETC3250: Ensemble Methods</title>
     <meta charset="utf-8" />
     <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
@@ -9,13 +9,13 @@
     <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
     <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
-    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+    <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# ETC3250: Random forests
+# ETC3250: Ensemble Methods
 ## Semester 1, 2019
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 7 (a)
@@ -25,16 +25,35 @@ class: center, middle, inverse, title-slide
 
 
 
-class: split-30
-layout: false
+## What's wrong with a single tree?
+&lt;br&gt;
+&lt;center&gt;
+&lt;img src="images/overfitting.jpg" style="width: 70%"/&gt;
+&lt;/center&gt;
 
-.column[.pad10px[
-## Outline
+---
+## Solution? Ensemble methods
 
-- .green[Bootstrap aggregation]
+Ensemble methods use multiple learning algorithms to obtain better predictive performance than any of the single constituents.
 
-]]
-.column[.top50px[
+&lt;center&gt;
+&lt;img src="images/seagulls.jpg" style="width: 70%"/&gt;
+&lt;/center&gt;
+
+
+---
+
+## Roadmap
+
+We will learn about different ensembles, increasing in complexity (but also potentially in predictive performance) as we go. These methods are
+
+- Bagging
+- Random Forests
+- Boosted Trees
+
+
+---
+## Bootstrap aggregation
 
 - Take `\(B\)` different *bootstrapped* training sets:
 `$$D_1, D_2, \dots, D_B$$`
@@ -43,20 +62,10 @@ layout: false
 - Combine resulting predictions, e.g. average
 `$$\hat{f}_{\text{avg}}(x) = \frac1B \sum_{b = 1}^{B} \hat{f}_b(x)$$`
 
-]]
+
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .green[Bootstrap aggregation]
-    - Bagging trees
-
-]]
-.column[.top50px[
+## Bagging trees
 
 .orange[Bagged trees]
 
@@ -65,21 +74,44 @@ layout: false
 - Averaging these `\(B\)` trees .orange[reduces the variance]. 
 - For classification trees, there are several possible aggregation methods, but the simplest is the **majority vote**. 
 	
-]]
+---
+
+## Bagged trees - construction
+
+&lt;center&gt;
+&lt;img src="images/bagging-1.png" style="width: 100%"/&gt;
+&lt;/center&gt;
+
 
 ---
-class: split-30
-layout: false
+## Bagged trees - construction
 
-.column[.pad10px[
-## Outline
+&lt;center&gt;
+&lt;img src="images/bagging-2.png" style="width: 100%"/&gt;
+&lt;/center&gt;
 
-- .green[Bootstrap aggregation]
-    - Bagging trees
-    - Out-of-bag-error
+---
+## Bagged trees - construction
 
-]]
-.column[.top50px[
+&lt;center&gt;
+&lt;img src="images/bagging-3.png" style="width: 100%"/&gt;
+&lt;/center&gt;
+
+---
+## Bagged trees - construction
+
+&lt;center&gt;
+&lt;img src="images/bagging-4.png" style="width: 100%"/&gt;
+&lt;/center&gt;
+
+---
+## Bagged trees - construction
+
+&lt;center&gt;
+&lt;img src="images/bagging-5.png" style="width: 100%"/&gt;
+&lt;/center&gt;
+---
+## Out of Bag error
 
 - .orange[No need to use (cross-)validation] to **estimate the test error** of a bagged model (**debatable by some**).
 - On average, each bagged tree makes use of around .orange[two-thirds of the observations]. (Check the textbook exercise.)
@@ -87,50 +119,34 @@ layout: false
 - We can predict the response for the `\(i^{th}\)` observation using each of the trees in which that observation was OOB. This will yield around .orange[B/3 predictions] for the `\(i^{th}\)` observation.
 - To obtain a single prediction for the `\(i^{th}\)` observation, average these predicted responses (regression) or can take a majority vote (classification).
 	
-]]
 
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+## From bagging to Random Forests
 
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
+However, when bagging trees, a problem still exists. Although the model building steps are independent, the trees in bagging are not completely independent of each other since all the original features are considered at every split of every tree. Rather, trees from different bootstrap samples typically have similar structure to each other (especially at the top of the tree) due to any underlying strong relationships.
 
-]]
-.column[.top50px[
+To deal with this, we can use .orange[Random Forests] to help over come this, by sampling the predictors as well as the samples!
+
+---
+## Random Forests  - the algorithm 
 
 
 1. Input: `\(L = {(x_i, y_i), i=1, ..., n}, y_i \in \{1, ..., k\}, m &lt; p\)`, number of variables chosen for each tree, `\(B\)` is the number of bootstrap samples.
 2. For `\(b =1, 2, ..., B\)`:
 
-    i. Draw a bootstrap sample, `\(L^{*b}\)` of size `\(n^{*b}\)` from `\(L\)`.
+  i. Draw a bootstrap sample, `\(L^{*b}\)` of size `\(n^{*b}\)` from `\(L\)`.
     
-    ii. Grow tree classifier, `\(T^{*b}\)`. At each node use a random selection of `\(m\)` variables, and grow to maximum depth without pruning.
+  ii. Grow tree classifier, `\(T^{*b}\)`. .green[At each node use a random selection of `\(m\)` variables, and grow to maximum depth without pruning.]
     
-    iii. Predict the class of each case not drawn in `\(L^{*b}\)`.
+  iii. Predict the class of each case not drawn in `\(L^{*b}\)`.
     
 3. Combine the predictions for each case, by majority vote, to give predicted class.
 	
-]]
+
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-
-]]
-.column[.top50px[
+## Random Forest - Diagnostics
 
 
 
@@ -141,7 +157,6 @@ layout: false
 - .orange[Vote matrix], `\(n\times K\)`: Proportion of times a case is predicted to the class `\(k\)`.
 - .orange[Proximities], `\(n\times n\)`: Closeness of cases measured by how often they are in the same terminal node.
 
-]]
 
 ---
 layout: true
@@ -197,53 +212,36 @@ layout: false
 
 
 ---
-class: split-30
-layout: false
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
+## Example - Olive Oil data
+
+Distinguish the region where oils were produced by their fatty acid signature. 
+Important in quality control and in determining fraudulent marketing. 
+
+**Areas in the south:**
+
+1. North-Apulia &lt;br&gt;
+2. Calabria &lt;br&gt;
+3. South-Apulia &lt;br&gt;
+4. Sicily
 
 ]]
-.column[.top50px[
 
-.split-50[
-.column[.content[
-![](images/Italian-olive-oils-map.png)
+.column[.content.vmiddle.center[
+
+
+&lt;img src="images/Italian-olive-oils-map.png" style="width: 60%"/&gt;
+
+
 ]]
-.column[.content[
 
-Olive oils data: Distinguish the region where oils were produced by their fatty acid signature. Quality control. Fraudulent marketing. 
 
-Areas in the south:
-
-1 North-Apulia &lt;br&gt;
-2 Calabria &lt;br&gt;
-3 South-Apulia &lt;br&gt;
-4 Sicily
-]]
-]
-]]
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
-
-]]
-.column[.top50px[
+## Example - Olive Oil data
 
 Classifying the olive oils in the south of Italy - difficult classification task.
 
@@ -253,48 +251,33 @@ Classifying the olive oils in the south of Italy - difficult classification task
 
 
 
+&lt;center&gt;
 &lt;iframe src="olive1.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"&gt; &lt;/iframe&gt;
+&lt;/center&gt;
 
-]]
 
 ---
-class: split-30
-layout: false
+## Example - Olive Oil data
 
-.column[.pad10px[
-## Outline
+Let's first examine the performance of a single decision tree.
 
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
+&lt;img src="classification_forests_files/figure-html/unnamed-chunk-5-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
-]]
-.column[.top50px[
 
-A single tree
-
-&lt;img src="classification_forests_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-]]
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-20
 
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
-
+.row[.content.vmiddle[
+## Performance of a single tree
 ]]
-.column[.top50px[
-.split-50[
-.column[.content[
-Training confusion and error
+
+.row[.content[
+.split-two[
+.column[.pad10px[
+&lt;center&gt;
+    Training confusion and error
+&lt;/center&gt;
 
 
 ```
@@ -319,10 +302,11 @@ Training confusion and error
 ## Class: 3 Class: 4 
 ##   0.0098   0.0588
 ```
-]]
-.column[.content[
-Test confusion and error
-
+     ]]
+.column[.pad10px[
+&lt;center&gt;
+    Test confusion and error
+&lt;/center&gt;
 
 ```
 ##           Reference
@@ -346,24 +330,14 @@ Test confusion and error
 ## Class: 3 Class: 4 
 ##    0.039    0.312
 ```
-]]
-]
-]]
+     ]]
+
+]]]
+
 ---
-class: split-30
-layout: false
+## Example - Olive Oil data
 
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
-
-]]
-.column[.top50px[
+We can then fit a Random Forest model. Provided from the package `randomForest`.
 
 
 ```
@@ -382,27 +356,20 @@ layout: false
 ## 3 0  1 101  1       0.019
 ## 4 1  3   3 11       0.389
 ```
-]]
 
 ---
-class: split-30
-layout: false
+class: split-20
 
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
-
+.row[.content.vmiddle[
+## Performance of Random Forest
 ]]
-.column[.top50px[
 
-.split-50[
-.column[.content[
-Training confusion and error
+.row[.content[
+.split-two[
+.column[.pad10px[
+&lt;center&gt;
+    Training confusion and error
+&lt;/center&gt;
 
 
 ```
@@ -427,10 +394,11 @@ Training confusion and error
 ## Class: 3 Class: 4 
 ##        0        0
 ```
-]]
-.column[.content[
-Test confusion and error
-
+     ]]
+.column[.pad10px[
+&lt;center&gt;
+    Test confusion and error
+&lt;/center&gt;
 
 ```
 ##           Reference
@@ -454,10 +422,13 @@ Test confusion and error
 ## Class: 3 Class: 4 
 ##    0.056    0.250
 ```
-]]
-]
-]]
+     ]]
+
+]]]
+
+
 ---
+
 class: split-30
 layout: false
 
@@ -501,46 +472,43 @@ Diagnostics: variable importance
 ]]
 
 ---
-class: split-30
-layout: false
+class: split-40
 
-.column[.pad10px[
-## Outline
 
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
+.column[.pad50px[
+## Diagnostics
+
+.green[Vote matrix]
+
 
 ]]
-.column[.top50px[
-
-Diagnostics: vote matrix
+.column[.content.vmiddle[
 
 
-```
-##         1      2      3      4
-## 1  0.5054 0.0543 0.0380 0.4022
-## 2  0.8977 0.0227 0.0000 0.0795
-## 3  0.6776 0.0109 0.0000 0.3115
-## 4  0.6319 0.0275 0.0000 0.3407
-## 5  0.5657 0.0514 0.0114 0.3714
-## 6  0.8971 0.0147 0.0000 0.0882
-## 7  0.1414 0.2565 0.3141 0.2880
-## 8  0.6914 0.0457 0.0343 0.2286
-## 9  0.5738 0.0055 0.0000 0.4208
-## 10 0.7889 0.0111 0.0000 0.2000
-## 11 0.0057 0.6057 0.3314 0.0571
-## 12 0.0000 0.9848 0.0051 0.0101
-## 13 0.0054 0.9402 0.0000 0.0543
-## 14 0.0000 0.7940 0.0000 0.2060
-## 15 0.0155 0.7047 0.0259 0.2539
-## 16 0.0000 0.9946 0.0000 0.0054
-## 17 0.0000 0.9519 0.0107 0.0374
-## 18 0.0171 0.6743 0.0114 0.2971
-## 19 0.0000 0.8235 0.0963 0.0802
-## 20 0.0000 0.9312 0.0000 0.0688
+
+
+```r
+             1           2           3           4
+*1  0.505434783 0.054347826 0.038043478 0.402173913
+2  0.897727273 0.022727273 0.000000000 0.079545455
+3  0.677595628 0.010928962 0.000000000 0.311475410
+4  0.631868132 0.027472527 0.000000000 0.340659341
+5  0.565714286 0.051428571 0.011428571 0.371428571
+6  0.897058824 0.014705882 0.000000000 0.088235294
+*7  0.141361257 0.256544503 0.314136126 0.287958115
+8  0.691428571 0.045714286 0.034285714 0.228571429
+9  0.573770492 0.005464481 0.000000000 0.420765027
+10 0.788888889 0.011111111 0.000000000 0.200000000
+11 0.005714286 0.605714286 0.331428571 0.057142857
+12 0.000000000 0.984848485 0.005050505 0.010101010
+13 0.005434783 0.940217391 0.000000000 0.054347826
+14 0.000000000 0.793969849 0.000000000 0.206030151
+15 0.015544041 0.704663212 0.025906736 0.253886010
+16 0.000000000 0.994623656 0.000000000 0.005376344
+17 0.000000000 0.951871658 0.010695187 0.037433155
+18 0.017142857 0.674285714 0.011428571 0.297142857
+19 0.000000000 0.823529412 0.096256684 0.080213904
+20 0.000000000 0.931216931 0.000000000 0.068783069
 ```
 
 ]]
@@ -565,28 +533,24 @@ layout: false
 
 ]]
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
-    - References
-
-]]
-.column[.top50px[
+## More resources on trees
 
 Cook &amp; Swayne (2007) "Interactive and Dynamic Graphics for Data Analysis: With Examples Using R and GGobi" have several videos illustrating techniques for exploring high-dimensional data in association with trees and forest classifiers:
 
 - [Trees video](http://www.ggobi.org/book/chap-class/Trees.mov)
 - [Forests video](http://www.ggobi.org/book/chap-class/Forests.mov)
 
-]]
+---
+
+## From Random Forests to Boosting
+
+Whereas random forests build an ensemble of .green[deep independent trees], .orange[boosted trees] build an ensemble of .green[shallow trees in sequence] with each tree learning and improving on the previous one.
+
+&lt;center&gt;
+&lt;img src="images/boosted-trees-process.png" style="width: 70%"/&gt;
+&lt;/center&gt;
+
+
 ---
 class: split-30
 layout: false

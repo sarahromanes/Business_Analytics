@@ -9,7 +9,7 @@
     <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
     <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="..\..\..\assets\mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -180,7 +180,7 @@ The left-hand side `\(\log_e\frac{f(x)}{1 - f(x)}\)` is called the .orange[log-o
 
 ]]
 ---
-# The logistic regression model 
+## The logistic regression model 
 
 The fitted model is then written as:
 
@@ -192,10 +192,12 @@ and then
 
 `$$P(Y=0|X) = 1 - P(Y=1|X)$$`
 
-*Multiple categories*: This formula can be extended to more than binary response variables. Writing the equation is not simple, but follows from the above, extending it to provide probabilities for each level/category. The sum of all  probabilities is 1.
-
+*Multiple categories*: 
+&lt;details&gt;
+  This formula can be extended to more than binary response variables. Writing the equation is not simple, but follows from   the above, extending it to provide probabilities for each level/category. The sum of all  probabilities is 1.
+&lt;/details&gt;
 ---
-# Interpretation
+## Interpretation
 
 - .green[**Linear regression**]	
     - `\(\beta_1\)` gives the average change in `\(Y\)` associated with a one-unit increase in `\(X\)`
@@ -204,7 +206,7 @@ and then
     - However, because the model is not linear in `\(X\)`, `\(\beta_1\)` does not correspond to the change in response associated with a one-unit increase in `\(X\)`
     
 ---
-# Maximum Likelihood Estimation
+## Maximum Likelihood Estimation
 
 Given the logistic `\(p(x_i) = \frac{1}{e^{-(\beta_0+\beta_1x_i)}+1}\)`
 
@@ -217,7 +219,7 @@ It is more convenient to maximize the *log-likelihood*:
 `$$\text{max}_{\beta_0, \beta_1} ~ \log  l_n(\beta_0, \beta_1) = \text{max}_{\beta_0, \beta_1}  - \sum_{i = 1}^n \log\big(1 + e^{-(\beta_0+\beta_1x_i)} \big)$$`
 
 ---
-# Making predictions 
+## Making predictions 
 
 With estimates from the model fit, `\(\hat{\beta_0}, \hat{\beta_1}\)`, we can predict the **probability of belonging to class 1** using:
 
@@ -243,7 +245,7 @@ class: split-40
 
 .column[.pad50px[
 
-# Fitting credit data in R <i class="fas  fa-credit-card "></i>
+## Fitting credit data in R <i class="fas  fa-credit-card "></i>
 
 &lt;br&gt;
 
@@ -340,7 +342,7 @@ class: split-40
 
 .column[.pad50px[
 
-# When logistic regression fails
+## When logistic regression fails
 
 &lt;br&gt;
 
@@ -374,83 +376,55 @@ class: center
 &lt;img src="images/warning.jpg", width="60%"&gt;
 
 ---
-class: split-30
+## Linear Discriminant Analysis
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-]]
-.column[.top50px[
-
-Logistic regression involves directly modeling `\(Pr(Y = k|X = x)\)` using the logistic function. Rounding the probabilities produces class predictions, in two class problems; selecting the class with the highest probability produces class predictions in multi-class problems.
+Logistic regression involves directly modeling `\(P(Y = k|X = x)\)` using the logistic function. Rounding the probabilities produces class predictions, in two class problems; selecting the class with the highest probability produces class predictions in multi-class problems.
 
 Another approach for building a classification model is .orange[linear discriminant analysis]. This involves directly estimating the .orange[distribution of the predictors], separately for each class.
 
-]]
+---
+
+class: center
+
+## Compare the pair
+
+&lt;div style="line-height:80%;"&gt;
+    &lt;br&gt;
+&lt;/div&gt;
+
+| .green[Logistic Regression]     | &lt;span style="color:#3F9F7A"&gt; Linear Discriminant Analysis  &lt;/span&gt;   | 
+| :-------------------: |:-------------------:| 
+| **Goal** - directly estimate `\(P(Y \lvert X)\)` (*the dashed line*)     | **Goal** - estimate `\(P(X \lvert Y)\)` (*the contours*) to then deduce `\(P(Y \lvert X)\)`  | 
+| **Assumptions** - no assumptions on predictor space      | **Assumptions** - predictors are normally distributed      |   
+| &lt;img src="images/LR.JPG", width="60%"&gt; | &lt;img src="images/LDA.JPG", width="60%"&gt;      |   
+
 
 ---
-class: split-30
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-
-]]
-.column[.top50px[
+## Bayes Theorem
 
 Let `\(f_k(x)\)` be the density function for predictor `\(x\)` for class `\(k\)`. If `\(f\)` is small, the probability that `\(x\)` belongs to class `\(k\)` is small, and conversely if `\(f\)` is large.
 
 Bayes theorem (for `\(K\)` classes) states:
 
-.boxshadow[
-.content[
+.tip[
 
-`$$Pr(Y = k|X = x) = p_k(x) = \frac{\pi_kf_k(x)}{\sum_{i=1}^K \pi_kf_k(x)}$$`
-]]
+`$$P(Y = k|X = x) = p_k(x) = \frac{\pi_kf_k(x)}{\sum_{i=1}^K \pi_kf_k(x)}$$`
+]
 
-where `$$\pi_k = \text{Pr}(Y = k)$$` is the prior probability that the observation comes from class, *k*. 
+where `\(\pi_k = P(Y = k)\)` is the prior probability that the observation comes from class `\(k\)`. 
 
-]]
+
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-]]
-.column[.top50px[
+## LDA with `\(p=1\)` predictors
 
 &lt;img src="classification_files/figure-html/unnamed-chunk-10-1.png" width="800" style="display: block; margin: auto;" /&gt;
 
-]]
 
 ---
-class: split-30
+## LDA with `\(p=1\)` predictors
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-]]
-.column[.top50px[
-
-We assume `\(f_k(x)\)` is .orange[Normal] or Gaussian:
+We assume `\(f_k(x)\)` is univariate .orange[Normal] (Gaussian):
 
 `$$f_k(x) = \frac{1}{\sqrt{2 \pi} \sigma_k} \text{exp}~ \left( - \frac{1}{2 \sigma^2_k} (x - \mu_k)^2 \right)$$`
 
@@ -459,75 +433,37 @@ where `\(\mu_k\)` and `\(\sigma^2_k\)` are the mean and variance parameters for 
 `$$p_k(x) = \frac{\pi_k \frac{1}{\sqrt{2 \pi} \sigma} \text{exp}~ \left( - \frac{1}{2 \sigma^2} (x - \mu_k)^2 \right) }{ \sum_{l = 1}^K \pi_l \frac{1}{\sqrt{2 \pi} \sigma} \text{exp}~ \left( - \frac{1}{2 \sigma^2} (x - \mu_l)^2 \right) }$$`
 
 
-]]
+
 
 ---
-class: split-30
+## LDA with `\(p=1\)` predictors
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-]]
-.column[.top50px[
 The Bayes classifier is assign new observation `\(X=x_0\)` to the class with the highest `\(p_k(x_0)\)`. A simplification of `\(p_k(x_0)\)` yields the .orange[discriminant functions]: 
 
 `$$\delta_k(x_0) = x_0 \frac{\mu_k}{\sigma^2} - \frac{\mu_k^2}{2 \sigma^2} + log(\pi_k)$$`
 and the rule Bayes classifier will assign `\(x_0\)` to the class with the largest value. 
 
-]]
 
 ---
-class: split-30
+## LDA with `\(p=1\)` predictors
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-]]
-.column[.top50px[
-
-When `\(K = 2\)` and `\(\pi_1 = \pi_2\)`, then the Bayes classifier is :
-
-*Assign* `\(x_0\)` *to class 1, if* 
+If `\(K = 2\)` and `\(\pi_1 = \pi_2\)`, we assign `\(x_0\)` to class if
 
 `$$\delta_1(x_0) &gt; \delta_2(x_0)$$`
 
-$$x_0 \frac{\mu_1}{\sigma^2} - \frac{\mu_1^2}{2 \sigma^2} + log(\pi) &gt; x_0 \frac{\mu_2}{\sigma^2} - \frac{\mu_2^2}{2 \sigma^2} + log(\pi) $$
+$$x_0 \frac{\mu_1}{\sigma^2} - \frac{\mu_1^2}{2 \sigma^2} + \log(\pi) &gt; x_0 \frac{\mu_2}{\sigma^2} - \frac{\mu_2^2}{2 \sigma^2} + \log(\pi) $$
 
-which simplifies to 
+which simplifies to  `\(x_0 &gt; \frac{\mu_1+\mu_2}{2}\)`.
 
-`$$x_0 &gt; \frac{\mu_1+\mu_2}{2}$$`
-.boxshadow[
-.content[
+.tip[
 This is estimated on the data with 
 `\(x_0 &gt; \frac{\bar{x}_1 + \bar{x}_2}{2}\)`.
-]]
+]
 
-]]
+
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-    - Multivariate
-]]
-.column[.top50px[
+## Multivariate LDA
 
 To indicate that a p-dimensional random variable X has a multivariate Gaussian distribution with `\(E[X] = \mu\)` and `\(\text{Cov}(X) = \Sigma\)`, we write `\(X \sim N(\mu, \Sigma)\)`.
 
@@ -537,21 +473,9 @@ The multivariate normal density function is:
 
 with `\(x, \mu\)` are `\(p\)`-dimensional vectors, `\(\Sigma\)` is a `\(p\times p\)` variance-covariance matrix. 
 
-]]
 ---
-class: split-30
+## Multivariate LDA
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-    - Multivariate
-]]
-.column[.top50px[
 The discriminant functions are:
 
 `$$\delta_k(x) = x'\Sigma^{-1}\mu_k - \frac{1}{2}\mu_k'\Sigma^{-1}\mu_k + \pi_k$$`
@@ -564,7 +488,7 @@ Assign observation `\(x_0\)` to class 1 if
 
 `$$x_0'\Sigma^{-1}(\mu_1-\mu_2) &gt; \frac{1}{2}(\mu_1+\mu_2)'\Sigma^{-1}(\mu_1-\mu_2)$$`
 
-]]
+
 ---
 class: split-30
 

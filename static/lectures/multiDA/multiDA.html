@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ETC3250: High Dimensional DA</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: High Dimensional DA
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 3 (a)
+
+---
+
+
+
+
+## High Dimensional Data
+
+.orange[High dimensional data] is data that has *many more* variables than observations, that is, `\(p \gg n\)`. It occurs commonly in bioinformatics, when genetic studies often have many more information on genes than patients.
+
+&lt;center&gt;
+&lt;img src="images/microarray.png" style="width: 70%; align: center"/&gt;
+&lt;/center&gt;
+---
+class: split-two
+
+.column[.pad50px[
+
+## SRBCT cancer prediction 
+
+- The SRBCT dataset (Khan et al., 2001) looks at classifying 4 classes of different childhood tumours sharing similar visual features during routine histology.
+- Data contains 83 microarray samples with 1586 features.
+- .orange[**Goal**: to use DA techniques to classify cancer types based on ]
+
+
+]]
+
+.column[.content.vmiddle.center[
+
+ &lt;img src="images/SRBCT-nature.jpg", width="70%"&gt;
+
+.purple[Source:] [Nature](https://www.nature.com/articles/modpathol2016119)
+
+]]
+
+---
+class: split-two
+
+.column[.pad50px[
+
+## Recall: Discriminant Analysis
+
+- Discriminant Analysis (Fisher, 1936) is a ML technique that seeks to find a linear combination of features that separates classes of objects.
+- It *strictly* assumes the conditional distribution of the data, given class grouping, is .orange[multivariate normal].
+- Available through `MASS` package in <i class="fab  fa-r-project "></i> with functions `lda` (common covariance) and `qda`. 
+
+]]
+
+
+.column[.content.vmiddle.center[
+
+&lt;img src="multiDA_files/figure-html/unnamed-chunk-1-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+
+
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## Advantages of DA
+
+<i class="fas  fa-check "></i> Intuitive, and easy to use.
+
+<i class="fas  fa-check "></i> Describes data generating process as well as provide a classifier for new points.
+
+.orange[but...]
+
+]]
+.column[.pad50px[
+
+## Disadvantages of DA
+
+ <i class="fas  fa-times "></i> Does not work when `\(p &gt; n\)` due to MLE covariance matrix estimates being singular.
+
+]]
+---
+
+
+class: split-two
+
+.column[.pad50px[
+
+## Advantages of DA
+
+<i class="fas  fa-check "></i> Intuitive, and easy to use.
+
+<i class="fas  fa-check "></i> Describes data generating process as well as provide a classifier for new points.
+
+.orange[but...]
+
+]]
+.column[.pad50px[
+
+## Disadvantages of DA
+
+ <i class="fas  fa-times "></i> Does not work when `\(p &gt; n\)` due to MLE covariance matrix estimates being singular.
+ 
+ &lt;br&gt;
+
+.green[So, what can we do for high dimensional data?]
+
+]]
+
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## Diagonal Discriminant Analysis
+
+&lt;br&gt;
+- The simplest form of regularisation assumes that the features are independent within each class. 
+- Consider a *diagonal-covariance* LDA rule for classifying classes
+- A special case of the naive-Bayes classifier
+
+]]
+.column[.content.vmiddle.center[
+
+&lt;img src="multiDA_files/figure-html/unnamed-chunk-2-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]]
+
+
+---
+## Discriminant Function
+
+`$$\delta_k(x^*) = - \sum_{j=1}^{p}\frac{(x_j^* - \bar{x}_{kj})^2}{s^2_j} + 2\log \pi_k$$`
+
+`$$C(x^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(x^*) = \max_k \delta_k(x^*)$$`
+---
+
+## What features are driving prediction?
+
+Often the focus of genomics studies is not only to provide predictions (whether it be for cancer type, or prognosis), but also to understand the underlying drivers of such predictions. In this case, we need to know what features are impotant in the prediction mechanism.
+
+As such, a drawback of diagonal LDA (and QDA) is that it uses all of the features, and is not convinent for interpretation. 
+---
+
+## Nearest Shrunken Centroids (NSC)
+
+We can shrink the classwise mean toward the overall mean, for each feature seperately.
+
+`$$d_{kj} = \frac{\bar{x}_{kj} - \bar{x}_j}{m_k(s_j + s_0)}$$`
+
+---
+## Regularised Discriminant Analysis
+
+Linear discriminant analysis involves the inversion of a `\(p \times p\)` within-covariance matrix. When `\(p \gg n\)`, this matrix can be huge, and has rank *at most* `\(n &lt; p\)`, and hence is singular.
+
+RDA overcomes this singularity by regularising the within-covariance matrix estimate `\(\hat{\boldsymbol{\Sigma}}\)`. It does this by shrinking `\(\hat{\boldsymbol{\Sigma}}\)` towards its diagonal.
+
+`$$\hat{\boldsymbol{\Sigma}}(\gamma) = \gamma \hat{\boldsymbol{\Sigma}} + (1- \gamma) \mbox{diag}(\hat{\boldsymbol{\Sigma}}), \quad \mbox{with} \quad \gamma \in [0,1].$$`
+Note that `\(\gamma = 0\)` corresponds to diagonal LDA.
+---
+
+class: center middle
+
+Define, estimate, predict
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+&lt;br&gt;
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**One group**] (NOT a discriminative feature)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="multiDA_files/figure-html/unnamed-chunk-3-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]]
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+&lt;br&gt;
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 2 and 3, against 1)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="multiDA_files/figure-html/unnamed-chunk-4-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+&lt;br&gt;
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 1 and 3, against 2)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="multiDA_files/figure-html/unnamed-chunk-5-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+&lt;br&gt;
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 1 and 2, against 3)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="multiDA_files/figure-html/unnamed-chunk-6-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+&lt;br&gt;
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Three groups**] (All groups are different)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="multiDA_files/figure-html/unnamed-chunk-7-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

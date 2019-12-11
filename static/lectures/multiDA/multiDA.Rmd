@@ -1,0 +1,500 @@
+---
+title: "ETC3250: High Dimensional DA"
+subtitle: "Semester 1, 2019"
+author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
+date: "Week 3 (a)"
+output:
+  xaringan::moon_reader:
+    css: ["kunoichi", "ninjutsu", "mystyle.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy = FALSE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE, 
+                      fig.align = "center",
+                      fig.retina = 4)
+options(htmltools.dir.version = FALSE)
+library(magick)
+```
+
+## High Dimensional Data
+
+.orange[High dimensional data] is data that has *many more* variables than observations, that is, $p \gg n$. It occurs commonly in bioinformatics, when genetic studies often have many more information on genes than patients.
+
+<center>
+<img src="images/microarray.png" style="width: 70%; align: center"/>
+</center>
+---
+class: split-two
+
+.column[.pad50px[
+
+## SRBCT cancer prediction 
+
+- The SRBCT dataset (Khan et al., 2001) looks at classifying 4 classes of different childhood tumours sharing similar visual features during routine histology.
+- Data contains 83 microarray samples with 1586 features.
+- .orange[**Goal**: to use DA techniques to classify cancer types based on ]
+
+
+]]
+
+.column[.content.vmiddle.center[
+
+ <img src="images/SRBCT-nature.jpg", width="70%">
+
+.purple[Source:] [Nature](https://www.nature.com/articles/modpathol2016119)
+
+]]
+
+---
+class: split-two
+
+.column[.pad50px[
+
+## Recall: Discriminant Analysis
+
+- Discriminant Analysis (Fisher, 1936) is a ML technique that seeks to find a linear combination of features that separates classes of objects.
+- It *strictly* assumes the conditional distribution of the data, given class grouping, is .orange[multivariate normal].
+- Available through `MASS` package in `r icon::fa("r-project", size=1)` with functions `lda` (common covariance) and `qda`. 
+
+]]
+
+
+.column[.content.vmiddle.center[
+
+```{r, fig.retina=4, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(mvtnorm)
+
+s <- matrix(c(4,2,2,3), ncol = 2)
+s1 <- matrix(c(3, -0.6,-0.6, 1), ncol=2)
+s2 <- matrix(c(2,-0.08,-0.08,1), ncol = 2)
+
+m1 <- c(0, 0)
+m2 <- c(-3, 4)
+m3 <- c(2,3)
+n <- 1000
+
+set.seed(42)
+x1 <- rmvnorm(n = n, mean = m1, sigma = s2)
+x2 <- rmvnorm(n = n, mean = m2, sigma = s1)
+x3 <- rmvnorm(n = n, mean = m3, sigma = s)
+
+
+d <- data.frame(rbind(x1,x2,x3))
+d$class <- as.factor(rep(c("1", "2", "3"), each = 1000))
+
+p2 <- ggplot(d, aes(x = X1, y = X2, group = class, color =class)) +
+  geom_point(alpha = .5) +
+  geom_density_2d() + 
+  scale_colour_brewer(palette = "Dark2") +
+  theme_minimal() +
+  theme(text = element_text(size=20),
+        legend.position = "bottom")
+
+p2
+  
+```
+
+
+
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## Advantages of DA
+
+`r icon::fa("check", size=1)` Intuitive, and easy to use.
+
+`r icon::fa("check", size=1)` Describes data generating process as well as provide a classifier for new points.
+
+.orange[but...]
+
+]]
+.column[.pad50px[
+
+## Disadvantages of DA
+
+ `r icon::fa("times", size=1)` Does not work when $p > n$ due to MLE covariance matrix estimates being singular.
+
+]]
+---
+
+
+class: split-two
+
+.column[.pad50px[
+
+## Advantages of DA
+
+`r icon::fa("check", size=1)` Intuitive, and easy to use.
+
+`r icon::fa("check", size=1)` Describes data generating process as well as provide a classifier for new points.
+
+.orange[but...]
+
+]]
+.column[.pad50px[
+
+## Disadvantages of DA
+
+ `r icon::fa("times", size=1)` Does not work when $p > n$ due to MLE covariance matrix estimates being singular.
+ 
+ <br>
+
+.green[So, what can we do for high dimensional data?]
+
+]]
+
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## Diagonal Discriminant Analysis
+
+<br>
+- The simplest form of regularisation assumes that the features are independent within each class. 
+- Consider a *diagonal-covariance* LDA rule for classifying classes
+- A special case of the naive-Bayes classifier
+
+]]
+.column[.content.vmiddle.center[
+
+```{r}
+library(ggExtra)
+ggMarginal(p2, groupFill = TRUE, groupColour = TRUE)
+```
+
+]]
+
+
+---
+## Discriminant Function
+
+$$\delta_k(x^*) = - \sum_{j=1}^{p}\frac{(x_j^* - \bar{x}_{kj})^2}{s^2_j} + 2\log \pi_k$$
+
+$$C(x^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(x^*) = \max_k \delta_k(x^*)$$
+---
+
+## What features are driving prediction?
+
+Often the focus of genomics studies is not only to provide predictions (whether it be for cancer type, or prognosis), but also to understand the underlying drivers of such predictions. In this case, we need to know what features are impotant in the prediction mechanism.
+
+As such, a drawback of diagonal LDA (and QDA) is that it uses all of the features, and is not convinent for interpretation. 
+---
+
+## Nearest Shrunken Centroids (NSC)
+
+We can shrink the classwise mean toward the overall mean, for each feature seperately.
+
+$$d_{kj} = \frac{\bar{x}_{kj} - \bar{x}_j}{m_k(s_j + s_0)}$$
+
+---
+## Regularised Discriminant Analysis
+
+Linear discriminant analysis involves the inversion of a $p \times p$ within-covariance matrix. When $p \gg n$, this matrix can be huge, and has rank *at most* $n < p$, and hence is singular.
+
+RDA overcomes this singularity by regularising the within-covariance matrix estimate $\hat{\boldsymbol{\Sigma}}$. It does this by shrinking $\hat{\boldsymbol{\Sigma}}$ towards its diagonal.
+
+$$\hat{\boldsymbol{\Sigma}}(\gamma) = \gamma \hat{\boldsymbol{\Sigma}} + (1- \gamma) \mbox{diag}(\hat{\boldsymbol{\Sigma}}), \quad \mbox{with} \quad \gamma \in [0,1].$$
+Note that $\gamma = 0$ corresponds to diagonal LDA.
+---
+
+class: center middle
+
+Define, estimate, predict
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**One group**] (NOT a discriminative feature)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+funcShaded <- function(x,m,s) {
+  y <- dnorm(x, mean = m, sd = s)
+  return(y)
+}
+
+s_a = 0.15
+m_a =0.4
+
+p1 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Groups 1 + 2 + 3"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+p1
+```
+]]
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 2 and 3, against 1)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+m_a = 0.25
+m_b = 0.5
+
+
+s_a = 0.15
+s_b = 0.1
+
+p2 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Group 1"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_b, s_b),
+                aes(colour = "Groups 2 & 3"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_b, s_b), geom="area", fill="#d95f02", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+p2
+```
+]]
+
+---
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 1 and 3, against 2)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+m_a = 0.25
+m_b = 0.5
+
+
+s_a = 0.1
+s_b = 0.15
+
+p3 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Group 2"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_b, s_b),
+                aes(colour = "Groups 1 & 3"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_b, s_b), geom="area", fill="#d95f02", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+p3
+
+```
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 1 and 2, against 3)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+m_a = 0.25
+m_b = 0.5
+
+
+s_a = 0.1
+s_b = 0.1
+
+p4 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Group 3"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_b, s_b),
+                aes(colour = "Groups 1 & 2"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_b, s_b), geom="area", fill="#d95f02", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+p4
+
+```
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Three groups**] (All groups are different)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+m_a = 0.3
+m_b = 0.4
+m_c = 0.7
+
+s_a = 0.19
+s_b = 0.07
+s_c = 0.1
+
+p5 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Group 1"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_b, s_b),
+                aes(colour = "Group 2"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_c, s_c),
+                aes(colour = "Group 3"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_b, s_b), geom="area", fill="#d95f02", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_c, s_c), geom="area", fill="#7570b3", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+
+p5
+```
+]]
+
+---
+
+layout: false
+# `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+<br>
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+<br> 
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.

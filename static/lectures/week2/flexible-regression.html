@@ -29,11 +29,21 @@ class: split-two
 
 # Moving beyond linearity
 
-Sometimes the relationships we discover are not linear... ]]
+Sometimes the relationships we discover are not linear... 
+&lt;br&gt;
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+
+###### Image source: [XKCD](https://xkcd.com/2048/)]]
 
 .column[.content.vmiddle.center[
 
-&lt;img src="images/curves.jpg", width="60%"&gt;
+&lt;img src="images/curve_fitting.png", width="60%"&gt;
 
 ]]
 
@@ -150,6 +160,9 @@ Piecewise cubic polynomial with a single knot at a point `\(c\)`:
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" target="_BLANK"&gt; &lt;img src="images/7.3.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
 
 
+
+
+
 ---
 # Basis Functions
 
@@ -201,7 +214,7 @@ We can fit a cubic spline in `R` using `splines::bs()`, and fit a natural cubic 
 
 .column[.content.vmiddle.center[
 
-&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
 
 ]]
 
@@ -219,7 +232,7 @@ class: split-two
 
 .column[.content.vmiddle.center[
 
-&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
 
 ]]
 ---
@@ -245,7 +258,7 @@ class: split-two
 ---
 ## Natural cubic splines with differing knots
 
-&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-6-1.png" width="936" /&gt;
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-7-1.png" width="936" /&gt;
 ---
 # Generalised additive models (GAMs)
 
@@ -274,14 +287,35 @@ the additive structure of linear models.
 
 
 ---
+class: split-two
+
+.column[.pad50px[
+
 # Additive functions
 
-`$$wage = \beta_0 + f_1(year) + f_2(age) + f_3(education) + \varepsilon$$`
+`$$\begin{align}
+\log(\mbox{Salary}) &amp; = \beta_0 + f_1(\mbox{log(CHits)})  \\
+&amp; + f_2(\mbox{Years}) + f_3(\mbox{Errors}) \\
+&amp; + f_4(\mbox{Assists}) + \varepsilon
+\end{align}$$`
+
+&lt;br&gt;
 
 
+```r
+my_gam &lt;- gam(logSalary~s(logCHits) +
+                s(Years)+ s(Errors) + 
+                s(Assists),data = hits)
+```
 
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf" target="_BLANK"&gt; &lt;img src="images/7.11.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
 
+]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
+
+]]
 
 ---
 # Generalisations
@@ -289,7 +323,7 @@ the additive structure of linear models.
 
 - Can fit a GAM simply using, e.g. natural splines:
 - Coefficients not that interesting; fitted functions are. 
-- Use `plot.gam` from `gam` package.
+- Use `draw` from `gratia` package to plot GAMs fitted in `mgcv` package.
 -  Can mix terms --- some linear, some nonlinear --- and use
 `anova()` to compare models.
 - GAMs are additive, although low-order interactions can be

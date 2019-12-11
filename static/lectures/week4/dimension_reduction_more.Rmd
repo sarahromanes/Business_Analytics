@@ -28,17 +28,7 @@ options(htmltools.dir.version = FALSE)
 library(magick)
 ```
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .green[LDA]
-    - Compare with PCA
-
-]]
-.column[.top50px[
+## PCA vs DA
 
 .boxshadow[.orange[.content[Discriminant space]].content[: is the low-dimensional space where the class means are the furthest apart relative to the common variance-covariance.]]
 
@@ -51,7 +41,7 @@ and
 $$\Sigma = \frac{1}{K}\sum_{k=1}^K\frac{1}{n_k}\sum_{i=1}^{n_k} (x_i-\mu_k)(x_i-\mu_k)'$$
 
 
-]]
+
 
 ---
 class: split-30

@@ -27,17 +27,7 @@ knitr::opts_chunk$set(tidy = FALSE,
 options(htmltools.dir.version = FALSE)
 ```
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-
-]]
-.column[.top50px[
+## Validating models
 
 ```{r}
 library(magick)
@@ -54,19 +44,9 @@ Drawback: Only one split of data made, may not adequately estimate test error.
 
 .font_tiny[(Chapter5/5.1.pdf)]
 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-
-]]
-.column[.top50px[
+## Validating models
 
 Want to choose best degree of polynomial, for $mpg=\beta_0+\beta_1f(horsepower)+\varepsilon$
 
@@ -94,20 +74,10 @@ ggplot(testerr, aes(x=x, y=mse)) +
   xlab("degree") + ggtitle("Test error: draw 1")
 ```
 
-]]
+
 
 ---
-class: split-30
-count: false
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-
-]]
-.column[.top50px[
+## Validating models
 
 Want to choose best degree of polynomial, for $mpg=\beta_0+\beta_1f(horsepower)+\varepsilon$
 
@@ -128,20 +98,10 @@ ggplot(testerr, aes(x=x, y=mse)) +
   ylim(c(15, 30)) +
   xlab("degree") + ggtitle("Test error: draw 2")
 ```
-]]
+
 
 ---
-class: split-30
-count: false
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-
-]]
-.column[.top50px[
+## Validating models
 
 Want to choose best degree of polynomial, for $mpg=\beta_0+\beta_1f(horsepower)+\varepsilon$
 
@@ -162,19 +122,10 @@ ggplot(testerr, aes(x=x, y=mse)) +
   ylim(c(15, 30)) +
   xlab("degree") + ggtitle("Test error: draw 3")
 ```
-]]
+
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-
-]]
-.column[.top50px[
+## Validating models
 
 Want to choose best degree of polynomial, for $mpg=\beta_0+\beta_1f(horsepower)+\varepsilon$
 
@@ -195,7 +146,7 @@ ggplot(testerr, aes(x=x, y=mse)) +
   ylim(c(15, 30)) +
   xlab("degree") + ggtitle("Test error: draw 4")
 ```
-]]
+
 
 ---
 class: middle
@@ -208,17 +159,8 @@ faa("dice", animate="bounce", color="orange", size="lg", speed="slow")
 The .orange[variability] between different draws of test sets can be .orange[large]. This can provide poor choice of model, or misleading estimate of error.
 
 ---
-class: split-30
+## LOOCV
 
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-    - LOOCV
-
-]]
-.column[.top50px[
 Leave-one-out (LOOCV) cross-validation: $n$ validation sets, each with .orange[ONE] observation left out.
 
 
@@ -231,61 +173,31 @@ if (!file.exists("images/5.3.png"))
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.3.pdf" target="_BLANK"> <img src="images/5.3.png" style="width: 100%; align: center"/> </a>
 
 
-]]
 
 ---
-class: split-30
+## LOOCV
 
-.column[.pad10px[
-## Outline
 
-- .green[Validating models]
-    - validation set 
-    - LOOCV
-
-]]
-.column[.top50px[
 Leave-one-out (LOOCV) cross-validation: $n$ validation sets, each with .orange[ONE] observation left out. For each set, $i=1, ..., n$, compute the $MSE_{i}$.
 
 The LOOCV estimate for the test MSE is the average of these $n$ test error estimates:
 
 $$CV_{(n)} = \frac{1}{n}\sum_{i=1}^n MSE_{i}$$
 
-]]
+
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-    - LOOCV
-
-]]
-.column[.top50px[
+## LOOCV
 
 There is a computational shortcut, for linear or polynomial models, where not all $n$ models need to be fitted. 
 
 $$CV_{(n)} = \frac{1}{n}\sum_{i=1}^n \frac{(y_i-\hat{y})^2}{1-h_i}$$
 
 where $h_i=\frac{1}{n}+\frac{(x_i-\bar{x})^2}{\sum_{i'}^n(x_{i'}-\bar{x})^2}$ (known as *leverage* from regression diagnostics).
-]]
 
 ---
-class: split-30
+## k-fold cross validation
 
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-    - LOOCV
-    - k-fold cross-validation
-
-]]
-.column[.top50px[
 
 1. Divide the data set into k different parts.
 2. Remove one part, fit the model on the remaining $k − 1$ parts, and compute the MSE on the omitted part.
@@ -299,21 +211,10 @@ if (!file.exists("images/5.5.png"))
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.5.pdf" target="_BLANK"> <img src="images/5.5.png" style="width: 100%; align: center"/> </a>
 
-]]
+
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-    - LOOCV
-    - k-fold cross-validation
-
-]]
-.column[.top50px[
+## k-fold cross validation
 
 1. Divide the data set into k different parts.
 2. Remove one part, fit the model on the remaining $k − 1$ parts, and compute the MSE on the omitted part.
@@ -326,21 +227,9 @@ $$CV_{(k)} = \frac{1}{k}\sum_{i=1}^n \frac{(y_i-\hat{y})^2}{1-h_i}$$
     - LOOCV has higher variance than does $k$-fold CV
     - choice of $k=5$ or $10$ is a compromise
 
-]]
+
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-    - LOOCV
-    - k-fold cross-validation
-    - classification
-
-]]
-.column[.top50px[
+## Classification
 
 ```{r}
 if (!file.exists("images/5.7.png"))
@@ -350,22 +239,10 @@ if (!file.exists("images/5.7.png"))
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.7.pdf" target="_BLANK"> <img src="images/5.7.png" style="width: 70%; align: center"/> </a>
 
-]]
+
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Validating models]
-    - validation set 
-    - LOOCV
-    - k-fold cross-validation
-    - classification
-
-]]
-.column[.top50px[
+## Classification
 
 ```{r}
 if (!file.exists("images/5.8.png"))
@@ -376,23 +253,13 @@ if (!file.exists("images/5.8.png"))
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.8.pdf" target="_BLANK"> <img src="images/5.8.png" style="width: 100%; align: center"/> </a>
 
 Black line is .black[10-fold CV]; .blue[training] and TRUE .orange[test] error for different choices of polynomial (left) and KNN classifier (right). 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Validating models
-- .green[Bootstrap]
-
-]]
-.column[.top50px[
+## Boostrap models
 
 <img src="images/Bootstraps.jpg" style="width: 80%" />
 
-]]
+
 
 ---
 layout: true
@@ -442,18 +309,7 @@ count: false
 count: false 
 
 ---
-layout: false
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Validating models
-- .green[Bootstrap]
-    - procedure
-
-]]
-.column[.top50px[
+## Bootstrap procedure
 
 - Draw $B$ independent bootstrap samples $X^{*(1)}, \dots, X^{*(B)}$ from $\hat P$:
 $$X_1^{*(b)}, \dots, X_n^{*(b)} \sim \hat P \quad b = 1, \dots, B.$$ 	
@@ -462,44 +318,18 @@ $$\hat \theta^{*(b)} = s(X^{*(b)}) \quad b = 1, \dots, B.$$
 - Estimate the quantity of interest from the distribution of the $\hat \theta^{*(b)}$
 
 
-]]
 
 ---
-layout: false
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Validating models
-- .green[Bootstrap]
-    - procedure
-    - example
-
-]]
-.column[.top50px[
+## Example - boostrap model
 
 
 - Fit the model on a set of bootstrap samples, and then keep track of how well it predicts the original dataset
 $$\text{Err}_{\text{boot}} = \frac1B \frac1N \sum_{b = 1}^B \sum_{i = 1}^N L(y_i, \hat f^{*b}(x_i))$$ 
 - Each of these bootstrap data sets is created by sampling with replacement, and is the same size as our original dataset. As a result .orange[some observations may appear more than once in a given bootstrap data set and some not at all].
 
-]]
+
 ---
-layout: false
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Validating models
-- .green[Bootstrap]
-    - procedure
-    - example
-    - out-of-bag
-
-]]
-.column[.top50px[
+## Out of bag (OOB) error
 
 For estimating error,  only .orange[use predictions from bootstrap samples not containing that observation]. The leave-one-out bootstrap estimate of prediction error can be defined as
  
@@ -508,23 +338,9 @@ $$\text{Err}_{\text{loo-boot}} = \frac1N \sum_{i = 1}^N \frac{1}{|C^{-i}|}\sum_{
 where $C^{-i}$ is the set of indices of the bootstrap samples $b$ that do not contain observation $i$.
 
 
-]]
+
 ---
-layout: false
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Validating models
-- .green[Bootstrap]
-    - procedure
-    - example
-    - out-of-bag
-    - uses and variations
-
-]]
-.column[.top50px[
+## Uses and variants of the boostrap
 
 - Common uses:
     - Computing standard errors for complex statistics
@@ -536,7 +352,7 @@ class: split-30
     - smooth bootstrap
     - residual bootstrap
     - wild bootstrap
-]]
+
 
 ---
 layout: false

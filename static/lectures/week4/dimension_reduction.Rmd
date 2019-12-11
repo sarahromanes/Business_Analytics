@@ -37,17 +37,7 @@ background-position: 50% 50% class: center, bottom, inverse
 *.white[Douglas Adams, Hitchhiker's Guide to the Galaxy]*
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .green[High dimensions]
-    - Definition
-
-]]
-.column[.top50px[
+## High Dimensional Data 
 
 <br>
 <br>
@@ -63,41 +53,21 @@ then
 .boxshadow[.orange[.content[Dimension]] .content[of the data is *p*,] .orange[.content[the number of variables.]]]
 
 
-]]
 
 
 ---
-class: split-30
-layout: true
+## Cubes and Spheres
 
-.column[.pad10px[
-## Outline
 
-- .green[High dimensions]
-    - Definition
-    - Cubes and spheres
-
-]]
-.column[.top50px[
-
-.row[.content[
 Space expands exponentially with dimension:
 
 <img src="images/hypercube.png" style="width: 50%; align: center" />
-]]
-.row[.content[
+
+
 As dimension increases the .orange[volume of a sphere] of same radius as cube side length becomes much .orange[smaller than the volume of the cube]:
 
 <img src="images/cube_sphere.png" style="width: 30%; align: center" />
-]]
 
-]]
-
----
-class: fade-row2-col2 
-
----
-count: false
 
 ---
 class: split-30

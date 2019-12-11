@@ -210,14 +210,14 @@ table, th, td {
 
 
 .tip{
-    padding: 1em;
-    margin: 1em 0;
-    padding-left: 100px;
+    padding: 2em;
+    margin: 2em 0;
+    padding-left: 50px;
     background-size: 70px;
     background-repeat: no-repeat;
     background-position: 15px center;
     background-image: url("blub.png");
-    min-height: 120px;
+    min-height: 50px;
     color: #1f5386;
     background-color: #bed3ec;
     border: dashed 5px #1f5386;

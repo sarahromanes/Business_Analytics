@@ -32,11 +32,21 @@ class: split-two
 
 # Moving beyond linearity
 
-Sometimes the relationships we discover are not linear... ]]
+Sometimes the relationships we discover are not linear... 
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+
+###### Image source: [XKCD](https://xkcd.com/2048/)]]
 
 .column[.content.vmiddle.center[
 
-<img src="images/curves.jpg", width="60%">
+<img src="images/curve_fitting.png", width="60%">
 
 ]]
 
@@ -198,6 +208,20 @@ if (!file.exists("images/7.3.png"))
 ```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" target="_BLANK"> <img src="images/7.3.png" style="width: 80%; align: center"/> </a>
+
+```{r, eval = FALSE, echo = FALSE}
+
+# Linear Spline using `lspline` package
+
+p_ls <- ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+      geom_point(alpha = 0.2, size = 2) + 
+      geom_smooth(method="lm",  formula = y ~ lspline::lspline(x, c(2.5)), se = FALSE, size = 1.5) +
+      theme_minimal(base_size = 18) +
+      geom_vline(xintercept = 2.5, col = "black", size = 1.1, linetype = "dashed") 
+
+  
+```
+
 
 
 ---
@@ -434,18 +458,40 @@ the additive structure of linear models.
 
 
 ---
+class: split-two
+
+.column[.pad50px[
+
 # Additive functions
 
-$$wage = \beta_0 + f_1(year) + f_2(age) + f_3(education) + \varepsilon$$
+$$\begin{align}
+\log(\mbox{Salary}) & = \beta_0 + f_1(\mbox{log(CHits)})  \\
+& + f_2(\mbox{Years}) + f_3(\mbox{Errors}) \\
+& + f_4(\mbox{Assists}) + \varepsilon
+\end{align}$$
 
-```{r}
-if (!file.exists("images/7.11.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf", density = 300), "images/7.11.png", 
-      format = "png", density = 300)
+<br>
+
+```{r, eval = FALSE, echo = TRUE}
+my_gam <- gam(logSalary~s(logCHits) +
+                s(Years)+ s(Errors) + 
+                s(Assists),data = hits)
 ```
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf" target="_BLANK"> <img src="images/7.11.png" style="width: 100%; align: center"/> </a>
 
+]]
+
+.column[.content.vmiddle.center[
+
+```{r, fig.retina=4, message=FALSE, warning =FALSE}
+library(mgcv) #for fitting GAM
+library(gratia) #for ggplot of GAM
+
+my_gam <- gam(logSalary~s(logCHits)+s(Years)+ s(Errors) + s(Assists),data = hits)
+draw(my_gam)
+```
+
+]]
 
 ---
 # Generalisations
@@ -453,7 +499,7 @@ if (!file.exists("images/7.11.png"))
 
 - Can fit a GAM simply using, e.g. natural splines:
 - Coefficients not that interesting; fitted functions are. 
-- Use `plot.gam` from `gam` package.
+- Use `draw` from `gratia` package to plot GAMs fitted in `mgcv` package.
 -  Can mix terms --- some linear, some nonlinear --- and use
 `anova()` to compare models.
 - GAMs are additive, although low-order interactions can be
