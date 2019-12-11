@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>ETC3250: Classification trees</title>
+    <title>ETC3250: Classification Trees</title>
     <meta charset="utf-8" />
     <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
-    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+    <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# ETC3250: Classification trees
-## Semester 1, 2019
+# ETC3250: Classification Trees
+## Semester 1, 2020
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 6 (b)
 
@@ -23,23 +23,100 @@ class: center, middle, inverse, title-slide
 
 
 
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
-
-- .green[Classification]
-
-]]
-.column[.top50px[
+## Classification trees
 
 - A classification tree is used to predict a .orange[qualitative response] rather than a quantitative one
 - We predict that each observation belongs to the .orange[most commonly occurring class] of training observations in the region to which it belongs
 - Just as in the regression setting, we use recursive binary splitting to grow a classification tree
 - However RSS cannot be used as a criterion for making the binary splits. A natural alternative to RSS is the classification error rate. 
+
+
+---
+class: middle center
+# In class exercise!
+
+Everyone in the class line up from tallest to shortest.
+
+---
+
+## Sorting algorithms
+
+There are numerous sorting algorithms
+
+&lt;center&gt;
+&lt;img src="images/sorting.gif" style="width:75%"&gt;
+&lt;/center&gt;
+
+The "speed" of classification trees depends on how quickly one can sort.
+
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+# What about two dimensions ?
+
+Consider the dataset `Exam` where two exam scores are given for each student, 
+and a class `Label` represents whether they passed or failed the course.
+
+
+
+
+
+```
+##      Exam1    Exam2 Label
+## 1 34.62366 78.02469     0
+## 2 30.28671 43.89500     0
+## 3 35.84741 72.90220     0
+## 4 60.18260 86.30855     1
+```
+
+
+
 ]]
 
+.column[.content.vmiddle.center[
+
+
+&lt;img src="classification_trees_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]]
+
+
+---
+### Calculate the number of misclassifications along all splits for `Exam1` classifying according to the majority class for the left and right splits
+ 
+&lt;center&gt;
+&lt;img src="images/two_d_cart.gif" style="width:75%"&gt;
+&lt;/center&gt;
+
+Red dots are .orange["fails"], blue dots are .green["passes"], and crosses indicate misclassifications.
+
+
+---
+
+### Calculate the number of misclassifications along all splits for `Exam2` classifying according to the majority class for the top and bottom splits
+
+&lt;center&gt;
+&lt;img src="images/two_d_cart2.gif" style="width:75%"&gt;
+&lt;/center&gt;
+
+Red dots are .orange["fails"], blue dots are .green["passes"], and crosses indicate misclassifications.
+
+---
+
+## Combining the results from `Exam1` and `Exam2` splits
+
+&lt;br&gt;
+
++ The minimum number of misclassifications from using all possible splits of `Exam1` was 19 when the value of `Exam1` was **56.7**
++ The minimum number of misclassifications from using all possible splits of `Exam2` was 23 when the value of `Exam2` was **52.5**
+
+&lt;br&gt;
+
+So we split on the best of these, i.e., split the data on `Exam1` at 56.7.
 ---
 class: split-30
 layout: false
@@ -80,7 +157,7 @@ Y: presence of heart disease (Yes/No)
 
 X: heart and lung function measurements
 
-&lt;img src="classification_trees_files/figure-html/unnamed-chunk-1-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_trees_files/figure-html/unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 
 ]]
@@ -101,7 +178,7 @@ layout: false
 
 Reason for choice of model.
 
-&lt;img src="classification_trees_files/figure-html/unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_trees_files/figure-html/unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -167,8 +244,8 @@ Training
 ```
 ##           Reference
 ## Prediction No Yes
-##        No  74   6
-##        Yes  9  60
+##        No  78   2
+##        Yes  6  63
 ```
 
 Test
@@ -177,8 +254,8 @@ Test
 ```
 ##           Reference
 ## Prediction No Yes
-##        No  63  17
-##        Yes 19  49
+##        No  62  18
+##        Yes 14  54
 ```
 ]]
 .column[.content[
@@ -189,7 +266,7 @@ Training
 
 ```
 ##  Accuracy 
-## 0.8993289
+## 0.9463087
 ```
 
 Test
@@ -197,7 +274,7 @@ Test
 
 ```
 ##  Accuracy 
-## 0.7567568
+## 0.7837838
 ```
 
 ]]
@@ -239,7 +316,7 @@ layout: false
 
 Physical measurements on WA crabs, males and females
 
-&lt;img src="classification_trees_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_trees_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 .font_small[*Data source*: Campbell, N. A. &amp; Mahon, R. J. (1974)]
 ]]
@@ -258,7 +335,7 @@ layout: false
 ]]
 .column[.top50px[
 
-&lt;img src="classification_trees_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_trees_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]]
 
 ---
@@ -269,13 +346,13 @@ layout: false
 
 Classification tree
 
-&lt;img src="classification_trees_files/figure-html/unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_trees_files/figure-html/unnamed-chunk-14-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]]
 .column[.top50px[
 
 Linear discriminant classifier
 
-&lt;img src="classification_trees_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_trees_files/figure-html/unnamed-chunk-15-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ]]
 

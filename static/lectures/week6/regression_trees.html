@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>ETC3250: Tree-based Models</title>
+    <title>ETC3250: Regression Trees</title>
     <meta charset="utf-8" />
     <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
-    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+    <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# ETC3250: Tree-based Models
+# ETC3250: Regression Trees
 ## Semester 1, 2019
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 6 (a)
@@ -23,19 +23,57 @@ class: center, middle, inverse, title-slide
 
 
 
-class: split-30
-layout: false
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- .green[What is a tree?]
+## What is a decision tree?
+
+&lt;br&gt;
+
+Tree based models consist of one or more of nested `if-then` statements for the predictors that partition the data. Within these partitions, a model is used to predict the outcome.
 
 ]]
-.column[.top50px[
+
+.column[.content.vmiddle.center[
 
 
-&lt;img src="regression_trees_files/figure-html/unnamed-chunk-1-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/tree.jpg" style="width: 70%"/&gt;
+
+ .font_tiny[Source: [Egor Dezhic](becominghuman.ai)]
+
+
+]]
+
+
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## Predicting Salary
+
+&lt;br&gt;
+
+Using the function `rpart`, we can build a regression tree to predict the `logSalary` of a baseball player, given their `Years` of playing and number of `Hits`.
+
+]]
+
+.column[.content.vmiddle[
+
+
+
+
+```r
+# Fit a regression tree
+hitters_rp &lt;- rpart(lSalary~Hits+Years, 
+             data=Hitters, 
+             control=rpart.control(cp=0.05))
+
+hitters_rp
+```
 
 ```
 ## n= 263 
@@ -49,110 +87,75 @@ layout: false
 ##     6) Hits&lt; 117.5 90  5.298802 2.605063 *
 ##     7) Hits&gt;=117.5 83  3.938792 2.927009 *
 ```
-
 ]]
-
----
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .green[What is a tree?]
- 
-
-]]
-.column[.top50px[
-
-
-&lt;img src="regression_trees_files/figure-html/unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-
-]]
-
 ---
 
-class: split-30
-layout: false
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- .green[What is a tree?]
+## Predicting Salary
 
+&lt;br&gt;
 
-]]
-.column[.top50px[
+Using the function `rpart`, we can build a regression tree to predict the `logSalary` of a baseball player, given their `Years` of playing and number of `Hits`.
 
-
-&lt;img src="regression_trees_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+`rpart.plot` can be used to visualise the fitted tree.
 
 ]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]]
+
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .green[What is a tree?]
- 
-
-]]
-.column[.top50px[
+## Regions of the decision tree
 
 
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
-```
-## n= 263 
-## 
-## node), split, n, deviance, yval
-##       * denotes terminal node
-## 
-##  1) root 263 53319110.0  535.9259  
-##    2) Years&lt; 4.5 90  6769171.0  225.8315 *
-##    3) Years&gt;=4.5 173 33393450.0  697.2467  
-##      6) Hits&lt; 117.5 90  5312120.0  464.9167 *
-##      7) Hits&gt;=117.5 83 17955720.0  949.1708  
-##       14) Hits&lt; 185 76 13290200.0  914.3246  
-##         28) Years&lt; 5.5 8    82787.5  622.5000 *
-##         29) Years&gt;=5.5 68 12445970.0  948.6570 *
-##       15) Hits&gt;=185 7  3571312.0 1327.5000 *
+
+---
+
+class: split-60
+
+.column[.pad50px[
+
+## Deeper trees
+
+&lt;br&gt;
+
+By decreasing the value of the complexity parameter `cp`, we can build deeper trees.
+
+
+```r
+# Fit a regression tree
+hitters_rp2 &lt;- rpart(lSalary~Hits+Years, 
+             data=Hitters, 
+*            control=rpart.control(cp=0.012))
 ```
 
 ]]
----
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
-
-- .green[What is a tree?]
-
-]]
-.column[.top50px[
+.column[.content.vmiddle[
 
 
-&lt;img src="regression_trees_files/figure-html/unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /&gt;
 ]]
 
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+## Regions
 
-- What is a tree?
-- .green[Regression]
-    - Description
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
-]]
-.column[.top50px[
 
+
+---
+
+## Regression trees - construction
 
 - We divide the predictor space - that is, the set of possible values for `\(X_1,X_2, . . .,X_p\)` - into `\(J\)` .orange[distinct] and .orange[non-overlapping] regions, `\(R_1,R_2, . . . , R_M\)`.
 - The regions could have any shape. However, for simplicity and for ease of interpretation, we divide the predictor space into high-dimensional .orange[rectangles].
@@ -161,170 +164,132 @@ layout: false
 
 e.g.
 
- `\({R_1} = \{X | Years &lt; 4.5 \}\)`
- `\({R_2} = \{X | Years \geq 4.5, Hits &lt; 117.5 \}\)`
- `\({R_3} = \{X | Years \geq 4.5, Hits \geq 117.5 \}\)`
-]]
+ `\({R_1} = \{X | \mbox{Years} &lt; 4.5 \}\)`
+ `\({R_2} = \{X | \mbox{Years} \geq 4.5, \mbox{Hits} &lt; 117.5 \}\)`
+ `\({R_3} = \{X | \mbox{Years} \geq 4.5, \mbox{Hits} \geq 117.5 \}\)`
+
 
 ---
 
-class: split-30
-layout: false
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- What is a tree?
-- .green[Regression]
-    - Description
+## Leaves and Branches
 
-]]
-.column[.top50px[
+&lt;br&gt;
 
-.split-two[
-.row[.content[
 - `\(R_1\)`, `\(R_2\)`, `\(R_3\)` are .orange[terminal nodes] or .orange[leaves].
 - The points where we split are .orange[internal nodes].
 - The segments that connect the nodes are .orange[branches].
-]]
-.row[.content[
-.split-70[
-.column[.font_tiny[.content[
 
-```
-## n= 263 
-## 
-## node), split, n, deviance, yval
-##       * denotes terminal node
-## 
-## 1) root 263 39.071620 2.574160  
-##   2) Years&lt; 4.5 90  7.988302 2.217851 *
-##   3) Years&gt;=4.5 173 13.713070 2.759523  
-##     6) Hits&lt; 117.5 90  5.298802 2.605063 *
-##     7) Hits&gt;=117.5 83  3.938792 2.927009 *
-```
-]]]
-.column[.content[
-&lt;img src="regression_trees_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /&gt;
 ]]
-]]]
-]
-]]	
+
+.column[.content.vmiddle[
+
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]]
+
+
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-two
 
-- What is a tree?
-- .green[Regression]
-    - Description
+.column[.pad50px[
+
+### Linear regression
+
+`$$f(X) = \beta_0 + \sum_{j = 1}^p X_j	\beta_j$$`
+
+&lt;br&gt;
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"&gt; &lt;img src="images/2.4.png" style="width: 80%; align: center"/&gt;&lt;/a&gt;
 
 ]]
-.column[.top50px[
+.column[.pad50px[
 
+### Regression trees
 
-
-.split-40[
-.column[
-
-
-`\(f(X) = \beta_0 + \sum_{j = 1}^p X_j	\beta_j\)`
-
-
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"&gt; &lt;img src="images/2.4.png" style="width: 80%; align: center"/&gt;  &lt;/a&gt;
-
-]
-
-.column[.content[
-
-&lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;
-.boxshadow[.content[
 `$$f(X) = \sum_{m = 1}^M c_m ~ I(X \in R_m)$$`
-]]
+
+&lt;br&gt;
 
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter8/8.3.pdf" target="_BLANK"&gt; &lt;img src="images/8.3a.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
+]]
+
+
+---
+
+class: split-20
+
+.row[.content.vmiddle[
+## Determining the `\(c_m\)` values and splits
+]]
+
+.row[.content[
+.split-two[
+.column[.pad10px[
+
+**Q1) Given a partition** `\(R_1, R_2, \dots, R_M\)`**, what are the optimal values of** `\(c_m\)` **if we want to minimize** `\(\sum_i (y_i - f(x_i) )^2\)` **(the MSE)?**
+
+&lt;br&gt;
 
 
 
+]]
+.column[.pad10px[
+
+**Q2)  How do we construct the regions** `\(R_1, . . .,R_M\)`?
+
+&lt;br&gt;
+
+
+  ]]
 
 ]]]
-]]
 
 ---
-class: split-30
-layout: true
 
+class: split-20
+
+.row[.content.vmiddle[
+## Determining the `\(c_m\)` values and splits
+]]
+
+.row[.content[
+.split-two[
 .column[.pad10px[
-## Outline
 
-- What is a tree?
-- .green[Regression]
-    - Description
-    - Algorithm
+**Q1) Given a partition** `\(R_1, R_2, \dots, R_M\)`**, what are the optimal values of** `\(c_m\)` **if we want to minimize** `\(\sum_i (y_i - f(x_i) )^2\)` **(the MSE)?**
+
+&lt;br&gt;
+
+The best `\(c_m\)` is just the average of `\(y_i\)` in region `\(R_m\)`: `\(\hat{c}_m = \text{average}(y_i|x_i \in R_m).\)`
 
 ]]
-.column[.top50px[
+.column[.pad10px[
 
-.row[.content[
-1. Given a partition `\(R_1, R_2, \dots, R_M\)`, what are the optimal values of `\(c_m\)` if we want to minimize `\(\sum_i (y_i - f(x_i) )^2\)`?
-2.  How do we construct the regions `\(R_1, . . .,R_M\)`?
-]]
-.row[.content[
- The best `\(c_m\)` is just the average of `\(y_i\)` in region `\(R_m\)`: `\(\hat{c}_m = \text{average}(y_i|x_i \in R_m).\)`
-]]
-.row[.content[
+**Q2)  How do we construct the regions** `\(R_1, . . .,R_M\)`?
+
+&lt;br&gt;
+
 Finding the best binary partition in terms of minimum sum of squares is generally *computationally infeasible*. For this reason, we take a *top-down*, *greedy* approach that is known as .orange[recursive binary splitting].
-]]
+  ]]
 
-]]
-
----
-class: fade-row2 fade-row3
-count: false
----
-class: fade-row3
-count: false
----
-count: false
+]]]
 
 ---
-class: split-30
-layout: false
+## Strategy for finding good splits
 
-.column[.pad10px[
-## Outline
+&lt;br&gt;
 
-- What is a tree?
-- .green[Regression]
-    - Description
-    - Algorithm
-
-]]
-.column[.top50px[
-
-- .orange[Top-down]: it begins at the top of the tree (all observations belong to a single region) and then successively splits the predictor space; each split is indicated via two new branches further down on the tree.
+- .orange[Top-down]: it begins at the top of the tree (all observations belong to a single region) and then successively splits the predictor space; each split is indicated via two new branches further down on the tree. &lt;br&gt;
 - .orange[Greedy]: at each step of the tree-building process, the best split is made at that particular step, rather than looking ahead and picking a split that will lead to a better tree in some future step.
 
-]]
-
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- What is a tree?
-- .green[Regression]
-    - Description
-    - Algorithm
-
-]]
-.column[.top50px[
+## Algorithm
+&lt;br&gt;
 
 1. Start with a single region `\(R_1\)` (entire input space), and iterate:
 
@@ -333,27 +298,15 @@ layout: false
     b.  Redefine the regions with this additional split.
     
 2. Continues until stopping criterion reached.
-]]	
+
 ---
-class: split-30
-layout: false
+## Stopping criterion
 
-.column[.pad10px[
-## Outline
-
-- What is a tree?
-- .green[Regression]
-    - Description
-    - Algorithm
-    - Stopping
-
-]]
-.column[.top50px[
+&lt;br&gt;
 
 - `\(N_m &lt; a\)`: Number of observations in `\(R_m\)` is too small to further splitting (`minsplit`). (There is usually another control criteria, even if `\(N_m\)` is large enough, you can't split it small number of observations off, e.g. 1 and `\(N_m-1\)`, `minbucket`. )
-- RSS `\(&lt; tol\)`: If reduction of error is too small to bother splitting further. (`cp` parameter in `rpart` measures this as a proportional drop. )
+- RSS `\(&lt; tol\)`: If reduction of error is too small to bother splitting further. (`cp` parameter in `rpart` measures this as a proportional drop - see earlier examples displaying the change in this parameter. )
 
-]]
 
 ---
 class: split-30
