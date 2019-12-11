@@ -77,6 +77,37 @@ What about the .orange[magnitude] of $s(x^*)$?
 
 ---
 
+## Separating hyperplane classifiers
+
+We will explore .green[*three*] different types of hyperplane classifiers, with each method generalising the one before it.
+
+- .orange[Maximal marginal classifier] for when the data is perfectly seperated by a hyperplane
+- .orange[Support vector classifier/ soft margin classifier] for when data is NOT perfectly seperated by a hyperplane but still has a linear decision boundary, and
+- .orange[Support vector machines] used for when the data has non-linear decision boundaries.
+
+In practice, SVMs are used to refer to all three methods, however we will distinguish between the three notions in this lecture.
+
+---
+## Maximal margin classifier
+
+
+All are separating hyperplanes. .orange[Which is best?]
+
+<center>
+<img src="images/svm-hyperplanes.jpg" style="width: 60%"/>
+</center>
+
+
+---
+## Maximal margin classifier
+
+
+<center>
+<img src="images/svm_diagram.png" style="width: 80%" />
+</center>
+
+
+---
 
 ## From LDA to SVM
 
@@ -114,25 +145,6 @@ p2 <- ggplot() +
 grid.arrange(p1, p2, ncol=2)
 ```
 
-
----
-## Maximal margin classifier
-
-
-All are separating hyperplanes. .orange[Which is best?]
-
-<center>
-<img src="images/svm-hyperplanes.jpg" style="width: 60%"/>
-</center>
-
-
----
-## Maximal margin classifier
-
-
-<center>
-<img src="images/svm_diagram.png" style="width: 80%" />
-</center>
 ---
 ## SVM vs Logistic Regression
 

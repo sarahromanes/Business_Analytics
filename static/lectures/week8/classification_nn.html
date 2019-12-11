@@ -7,7 +7,7 @@
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
-    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+    <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -23,6 +23,113 @@ class: center, middle, inverse, title-slide
 
 
 
+class: split-two
+
+.column[.pad50px[
+
+## What number is this?
+
+&lt;br&gt;
+
+This is a three, right?
+
+]]
+
+.column[.content.vmiddle.center[
+
+
+&lt;img src="images/three-1.JPG" style="width: 80%"/&gt;
+
+
+]]
+
+
+---
+class: split-two
+
+.column[.pad50px[
+
+## What number is this?
+
+&lt;br&gt;
+
+Is this also a three?
+
+]]
+
+.column[.content.vmiddle.center[
+
+
+&lt;img src="images/three-2.JPG" style="width: 80%"/&gt;
+
+
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What number is this?
+
+&lt;br&gt;
+
+But what about this number? Not a three?
+
+]]
+
+.column[.content.vmiddle.center[
+
+
+&lt;img src="images/five.JPG" style="width: 80%"/&gt;
+
+
+]]
+---
+## The human brain
+
+The human brain can efficiently recognise that although the images of the two threes are different, they are the same number, and are both distinct from the five.
+
+&lt;center&gt;
+&lt;img src="images/dif.png" style="width: 80%"/&gt;
+&lt;/center&gt;
+---
+
+
+
+
+class: split-two
+
+.column[.pad50px[
+
+## Machine learning task
+
+The task is to take a grid of `\(n \times n\)` pixel values corresponding to the brightness of a number, and output a single number corresponding to the number the image represents.
+
+Comically easy for us, not so trivial to code up! 
+
+Solution? Neural networks
+
+]]
+
+.column[.content.vmiddle.center[
+
+
+&lt;img src="images/MNIST.png" style="width: 80%"/&gt;
+
+
+]]
+
+
+
+---
+
+## So, what are neural networks?
+
+.orange[Idea:] capture a complex relationship between outputs and inputs by creating layers of derived variables.
+
+---
 class: split-30
 layout: false
 
@@ -212,13 +319,13 @@ layout: false
 .column[.top50px[
 
 `\begin{align}
-\hat{y} =\color{orange}g\color{orange}(\alpha_{0}+\sum_{k=1}^s(\alpha_{k}\color{orange}f\color{orange}(\beta_{j0}+\sum_{j=1}^p\beta_{jk}x_j)\color{orange})\color{orange})
+\hat{y} =\color{orange}g\color{orange}(\alpha_{0}+\sum_{k=1}^s(\alpha_{k}\color{orange}f\color{orange}(\beta_{0k}+\sum_{j=1}^p\beta_{jk}x_j)\color{orange})\color{orange})
 \end{align}`
 
 Let `\(u=\beta_0+\sum_{j=1}^p\beta_jx_j\)`
-- Logistic: `\(\color{orange}{\frac{1}{1+e^{-u}}}\)`
-- Gaussian radial: `\(\color{orange}{\frac{1}{\sqrt{2\pi}}e^{-u^2/2}}\)`
-- Hyperbolic tangent: `\(\color{orange}{\frac{e^u-e^{-u}}{e^u+e^{-u}}}\)`
+- `\(\texttt{Logistic:} \quad \color{orange}{\frac{1}{1+e^{-u}}}\)`
+- `\(\texttt{Gaussian radial:} \quad \color{orange}{\frac{1}{\sqrt{2\pi}}e^{-u^2/2}}\)`
+- `\(\texttt{Hyperbolic tangent:} \quad \color{orange}{\frac{e^u-e^{-u}}{e^u+e^{-u}}}\)`
 
 ]]
 
@@ -445,7 +552,7 @@ Are the same observations misclassifed by each neuron, or do some neurons do uni
 ##  9    11     0     0     0     1     0     0     1     2
 ## 10    20     0     0     0     0     0     1     1     2
 ## 11    25     0     1     0     0     0     0     1     2
-## # … with 33 more rows
+## # ... with 33 more rows
 ```
 
 It's .orange[not the same] observations that are misclassifed by each neuron.

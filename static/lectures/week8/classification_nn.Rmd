@@ -27,11 +27,118 @@ knitr::opts_chunk$set(tidy = FALSE,
                       fig.width=8,
                       fig.height=6,
                       fig.align = "center",
-                      fig.retina = 2)
+                      fig.retina = 4)
 options(htmltools.dir.version = FALSE)
 library(magick)
 ```
 
+class: split-two
+
+.column[.pad50px[
+
+## What number is this?
+
+<br>
+
+This is a three, right?
+
+]]
+
+.column[.content.vmiddle.center[
+
+
+<img src="images/three-1.JPG" style="width: 80%"/>
+
+
+]]
+
+
+---
+class: split-two
+
+.column[.pad50px[
+
+## What number is this?
+
+<br>
+
+Is this also a three?
+
+]]
+
+.column[.content.vmiddle.center[
+
+
+<img src="images/three-2.JPG" style="width: 80%"/>
+
+
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What number is this?
+
+<br>
+
+But what about this number? Not a three?
+
+]]
+
+.column[.content.vmiddle.center[
+
+
+<img src="images/five.JPG" style="width: 80%"/>
+
+
+]]
+---
+## The human brain
+
+The human brain can efficiently recognise that although the images of the two threes are different, they are the same number, and are both distinct from the five.
+
+<center>
+<img src="images/dif.png" style="width: 80%"/>
+</center>
+---
+
+
+
+
+class: split-two
+
+.column[.pad50px[
+
+## Machine learning task
+
+The task is to take a grid of $n \times n$ pixel values corresponding to the brightness of a number, and output a single number corresponding to the number the image represents.
+
+Comically easy for us, not so trivial to code up! 
+
+Solution? Neural networks
+
+]]
+
+.column[.content.vmiddle.center[
+
+
+<img src="images/MNIST.png" style="width: 80%"/>
+
+
+]]
+
+
+
+---
+
+## So, what are neural networks?
+
+.orange[Idea:] capture a complex relationship between outputs and inputs by creating layers of derived variables.
+
+---
 class: split-30
 layout: false
 
@@ -259,9 +366,9 @@ layout: false
 \end{align}
 
 Let $u=\beta_0+\sum_{j=1}^p\beta_jx_j$
-- Logistic: $\color{orange}{\frac{1}{1+e^{-u}}}$
-- Gaussian radial: $\color{orange}{\frac{1}{\sqrt{2\pi}}e^{-u^2/2}}$
-- Hyperbolic tangent: $\color{orange}{\frac{e^u-e^{-u}}{e^u+e^{-u}}}$
+- $\texttt{Logistic:} \quad \color{orange}{\frac{1}{1+e^{-u}}}$
+- $\texttt{Gaussian radial:} \quad \color{orange}{\frac{1}{\sqrt{2\pi}}e^{-u^2/2}}$
+- $\texttt{Hyperbolic tangent:} \quad \color{orange}{\frac{e^u-e^{-u}}{e^u+e^{-u}}}$
 
 ]]
 

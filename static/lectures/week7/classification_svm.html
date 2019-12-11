@@ -70,14 +70,15 @@ What about the .orange[magnitude] of `\(s(x^*)\)`?
 
 ---
 
+## Separating hyperplane classifiers
 
-## From LDA to SVM
+We will explore .green[*three*] different types of hyperplane classifiers, with each method generalising the one before it.
 
-- Linear discriminant analysis uses the difference between means to set the separating hyperplane.
-- Support vector machines uses .orange[gaps] between points on the outer edge of clusters to set the separating hyperplane.
+- .orange[Maximal marginal classifier] for when the data is perfectly seperated by a hyperplane
+- .orange[Support vector classifier/ soft margin classifier] for when data is NOT perfectly seperated by a hyperplane but still has a linear decision boundary, and
+- .orange[Support vector machines] used for when the data has non-linear decision boundaries.
 
-&lt;img src="classification_svm_files/figure-html/unnamed-chunk-1-1.png" width="70%" style="display: block; margin: auto;" /&gt;
-
+In practice, SVMs are used to refer to all three methods, however we will distinguish between the three notions in this lecture.
 
 ---
 ## Maximal margin classifier
@@ -97,6 +98,17 @@ All are separating hyperplanes. .orange[Which is best?]
 &lt;center&gt;
 &lt;img src="images/svm_diagram.png" style="width: 80%" /&gt;
 &lt;/center&gt;
+
+
+---
+
+## From LDA to SVM
+
+- Linear discriminant analysis uses the difference between means to set the separating hyperplane.
+- Support vector machines uses .orange[gaps] between points on the outer edge of clusters to set the separating hyperplane.
+
+&lt;img src="classification_svm_files/figure-html/unnamed-chunk-1-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
 ---
 ## SVM vs Logistic Regression
 
