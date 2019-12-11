@@ -418,6 +418,15 @@ class: center
 | <img src="images/LR.JPG", width="60%"> | <img src="images/LDA.JPG", width="60%">      |   
 
 
+
+---
+
+class: center
+
+## Assumptions are critical in LDA
+
+<img src="images/assumptions.png", width="70%">
+
 ---
 
 ## Bayes Theorem

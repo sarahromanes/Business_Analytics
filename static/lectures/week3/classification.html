@@ -180,7 +180,7 @@ The left-hand side `\(\log_e\frac{f(x)}{1 - f(x)}\)` is called the .orange[log-o
 
 ]]
 ---
-## The logistic regression model 
+##n  The logistic regression model 
 
 The fitted model is then written as:
 
@@ -399,6 +399,15 @@ class: center
 | &lt;img src="images/LR.JPG", width="60%"&gt; | &lt;img src="images/LDA.JPG", width="60%"&gt;      |   
 
 
+
+---
+
+class: center
+
+## Assumptions are critical in LDA
+
+&lt;img src="images/assumptions.png", width="70%"&gt;
+
 ---
 
 ## Bayes Theorem
@@ -490,19 +499,7 @@ Assign observation `\(x_0\)` to class 1 if
 
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-    - Multivariate
-]]
-.column[.top50px[
+## Multivariate LDA
 
 .orange[Discriminant space]: a benefit of LDA is that it provides a low-dimensional projection of the `\(p\)`-dimensional space, where the groups are the most separated. For `\(K=2\)`, this is
 
@@ -512,22 +509,11 @@ For `\(K&gt;2\)`, the discriminant space is found be taking an eigen-decompositi
 
 `$$\Sigma_B = \frac{1}{K}\sum_{i=1}^{K} (\mu_i-\mu)(\mu_i-\mu)'$$`
 
-]]
+
 
 ---
-class: split-30
+## Multivariate LDA
 
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-    - Multivariate
-]]
-.column[.top50px[
 
 
 
@@ -540,24 +526,9 @@ that contain 95% of the probability for each of the three classes are shown. Sol
 
 
 
-]]
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Classification
-- Logistic regression
-- .green[Linear discriminant analysis]
-    - Bayes theorem
-    - When `\(p=1\)`
-    - Multivariate
-    - Quadratic
-]]
-.column[.top50px[
-
+## Quadratic DA (QDA)
 A quadratic boundary is obtained by relaxing the assumption of equal variance-covariance, and assume that `\(\Sigma_k \neq \Sigma_l, ~~k\neq l, k,l=1,...,K\)`
 
 
@@ -566,7 +537,7 @@ A quadratic boundary is obtained by relaxing the assumption of equal variance-co
 
 .font_tiny[(Chapter4/4.9.pdf)]
 
-]]
+
 
 
 ---
