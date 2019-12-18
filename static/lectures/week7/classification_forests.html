@@ -8,6 +8,7 @@
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
     <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
     <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
@@ -137,7 +138,7 @@ To deal with this, we can use .orange[Random Forests] to help over come this, by
 
   i. Draw a bootstrap sample, `\(L^{*b}\)` of size `\(n^{*b}\)` from `\(L\)`.
     
-  ii. Grow tree classifier, `\(T^{*b}\)`. .green[At each node use a random selection of `\(m\)` variables, and grow to maximum depth without pruning.]
+  ii. Grow tree classifier, `\(T^{*b}\)`. .green[At each node use a random selection of `\\(m\\)` variables, and grow to maximum depth without pruning.]
     
   iii. Predict the class of each case not drawn in `\(L^{*b}\)`.
     
@@ -190,9 +191,7 @@ count: false
 ---
 layout: false
 
-.boxshadow[.orange[.content[
-Vote matrix
-]]]
+<span class=" faa-passing animated faa-slow " style=" display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">.orange[Vote Matrix]</span>
 
 - .orange[Proportion of trees] the case is predicted to be each class, ranges between 0-1
 - Can be used to .orange[identify troublesome] cases.
@@ -429,22 +428,7 @@ class: split-20
 
 ---
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
-
-]]
-.column[.top50px[
-
-Diagnostics: variable importance
+## Diagnostics - variable importance
 
 
 ```
@@ -469,17 +453,14 @@ Diagnostics: variable importance
 ## arachidic                  0.014              5.8
 ```
 
-]]
+
 
 ---
 class: split-40
 
 
 .column[.pad50px[
-## Diagnostics
-
-.green[Vote matrix]
-
+## Diagnostics - vote matrix <i class="fas  fa-hand-paper "></i> 
 
 ]]
 .column[.content.vmiddle[
@@ -532,13 +513,6 @@ layout: false
 
 
 ]]
----
-## More resources on trees
-
-Cook &amp; Swayne (2007) "Interactive and Dynamic Graphics for Data Analysis: With Examples Using R and GGobi" have several videos illustrating techniques for exploring high-dimensional data in association with trees and forest classifiers:
-
-- [Trees video](http://www.ggobi.org/book/chap-class/Trees.mov)
-- [Forests video](http://www.ggobi.org/book/chap-class/Forests.mov)
 
 ---
 
@@ -552,18 +526,8 @@ Whereas random forests build an ensemble of .green[deep independent trees], .ora
 
 
 ---
-class: split-30
-layout: false
+## Boosted trees - the algorithm
 
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- Random forests
-- .green[Boosted trees]
-
-]]
-.column[.top50px[
 Boosting iteratively fits multiple trees, sequentially putting .orange[more weight] on observations that have predicted inaccurately. 
 
 1. Set `\(\hat{f}(x)=0\)` and `\(r_i=y_i \forall i\)` in training set
@@ -572,7 +536,16 @@ Boosting iteratively fits multiple trees, sequentially putting .orange[more weig
     b. Update `\(\hat{f}\)` by adding a shrunken version of the new tree `\(\hat{f}(x) = \hat{f}(x)+\lambda\hat{f}^b(x)\)`. &lt;br&gt;
     c. Update the residuals `\(r_i = r_i - \lambda\hat{f}^b(x_i)\)` &lt;br&gt;
 3. Output boosted model, `\(\hat{f}(x) = \sum_{b=1}^B\lambda\hat{f}^b(x)\)`
-]]
+
+
+---
+## More resources
+
+Cook &amp; Swayne (2007) "Interactive and Dynamic Graphics for Data Analysis: With Examples Using R and GGobi" have several videos illustrating techniques for exploring high-dimensional data in association with trees and forest classifiers:
+
+- [Trees video](http://www.ggobi.org/book/chap-class/Trees.mov)
+- [Forests video](http://www.ggobi.org/book/chap-class/Forests.mov)
+
 ---
 layout: false
 # 👩‍💻 Made by a human with a computer

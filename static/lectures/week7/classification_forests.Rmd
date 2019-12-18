@@ -142,7 +142,7 @@ To deal with this, we can use .orange[Random Forests] to help over come this, by
 
   i. Draw a bootstrap sample, $L^{*b}$ of size $n^{*b}$ from $L$.
     
-  ii. Grow tree classifier, $T^{*b}$. .green[At each node use a random selection of $m$ variables, and grow to maximum depth without pruning.]
+  ii. Grow tree classifier, $T^{*b}$. .green[At each node use a random selection of `\\(m\\)` variables, and grow to maximum depth without pruning.]
     
   iii. Predict the class of each case not drawn in $L^{*b}$.
     
@@ -197,9 +197,7 @@ count: false
 ---
 layout: false
 
-.boxshadow[.orange[.content[
-Vote matrix
-]]]
+`r anicon::nia(text=".orange[Vote Matrix]", animate="passing", anitype="repeat", speed="slow")`
 
 - .orange[Proportion of trees] the case is predicted to be each class, ranges between 0-1
 - Can be used to .orange[identify troublesome] cases.
@@ -433,22 +431,7 @@ ts_class_err[3:4]
 
 ---
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- .green[Random forests]
-    - Algorithm
-    - Diagnostics
-    - Example
-
-]]
-.column[.top50px[
-
-Diagnostics: variable importance
+## Diagnostics - variable importance
 
 ```{r}
 options(digits=2)
@@ -456,17 +439,14 @@ olive_rf$importance[,1:4]
 olive_rf$importance[,5:6]
 ```
 
-]]
+
 
 ---
 class: split-40
 
 
 .column[.pad50px[
-## Diagnostics
-
-.green[Vote matrix]
-
+## Diagnostics - vote matrix `r icon::fa("hand-paper", size=1)` 
 
 ]]
 .column[.content.vmiddle[
@@ -550,13 +530,6 @@ animate_xy(vtp[,1:3], col=col, axes = "bottomleft")
 
 
 ]]
----
-## More resources on trees
-
-Cook & Swayne (2007) "Interactive and Dynamic Graphics for Data Analysis: With Examples Using R and GGobi" have several videos illustrating techniques for exploring high-dimensional data in association with trees and forest classifiers:
-
-- [Trees video](http://www.ggobi.org/book/chap-class/Trees.mov)
-- [Forests video](http://www.ggobi.org/book/chap-class/Forests.mov)
 
 ---
 
@@ -570,18 +543,8 @@ Whereas random forests build an ensemble of .green[deep independent trees], .ora
 
 
 ---
-class: split-30
-layout: false
+## Boosted trees - the algorithm
 
-.column[.pad10px[
-## Outline
-
-- Bootstrap aggregation
-- Random forests
-- .green[Boosted trees]
-
-]]
-.column[.top50px[
 Boosting iteratively fits multiple trees, sequentially putting .orange[more weight] on observations that have predicted inaccurately. 
 
 1. Set $\hat{f}(x)=0$ and $r_i=y_i \forall i$ in training set
@@ -590,7 +553,16 @@ Boosting iteratively fits multiple trees, sequentially putting .orange[more weig
     b. Update $\hat{f}$ by adding a shrunken version of the new tree $\hat{f}(x) = \hat{f}(x)+\lambda\hat{f}^b(x)$. <br>
     c. Update the residuals $r_i = r_i - \lambda\hat{f}^b(x_i)$ <br>
 3. Output boosted model, $\hat{f}(x) = \sum_{b=1}^B\lambda\hat{f}^b(x)$
-]]
+
+
+---
+## More resources
+
+Cook & Swayne (2007) "Interactive and Dynamic Graphics for Data Analysis: With Examples Using R and GGobi" have several videos illustrating techniques for exploring high-dimensional data in association with trees and forest classifiers:
+
+- [Trees video](http://www.ggobi.org/book/chap-class/Trees.mov)
+- [Forests video](http://www.ggobi.org/book/chap-class/Forests.mov)
+
 ---
 layout: false
 # `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer

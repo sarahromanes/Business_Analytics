@@ -1,6 +1,6 @@
 ---
 title: "ETC3250: High Dimensional DA"
-subtitle: "Semester 1, 2019"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 3 (a)"
 output:
@@ -78,8 +78,8 @@ library(tidyverse)
 library(mvtnorm)
 
 s <- matrix(c(4,2,2,3), ncol = 2)
-s1 <- matrix(c(3, -0.6,-0.6, 1), ncol=2)
-s2 <- matrix(c(2,-0.08,-0.08,1), ncol = 2)
+s1 <- matrix(c(4, -0.6,-0.6, 3), ncol=2)
+s2 <- matrix(c(4,-0.08,-0.08,3), ncol = 2)
 
 m1 <- c(0, 0)
 m2 <- c(-3, 4)
@@ -178,7 +178,7 @@ class: split-two
 ]]
 .column[.content.vmiddle.center[
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 library(ggExtra)
 ggMarginal(p2, groupFill = TRUE, groupColour = TRUE)
 ```
@@ -199,23 +199,46 @@ $$C(x^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(x^*) = \max_k \delta_k(x^*)$
 Often the focus of genomics studies is not only to provide predictions (whether it be for cancer type, or prognosis), but also to understand the underlying drivers of such predictions. In this case, we need to know what features are impotant in the prediction mechanism.
 
 As such, a drawback of diagonal LDA (and QDA) is that it uses all of the features, and is not convinent for interpretation. 
+
+
+
+---
+
+## Filter features for prediction
+
+To motivate the upcoming method, consider a binary classfication DLDA problem. One way we could establish which of the features are driving prediction would be to perform a two-sample $t$-test 
+
+$$t_{j} = \frac{\bar{x}_{1j} - \bar{x}_{0j}}{s_j}$$
+with the $t$ statistic providing a measure of how significant the difference in class means for predictor $j$. 
+
+Q: How might we threshold this? (ie if normally dist pic values of $|t_j| > 2$)
 ---
 
 ## Nearest Shrunken Centroids (NSC)
 
+Now consider the following statistic,
+
+$$d_{kj} = \frac{\bar{x}_{kj} - \bar{x}_j}{m_k(s_j + s_0)} \quad \mbox{with} \quad m_k^2 = \frac{1}{N_k} - \frac{1}{N}$$
+and $s_0$ a small value to protect $d_{kj}$ from small expression values.
+
+A measure for how significant the difference between the class $k$ mean for predictor $j$, and the overall mean for predictor $j$.
+---
+## Nearest Shrunken Centroids (NSC)
+
+The NSC uses a version of the statistic $d_{kj}$ to regularise by srhinking the class means towards the overall mean for each predictor.
+
 We can shrink the classwise mean toward the overall mean, for each feature seperately.
 
-$$d_{kj} = \frac{\bar{x}_{kj} - \bar{x}_j}{m_k(s_j + s_0)}$$
+Q: how do we threshold this statistic? Many options..
+
 
 ---
-## Regularised Discriminant Analysis
 
-Linear discriminant analysis involves the inversion of a $p \times p$ within-covariance matrix. When $p \gg n$, this matrix can be huge, and has rank *at most* $n < p$, and hence is singular.
+## Soft and hard thresholding
 
-RDA overcomes this singularity by regularising the within-covariance matrix estimate $\hat{\boldsymbol{\Sigma}}$. It does this by shrinking $\hat{\boldsymbol{\Sigma}}$ towards its diagonal.
 
-$$\hat{\boldsymbol{\Sigma}}(\gamma) = \gamma \hat{\boldsymbol{\Sigma}} + (1- \gamma) \mbox{diag}(\hat{\boldsymbol{\Sigma}}), \quad \mbox{with} \quad \gamma \in [0,1].$$
-Note that $\gamma = 0$ corresponds to diagonal LDA.
+---
+## multiDA (DA via multiple hypothesis testing)
 ---
 
 class: center middle

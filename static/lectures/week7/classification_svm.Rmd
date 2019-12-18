@@ -32,6 +32,8 @@ library(magick)
 
 ## Seperating hyperplanes
 
+
+
 In a $p$-dimensional space, a .orange[hyperplane] is a flat affine subspace of dimension $p - 1$.
 
 <center>
@@ -69,6 +71,10 @@ $$y_i (\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip}) > 0$$
 $$s(x^*) = \beta_0 + \beta_1 x_1^* + \dots + \beta_p x_p^*$$
 - If $s(x^*) > 0$, class $1$, and if $s(x^*) < 0$, class $-1$, i.e. $h(x^*) = \mbox{sign}(s(x^*)).$
 
+
+---
+
+## Separating hyperplanes
 
 What about the .orange[magnitude] of $s(x^*)$? 
 
@@ -164,9 +170,21 @@ grid.arrange(p1, p2, ncol=2)
 
 - The .orange[support vectors] are equidistant from the maximal margin hyperplane and lie along the dashed lines indicating the width of the margin. 
 - They .orange[support] the maximal margin hyperplane in the sense that if these points were moved slightly then the maximal margin hyperplane would move as well
-- The maximal margin hyperplane depends directly on the support vectors, but .orange[not on the other observations]
 
 
+.center[ ** The maximal margin hyperplane depends directly on the support vectors, but .orange[not on the other observations]**]
+
+
+---
+
+## Support vectors
+<br>
+
+<center>
+
+<img src="images/svm-training.png" style="width: 55%">
+
+</center>
 ---
 
 ### Example: Support vectors (and slack vectors)
@@ -194,14 +212,14 @@ grid.arrange(p1, p2, ncol=2)
 ## Maximal margin classifier
 
 
-If $x_i \in \Re^p$ and $y_i \in \{-1, 1\}$ for $i = 1, \dots, n$, the separating hyperplane is defined as
+If $x_i \in \mathbb{R}^p$ and $y_i \in \{-1, 1\}$ for $i = 1, \dots, n$, the separating hyperplane is defined as
 
-$$\{x:b_0+x'b=0\}$$
+$$\{x:\beta_0+x^T\beta=0\}$$
 
-where $b=\sum_{i=1}^s (\alpha_iy_i)x_i$ and $s$ is the number of support vectors.
+where $\beta=\sum_{i=1}^s (\alpha_iy_i)x_i$ and $s$ is the number of support vectors.
 Then the .orange[maximal margin hyperplane] is found by 
 
-*maximising* $M$, subject to $\sum_{i=1}^pb_i^2=1$, and $y_i(x_i'b+b_0)\geq M, i=1, ..., n$.
+*maximising* $M$, subject to $\sum_{j=1}^p\beta_j^2=1$, and $y_i(x_i^T\beta+\beta_0)\geq M, i=1, ..., n$.
 
 
 
@@ -218,7 +236,7 @@ The maximal margin classifier only works when we have perfect seperability in ou
 
 .green[What do we do if data is not perfectly seperable by a hyperplane?]
 
- .orange[**The Soft Margin Classifier**] allows points to either lie on the wrong side of the margin, or on the wrong side of the hyperplane altogether. 
+ .orange[**The support vector classifier**] allows points to either lie on the wrong side of the margin, or on the wrong side of the hyperplane altogether. 
  
  .font_tiny[Right: ISLR Fig 9.6]
 ]]
@@ -226,12 +244,12 @@ The maximal margin classifier only works when we have perfect seperability in ou
 .column[.content.vmiddle.center[
 
 
-<img src="images/9.6-flip.png" style="width: 80%"> </a>
+<img src="images/9.6-flip.png" style="width: 80%">
 
 ]]
 
 ---
-## Soft margin classifier - optimisation 
+## Support vector classifier - optimisation 
 
 <br>
 
@@ -263,12 +281,66 @@ if (!file.exists("images/9.7.png"))
 
 ## Non-linear boundaries
 
-The soft margin classifier doesn't work well for non-linear boundaries. .green[What solution do we have?]
+The support vector classifier doesn't work well for non-linear boundaries. .green[What solution do we have?]
 
 <center>
-<img src="images/9.8.jpg" style="width: 80%">
-</center>
 
+<img src="images/9.8.jpg" style="width: 80%">
+
+</center>
+---
+
+## Enlarging the feature space
+
+Consider the following 2D non-linear classification problem. We can transform this to a linear problem seperated by a maximal margin hyperplane by introducing an additional third dimension.
+
+<center>
+<img src="images/kernel-trick.png" style="width: 80%">
+</center>
+---
+
+## The inner product
+
+Consider two $p$-vectors 
+$$
+\begin{align*}
+\mathbf{x} & = (x_1, x_2, \dots, x_p) \in \mathbb{R}^p \\
+\mbox{and} \quad \mathbf{y} & = (y_1, y_2, \dots, y_p) \in \mathbb{R}^p.
+\end{align*}
+$$
+The inner product is defined as 
+
+$$\langle \mathbf{x}, \mathbf{y}\rangle = x_1y_1 + x_2y_2 + \dots + x_py_p = \sum_{j=1}^{p} x_jy_j$$
+
+.orange[A linear measure of similarity, and allows geometric constrctions such as the maximal marginal hyperplane.]
+
+---
+
+## Kernel functions
+
+A kernel function is an inner product of vectors mapped to a (higher dimensional) feature space $\mathcal{H} = \mathbb{R}^d, d > p$.
+
+$$
+\mathcal{K}(\mathbf{x}, \mathbf{y})  = \langle \psi(\mathbf{x}), \psi(\mathbf{y}) \rangle
+$$
+$$
+\psi: \mathbb{R}^p \rightarrow \mathcal{H}
+$$
+
+.orange[Non-linear measure of similarity, and allows geometric constructions in high dimensional space.]
+
+---
+
+## Examples of kernels
+
+Standard kernels include:
+$$
+\begin{align*}
+\mbox{Linear} \quad  \mathcal{K}(\mathbf{x}, \mathbf{y}) & = \langle\mathbf{x}, \mathbf{y} \rangle \\
+\mbox{Polynomial} \quad \mathcal{K}(\mathbf{x}, \mathbf{y}) & = (\langle\mathbf{x}, \mathbf{y} \rangle + 1)^d \\
+\mbox{Radial} \quad \mathcal{K}(\mathbf{x}, \mathbf{y}) & = \exp(-\gamma\lvert\lvert\mathbf{x}-\mathbf{y}\lvert\lvert^2)
+\end{align*}
+$$
 
 ---
 class: split-60
@@ -292,6 +364,45 @@ and $x_i'x_i$ can be wrapped into a kernel function $K(x_i'x_i)$ which enables b
 
 <img src="images/svm_kernels.png" style="width: 80%; align: center" />
 ]]
+
+---
+## Your turn
+
+Let $\mathbf{x}$ and $\mathbf{y}$ be vectors in $\mathbb{R}^2$. By expanding $\mathcal{K}(\mathbf{x}, \mathbf{y}) = (1 + \langle \mathbf{x}, \mathbf{y}\rangle) ^2$ show that this is equilvalent to an inner product in $\mathcal{H} = \mathbb{R}^6$.
+
+<br>
+
+.green[Remember:] $\langle \mathbf{x}, \mathbf{y}\rangle =\sum_{j=1}^{p} x_jy_j$.
+
+```{r}
+library(countdown)
+countdown(minutes = 3, seconds = 0)
+```
+---
+## Solution
+
+$$
+\begin{align*}
+\mathcal{K}(\mathbf{x}, \mathbf{y}) & = (1 + \langle \mathbf{x}, \mathbf{y}\rangle) ^2 \\
+                                    & = \left(1 + \sum_{j = 1}^2 x_jy_j \right) ^2 \\
+                                    & = (1 + x_1y_1 + x_2y_2)^2 \\
+                                    & = (1 + x_1^2y_1^2 + x_2^2y_2^2 + 2x_1y_1 + 2x_2y_2 + 2x_1x_2y_1y_2) \\
+                                    & = \langle \psi(\mathbf{x}), \psi(\mathbf{y}) \rangle
+\end{align*}
+$$
+<br>
+where $\psi(\mathbf{x}) = (1, x_1^2, x_2^2, \sqrt2x_1, \sqrt2x_2, \sqrt2x_1x_2)$.
+
+---
+## The kernel trick - why is it a trick?
+
+We do not need to know what the high dimensional enlarged feature space $\mathcal{H}$ really looks like.
+
+We just need to know the which kernel function is most appropriate as a measure of similarity.
+
+<br>
+
+.tip[The Support Vector Machine (SVM) is a maximal margin hyperplane in `\\(\mathcal{H}\\)` built by using a kernel function in the low dimensional feature space `\\(\mathbb{R}^p\\)`.]
 
 
 ---
