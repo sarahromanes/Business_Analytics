@@ -169,6 +169,45 @@ $$ y = f_1(f_2(\dots (f_d(x))))$$
 ]]
 
 
+
+---
+
+## How do we build a neural network?
+
+To build a feedforward neural network, we need .orange[four key components:]
+
+1. Input data (*in this case, the MNIST data*)
+2. A pre-defined network architecture;
+3. A feedback mechanism to enable the network to learn; 
+4. and a model training approch.
+
+
+---
+
+## Network architecture
+
+When building architecture for the neural network, we are concerned about two key features: 
+
+a) the number of layers and nodes, and
+
+b) how signal is activated through the network 
+
+---
+
+## Layers and nodes
+
+- input and output layers
+- hidden
+
+
+In `R`, we use the `keras` package to help us build neural networks with a layered approach. It is very different to other machine learning types we have encountered in this course.
+
+---
+
+
+
+
+
 ---
 class: split-30
 layout: false
@@ -211,14 +250,14 @@ y =\frac{1}{1+e^{-(\beta_0+\sum_{j=1}^p\beta_jx_j})}
 .column[.top50px[
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-1-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 
 ]]
 ---
 class: middle
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 &lt;center&gt;
 .font_large[Hang on to this idea....]
@@ -330,7 +369,7 @@ Warren S. McCulloch &amp; Walter Pitts
 Mathematical model for a neuron.
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-3-.gif" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-4-.gif" width="576" style="display: block; margin: auto;" /&gt;
 
 ]]
 
@@ -339,7 +378,7 @@ Mathematical model for a neuron.
 
 Back to logistic regression: When the proportion gets to 0.5, it .orange[activates] an event to happen `\((Y=1)\)`.
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-4-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: split-30
@@ -417,7 +456,7 @@ where `\(w\)` indicates the set of weights in the model, labelled `\(\alpha, \be
 ---
 layout: false
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: split-30
@@ -454,7 +493,7 @@ table(choc_ts$Type, choc_ts$pred)
 ##   Milk     1   15
 ```
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ]]
@@ -515,7 +554,7 @@ layout: false
 .column[.top50px[
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Mistakes made by each neuron
 
@@ -643,7 +682,7 @@ Because the variables have all been standardised, the .orange[magnitude] of the 
 .column[.top50px[
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]]
 ---

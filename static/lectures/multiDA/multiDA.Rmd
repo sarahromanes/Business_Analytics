@@ -64,8 +64,8 @@ class: split-two
 
 ## Recall: Discriminant Analysis
 
-- Discriminant Analysis (Fisher, 1936) is a ML technique that seeks to find a linear combination of features that separates classes of objects.
-- It *strictly* assumes the conditional distribution of the data, given class grouping, is .orange[multivariate normal].
+
+- *Strictly* assumes the conditional distribution of the data, given class grouping, is .orange[multivariate normal].
 - Available through `MASS` package in `r icon::fa("r-project", size=1)` with functions `lda` (common covariance) and `qda`. 
 
 ]]
@@ -189,9 +189,20 @@ ggMarginal(p2, groupFill = TRUE, groupColour = TRUE)
 ---
 ## Discriminant Function
 
-$$\delta_k(x^*) = - \sum_{j=1}^{p}\frac{(x_j^* - \bar{x}_{kj})^2}{s^2_j} + 2\log \pi_k$$
+It can be shown that the discriminant score for a new observation $\mathbf{x}^*$ when the features are considered independent reduces to the following:
 
-$$C(x^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(x^*) = \max_k \delta_k(x^*)$$
+$$\delta_k(\mathbf{x}^*) = - \sum_{j=1}^{p}\frac{(x_j^* - \bar{x}_{kj})^2}{s^2_j} + 2\log \pi_k.$$
+
+The classification rule is then
+
+$$C(\mathbf{x}^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(\mathbf{x}^*) = \max_k \delta_k(\mathbf{x}^*).$$
+
+
+---
+
+## DLDA in R
+
+DLDA is easy to run, is found in the `dlda` function provided by the `sparsediscrim` package (hosted on GitHub)
 ---
 
 ## What features are driving prediction?
@@ -206,36 +217,134 @@ As such, a drawback of diagonal LDA (and QDA) is that it uses all of the feature
 
 ## Filter features for prediction
 
-To motivate the upcoming method, consider a binary classfication DLDA problem. One way we could establish which of the features are driving prediction would be to perform a two-sample $t$-test 
+To motivate the upcoming method, consider a binary classfication DLDA problem. 
+
+One way we could establish which of the features are driving prediction would be to perform a two-sample $t$-test 
 
 $$t_{j} = \frac{\bar{x}_{1j} - \bar{x}_{0j}}{s_j}$$
 with the $t$ statistic providing a measure of how significant the difference in class means for predictor $j$. 
 
-Q: How might we threshold this? (ie if normally dist pic values of $|t_j| > 2$)
+
+
+---
+
+## Filter features for prediction
+
+.green[Think about it:] Using the $t$ statistic -  $t_{j} = \frac{\bar{x}_{1j} - \bar{x}_{0j}}{s_j}$ for all features, what is one way we can determine important features for prediction?
+
+
+```{r}
+library(countdown)
+countdown(minutes = 1, seconds = 0)
+```
+---
+
+## Filter features for prediction
+
+.orange[Answer:] Can consider filtering for features with $\lvert t_j \lvert > 2$, as this is deemed significant at the 5% level.
+
+```{r, fig.height = 5}
+
+funcShaded <- function(x) {
+    y <- dt(x, df = 30)
+    y[ abs(x) < 2] <- NA
+    return(y)
+}
+
+p_t <- ggplot(data.frame(t = c(-4, 4)), aes(x = t)) +
+       stat_function(fun = dt, args = list(df = 30), size = 1.2) +
+       stat_function(fun=funcShaded, geom="area", fill="#1b9e77", alpha=0.5) +
+       scale_x_continuous(name = "t",
+                     breaks = seq(-4, 4, 2),
+                     limits=c(-4, 4)) +
+       scale_y_continuous(name = "Density") +
+       scale_colour_brewer(palette="Dark2") +
+       theme_minimal() +
+       theme(text = element_text(size=20))
+p_t
+```
+
+.font_tiny[Note - further consideration can be given to the issue of [*Multiple Testing*](https://en.wikipedia.org/wiki/Multiple_comparisons_problem)]
+
 ---
 
 ## Nearest Shrunken Centroids (NSC)
 
 Now consider the following statistic,
 
+<br>
+
 $$d_{kj} = \frac{\bar{x}_{kj} - \bar{x}_j}{m_k(s_j + s_0)} \quad \mbox{with} \quad m_k^2 = \frac{1}{N_k} - \frac{1}{N}$$
 and $s_0$ a small value to protect $d_{kj}$ from small expression values.
 
-A measure for how significant the difference between the class $k$ mean for predictor $j$, and the overall mean for predictor $j$.
+<br>
+This statistic is a  measure for how significant the difference between the class $k$ mean for predictor $j$, and the overall mean for predictor $j$.
 ---
 ## Nearest Shrunken Centroids (NSC)
 
-The NSC uses a version of the statistic $d_{kj}$ to regularise by srhinking the class means towards the overall mean for each predictor.
+<br>
 
-We can shrink the classwise mean toward the overall mean, for each feature seperately.
+<br>
 
-Q: how do we threshold this statistic? Many options..
-
+.green.center[**Question:** How would we filter features using this statistic? What is an appropriate threshold?]
 
 ---
 
-## Soft and hard thresholding
+## Option 1 - Hard Thresholding
 
+Suppose we threshold these values:
+
+<br>
+
+$$d'_{kj} = d_{kj} \cdot I\{ \lvert d_{kj} \lvert  \geq \Delta \},$$
+where $\Delta$ is a parameter chosen via cross-validation. 
+
+<br>
+
+Then $d'_{kj} = d_{kj}$ if the standardised class mean is siginificantly different from the overall mean, and zero otherwise.
+
+---
+
+## Option 2 - Soft Thresholding
+
+Each $d_{kj}$ is reduced by an amount $\Delta$ in absolute value, and is set to zero if its absolute value is less than zero.
+
+$$d'_{kj} = \mbox{sign}(d_{kj})( \lvert d_{kj} \lvert - \Delta)_{+},$$
+<center>
+ <img src="images/soft.JPG", width="40%">
+</center>
+---
+## Nearest Shrunken Centroids Classifier
+
+The NSC uses either version of the statistic $d'_{kj}$ to regularise by shinking the class means towards the overall mean for each predictor seperately as follows:
+
+$$\bar{x}'_{kj} = \bar{x}_j + m_k(s_j + s_0)d'_{kj}$$
+
+<br>
+
+.green.center[Unless a predictor has a significant difference to the overall mean for at least one class, it is useless for classification.]
+
+We then use the shrunken centroids $\bar{x}'_{kj}$ in place of $\bar{x}_{kj}$ in the DLDA discriminant function.
+
+---
+
+## NSC in R
+
+NSC can be used through the `pamr` function in R. It requires cross-validation to select the parameter $\Delta$.
+
+
+---
+class: middle center
+
+## Is there a method we can use to avoid lengthy CV tuning?
+
+---
+
+class: middle center
+
+## Is there a method we can use to avoid lengthy CV tuning?
+
+## .green[Yes!]
 
 ---
 ## multiDA (DA via multiple hypothesis testing)
@@ -510,6 +619,142 @@ p5
 
 ---
 
+class: split-two
+
+.column[.pad50px[
+
+## What about K > 3 classes?
+ 
+.green[Question: How many ways can you partition a set of size K?]
+  
+The total number of partitions of a K-element set is the [Bell number](https://en.wikipedia.org/wiki/Bell_number) $B_K$. The first several Bell numbers are:
+$B_0= 1$, $B_1= 1$, $B_2= 2$, $B_3= 5$, $B_4= 15$, $B_5= 52$, and $B_6= 203$.
+
+.font_small[.orange[Right: The 52 partitions of a set with 5 elements]]
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+<img src="images/bell-number.png", width="40%">
+
+]]
+---
+
+## Estimation
+
+For each feature:
+
+1. Estimate key paramters for Gaussian curves (mean, variance) and prior class probabilities
+2. Estimate the probability of the appropriate partitioning. We represent this by a latent variable $\gamma_{jm}$.
+
+<br>
+
+
+It can be shown that estimates for 1) are MLEs.
+
+---
+
+## Latent variable estimation
+
+The estimate for the latent variable $\gamma_{jm}$ is expressed as follows:
+
+<br>
+
+$$
+\begin{align*}
+\hat{\gamma}_{jm} = \frac{\exp[\frac{1}{2} \lambda_{jm}(\mathbf{x}_j, \mathbf{y}) + \log(\rho_m/\rho_1)] }{\sum_{\ell = 1}^M \exp[\frac{1}{2} \lambda_{j\ell}(\mathbf{x}_j, \mathbf{y}) + \log(\rho_{\ell}/\rho_1)]}
+\end{align*}
+$$
+
+
+---
+
+## Latent variable estimation
+
+The estimate for the latent variable $\gamma_{jm}$ is expressed as follows:
+
+<br>
+
+$$
+\begin{align*}
+\hat{\gamma}_{jm} = \frac{\exp[\frac{1}{2} \color{orange}{\lambda_{jm}}(\mathbf{x}_j, \mathbf{y}) + \log(\rho_m/\rho_1)] }{\sum_{\ell = 1}^M \exp[\frac{1}{2} \color{orange}{\lambda_{j\ell}}(\mathbf{x}_j, \mathbf{y}) + \log(\rho_{\ell}/\rho_1)]}
+\end{align*}
+$$
+
+<br>
+
+- $\color{orange}{\lambda_{jm}}$ are log likelihood ratio test (LRT) statistics;
+---
+
+## LRT – compare to the null
+
+For all 5 hypotheses, compare the likelihood to the null. Pick the "partition" that is the most likely.
+
+<center>
+
+<img src="images/LRT.png", width="80%">
+
+</center>
+---
+
+
+## Latent variable estimation
+
+The estimate for the latent variable $\gamma_{jm}$ is expressed as follows:
+
+<br>
+
+$$
+\begin{align*}
+\hat{\gamma}_{jm} = \frac{\exp[\frac{1}{2} \lambda_{jm}(\mathbf{x}_j, \mathbf{y}) + \color{green}{\log(\rho_m/\rho_1)}] }{\sum_{\ell = 1}^M \exp[\frac{1}{2} \lambda_{j\ell}(\mathbf{x}_j, \mathbf{y}) + \color{green}{\log(\rho_{\ell}/\rho_1)}]}
+\end{align*}
+$$
+
+<br>
+
+- $\lambda_{jm}$ are log likelihood ratio test statistics;
+- and $\color{green}{\log(\rho_m/\rho_1)}$ can carefully be chosen such that an appropriate penalty can be applied. .orange[This means we need stronger evidence to support more complicated hypotheses.]
+
+---
+
+## A penalised likelihood ratio test statistic
+
+Two forms of penalisation can be considered:
+
+- .green[The BIC] - useful when Positive Selection Rate is preferred to controlling False Discovery Rate (FDR). 
+$$\nu_m \log(n)$$
+- .green[The Extended BIC] - useful for high dimensional data, penalising additionally on the number of features $p$.
+$$\nu_m[\log(n) + 2\log(p)]$$
+
+.font_small[(Note - `\\(\nu_m = g_m - 1\\)` where `\\(g_m\\)` is the number of groupings considered in model `\\(m\\)`). ]
+---
+
+class: split-60
+
+.column[.pad50px[
+
+## multiDA in R
+ 
+<br>
+
+```{r, eval = FALSE, echo = TRUE}
+res <- multiDA(y = y, #<<
+               X = X,
+               penalty = "EBIC",
+               equal.var = TRUE,
+               set.options = "exhaustive")
+```  
+
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+
+]]
+
+---
 layout: false
 # `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer
 

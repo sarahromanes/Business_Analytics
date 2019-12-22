@@ -178,6 +178,51 @@ $$ y = f_1(f_2(\dots (f_d(x))))$$
 ]]
 
 
+
+---
+
+## How do we build a neural network?
+
+To build a feedforward neural network, we need .orange[four key components:]
+
+1. Input data (*in this case, the MNIST data*)
+2. A pre-defined network architecture;
+3. A feedback mechanism to enable the network to learn; 
+4. and a model training approch.
+
+
+---
+
+## Network architecture
+
+When building architecture for the neural network, we are concerned about two key features: 
+
+a) the number of layers and nodes, and
+
+b) how signal is activated through the network 
+
+---
+
+## Layers and nodes
+
+- input and output layers
+- hidden
+
+
+In R, we use the `keras` package to help us build neural networks with a layered approach. It is very different to other machine learning types we have encountered in this course.
+
+---
+
+```{r, eval = FALSE}
+library(keras)
+model <- keras_model_sequential() %>%
+  layer_dense(units = 128, input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 64) %>%
+  layer_dense(units = 10)
+```
+
+
+
 ---
 class: split-30
 layout: false

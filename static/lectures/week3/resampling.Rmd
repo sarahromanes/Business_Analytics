@@ -27,14 +27,19 @@ knitr::opts_chunk$set(tidy = FALSE,
 options(htmltools.dir.version = FALSE)
 ```
 
+## Model assessment 
+
+<br>
+
+<center>
+<img src="images/newdata.jpg" style="width: 70%; align: center"/> </a>
+</center>
+
+---
+
+
 ## Validating models
 
-```{r}
-library(magick)
-if (!file.exists("images/5.1.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.1.pdf", density = 300), "images/5.1.png", 
-      format = "png", density = 300)
-```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.1.pdf" target="_BLANK"> <img src="images/5.1.png" style="width: 100%; align: center"/> </a>
 
@@ -46,9 +51,16 @@ Drawback: Only one split of data made, may not adequately estimate test error.
 
 
 ---
+class: split-two
+
+.column[.pad50px[
+
+
 ## Validating models
 
-Want to choose best degree of polynomial, for $mpg=\beta_0+\beta_1f(horsepower)+\varepsilon$
+<br>
+
+Want to choose best degree of polynomial, for $\mbox{mpg}=\beta_0+\beta_1f(\mbox{horsepower})+\varepsilon$
 
 ```{r}
 # The Validation Set Approach
@@ -68,18 +80,37 @@ testerr <- tibble(x=1:4,
                         mse(fit2, Auto[-train,]),
                         mse(fit3, Auto[-train,]),
                         mse(fit4, Auto[-train,])))
+```
+
+]]
+
+.column[.content.vmiddle.center[
+
+```{r}
 ggplot(testerr, aes(x=x, y=mse)) +
-  geom_line() +
+  geom_line(size = 1.2) +
   ylim(c(15, 30)) +
-  xlab("degree") + ggtitle("Test error: draw 1")
+  xlab("degree") + ggtitle("Test error: Draw 1") +
+  theme_minimal() +
+  theme(text = element_text(size=20)) 
+  
 ```
 
 
+]]
 
 ---
+
+class: split-two
+
+.column[.pad50px[
+
+
 ## Validating models
 
-Want to choose best degree of polynomial, for $mpg=\beta_0+\beta_1f(horsepower)+\varepsilon$
+<br>
+
+Want to choose best degree of polynomial, for $\mbox{mpg}=\beta_0+\beta_1f(\mbox{horsepower})+\varepsilon$
 
 ```{r}
 train <- sample(392,196)
@@ -93,17 +124,35 @@ testerr <- tibble(x=1:4,
                         mse(fit2, Auto[-train,]),
                         mse(fit3, Auto[-train,]),
                         mse(fit4, Auto[-train,])))
-ggplot(testerr, aes(x=x, y=mse)) +
-  geom_line() +
-  ylim(c(15, 30)) +
-  xlab("degree") + ggtitle("Test error: draw 2")
 ```
 
+]]
+
+.column[.content.vmiddle.center[
+
+```{r}
+ggplot(testerr, aes(x=x, y=mse)) +
+  geom_line(size = 1.2) +
+  ylim(c(15, 30)) +
+  xlab("degree") + ggtitle("Test error: Draw 2")+
+  theme_minimal() +
+  theme(text = element_text(size=20)) 
+```
+
+]]
 
 ---
+class: split-two
+
+.column[.pad50px[
+
+
 ## Validating models
 
-Want to choose best degree of polynomial, for $mpg=\beta_0+\beta_1f(horsepower)+\varepsilon$
+<br>
+
+
+Want to choose best degree of polynomial, for $\mbox{mpg}=\beta_0+\beta_1f(\mbox{horsepower})+\varepsilon$
 
 ```{r}
 train <- sample(392,196)
@@ -117,17 +166,35 @@ testerr <- tibble(x=1:4,
                         mse(fit2, Auto[-train,]),
                         mse(fit3, Auto[-train,]),
                         mse(fit4, Auto[-train,])))
-ggplot(testerr, aes(x=x, y=mse)) +
-  geom_line() +
-  ylim(c(15, 30)) +
-  xlab("degree") + ggtitle("Test error: draw 3")
 ```
 
+]]
+
+.column[.content.vmiddle.center[
+
+```{r}
+ggplot(testerr, aes(x=x, y=mse)) +
+  geom_line(size = 1.2) +
+  ylim(c(15, 30)) +
+  xlab("degree") + ggtitle("Test error: Draw 3")+
+  theme_minimal() +
+  theme(text = element_text(size=20)) 
+```
+
+]]
 
 ---
+
+class: split-two
+
+.column[.pad50px[
+
 ## Validating models
 
-Want to choose best degree of polynomial, for $mpg=\beta_0+\beta_1f(horsepower)+\varepsilon$
+<br>
+
+
+Want to choose best degree of polynomial, for $\mbox{mpg}=\beta_0+\beta_1f(\mbox{horsepower})+\varepsilon$
 
 ```{r}
 train <- sample(392,196)
@@ -141,12 +208,22 @@ testerr <- tibble(x=1:4,
                         mse(fit2, Auto[-train,]),
                         mse(fit3, Auto[-train,]),
                         mse(fit4, Auto[-train,])))
-ggplot(testerr, aes(x=x, y=mse)) +
-  geom_line() +
-  ylim(c(15, 30)) +
-  xlab("degree") + ggtitle("Test error: draw 4")
 ```
 
+]]
+
+.column[.content.vmiddle.center[
+
+```{r}
+ggplot(testerr, aes(x=x, y=mse)) +
+  geom_line(size = 1.2) +
+  ylim(c(15, 30)) +
+  xlab("degree") + ggtitle("Test error: Draw 4") +
+  theme_minimal() +
+  theme(text = element_text(size=20)) 
+```
+
+]]
 
 ---
 class: middle
@@ -163,12 +240,6 @@ The .orange[variability] between different draws of test sets can be .orange[lar
 
 Leave-one-out (LOOCV) cross-validation: $n$ validation sets, each with .orange[ONE] observation left out.
 
-
-```{r}
-if (!file.exists("images/5.3.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.3.pdf", density = 300), "images/5.3.png", 
-      format = "png", density = 300)
-```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.3.pdf" target="_BLANK"> <img src="images/5.3.png" style="width: 100%; align: center"/> </a>
 
@@ -203,11 +274,6 @@ where $h_i=\frac{1}{n}+\frac{(x_i-\bar{x})^2}{\sum_{i'}^n(x_{i'}-\bar{x})^2}$ (k
 2. Remove one part, fit the model on the remaining $k − 1$ parts, and compute the MSE on the omitted part.
 3. Repeat $k$ times taking out a different part each time
 
-```{r}
-if (!file.exists("images/5.5.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.5.pdf", density = 300), "images/5.5.png", 
-      format = "png", density = 300)
-```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.5.pdf" target="_BLANK"> <img src="images/5.5.png" style="width: 100%; align: center"/> </a>
 
@@ -231,24 +297,15 @@ $$CV_{(k)} = \frac{1}{k}\sum_{i=1}^n \frac{(y_i-\hat{y})^2}{1-h_i}$$
 ---
 ## Classification
 
-```{r}
-if (!file.exists("images/5.7.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.7.pdf", density = 300), "images/5.7.png", 
-      format = "png", density = 300)
-```
+<center>
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.7.pdf" target="_BLANK"> <img src="images/5.7.png" style="width: 70%; align: center"/> </a>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.7.pdf" target="_BLANK"> <img src="images/5.7.png" style="width: 50%; align: center"/> </a>
 
-
+</center>
 
 ---
 ## Classification
 
-```{r}
-if (!file.exists("images/5.8.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.8.pdf", density = 300), "images/5.8.png", 
-      format = "png", density = 300)
-```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.8.pdf" target="_BLANK"> <img src="images/5.8.png" style="width: 100%; align: center"/> </a>
 
@@ -275,11 +332,6 @@ We obtain distinct data sets (with the same size as our original dataset) by .ye
 <img src="images/bootstrapWorld.png" style="width: 92%" />
 ]]
 .blade4.bg-pink[.content.center[
-```{r}
-if (!file.exists("images/5.11.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.11.pdf", density = 300), "images/5.11.png", 
-      format = "png", density = 300)
-```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.11.pdf" target="_BLANK"> <img src="images/5.11.png" style="width: 60%; align: center"/> </a>
 
