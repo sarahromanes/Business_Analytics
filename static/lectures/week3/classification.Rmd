@@ -1,6 +1,6 @@
 ---
 title: "ETC3250: Classification"
-subtitle: "Semester 1, 2019"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 3 (a)"
 output:
@@ -215,7 +215,7 @@ faa("dice", animate="bounce", color="orange", size="lg", speed="slow")
 
 ]]
 ---
-##n  The logistic regression model 
+## The logistic regression model 
 
 The fitted model is then written as:
 

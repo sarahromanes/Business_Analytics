@@ -1,6 +1,6 @@
 ---
-title: "ETC3250: hierarchical clustering"
-subtitle: "Semester 1, 2019"
+title: "ETC3250: Hierarchical clustering"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 10 (b)"
 output: 
@@ -35,24 +35,17 @@ library(magick)
 ```
 
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .orange[Hierarchical clustering]
 
 
-]]
-.column[.top50px[
+## Hierarchical clustering
 
 <br>
+
 - .orange[Agglomeration]: Begin with all observations in singleton clusters. Sequentially .orange[join] points into clusters, until all are in one cluster. 
 - .orange[Divisive]: Begin with all observtions in one cluster, adn sequentially .orange[divide] until all observations are in singleton clusters. 
 - Produces a tree diagram illustrating the process, called a .orange[dendrogram].
 
-]]
+
 
 ---
 class: split-50
@@ -175,19 +168,7 @@ What is the .orange[distance] between the new .orange[cluster (b,c)] and all of 
 
 ---
 
-
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- .orange[Linkage]
-
-
-]]
-.column[.top50px[
+## Linkage
 
 Between points .orange[in] the cluster to points .orange[not in] the cluster. 
 
@@ -197,7 +178,7 @@ Between points .orange[in] the cluster to points .orange[not in] the cluster.
 - .orange[Centroid]: distances between the average of the different clusters
 - .orange[Wards]: minimizes the total within-cluster variance
 
-]]
+
 ---
 class: split-60
 layout: false
@@ -237,6 +218,8 @@ df %>% filter(lbl %in% c("a", "d", "e", "f", "g", "h", "i", "j", "k", "l")) %>% 
 ```
 ]]]
 ---
+
+class: middle center
 
 <img src="images/linkage.png" style="width: 100%" />
 
@@ -336,20 +319,7 @@ grid.arrange(p1, p2, p3, p4, p5, ncol=3)
 
 ---
 
-
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- [Linkage](#7)
-- .orange[Dendrogram]
-
-
-]]
-.column[.top50px[
+## Dendrogram
 
 <br>
 
@@ -359,8 +329,8 @@ layout: false
 <br>
 <br>
 
-.orange[Cut the tree] to partition the data into $k$ clusters
-]]
+.orange[Cut the tree] to partition the data into $k$ clusters.
+
 ---
 
 ```{r out.width="100%", fig.width=10, fig.height=6}
@@ -404,19 +374,7 @@ grid.arrange(p1, p2, p3, p4, p5, ncol=3)
 ---
 
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- [Linkage](#7)
-- [Dendrogram](#13)
-- .orange[Pros and cons]
-
-]]
-.column[.top50px[
+## Pros and cons
 
 <br>
 - Single linkage tends to "chain" the data into long stringy clusters, can avoid confusion from nuisance variables but gets confused by "inliers" (outliers between clusters)
@@ -425,7 +383,7 @@ layout: false
 
 No one perfect method for all problems, but Wards tends to be a good starting point. 
 
-]]
+
 ---
 class: split-50
 layout: false
@@ -590,20 +548,24 @@ grid.arrange(p1, p2, p3, p4, p5, ncol=3)
 ---
 
 
-class: split-30
-layout: false
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- [Hierarchical clustering](#2)
-- [Linkage](#7)
-- [Dendrogram](#13)
-- [Pros and cons](#16)
-- .orange[Example]
+
+## Example - flea data
+
+<br>
+
+.green[Flea data:] 6 variables, 74 cases. Shown here is the best 2D projection showing the three true clusters.
+
+Data has a mix of nuisance variables and observations.
+
+
 
 ]]
-.column[.top50px[
+
+.column[.content.vmiddle[
 
 ```{r eval=FALSE}
 data(flea)
@@ -615,19 +577,17 @@ fproj <- as_tibble(as.matrix(flea[,1:6])%*%matrix(fpp[1:6, 1:2, 10], ncol=2, byr
 save(fproj, file="data/fproj.rda")
 ```
 
-Flea data: 6 variables, 74 cases. Shown here is the best 2D projection showing the three true clusters.
-
-Data has a mix of nuisance variables and observations.
-
-```{r out.width="50%", fig.width=4, fig.height=4}
+```{r}
 load("data/fproj.rda")
 ggplot(fproj, aes(x=V1, y=V2)) + geom_point() +
-  theme_bw() +
+  theme_minimal(base_size = 18) +
   theme(aspect.ratio=1) +
-  xlab("") + ylab("")
+  xlab("") + ylab("") 
+
 ```
 
 ]]
+
 
 ---
 
@@ -686,21 +646,7 @@ grid.arrange(p1, p2, p3, p4, p5, ncol=3)
 ```
 ---
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- [Linkage](#7)
-- [Dendrogram](#13)
-- [Pros and cons](#16)
-- [Example](#23)
-- .orange[Dendrogram in p-space]
-
-]]
-.column[.top50px[
+## Dendrogram in p-space
 
 <br>
 
@@ -709,7 +655,7 @@ Examining the dendrogram in the high-dimensional data space can be done using th
 1. Add points to the data to provide the places where the leaves join. These are the .orange[nodes] in the dendrogram.
 2. Create a data set of .orange[edges], indicating which points should be connected.
 
-]]
+
 ---
 Dendrogram in $p$-dimensions (Wards and average linkage)
 

@@ -1,11 +1,11 @@
 ---
-title: "ETC3250: Introduction to Supervised Learning"
-subtitle: "Semester 1, 2019"
+title: "ETC3250: Supervised Learning"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 1 (b)"
 output:
   xaringan::moon_reader:
-    css: ["kunoichi", "ninjutsu", "../../../assets/mystyle.css"]
+    css: ["kunoichi", "ninjutsu", "mystyle.css"]
     lib_dir: libs
     nature:
       ratio: '16:9'
@@ -20,12 +20,12 @@ knitr::opts_chunk$set(tidy = FALSE,
                       message = FALSE,
                       warning = FALSE,
                       echo = FALSE, 
-                      fig.retina = 2)
+                      fig.retina = 4)
 options(htmltools.dir.version = FALSE)
 library(magick)
 ```
 
-# .orange[Learning from Data]
+## Learning from Data
 
 - .orange[Better understand] or .orange[make predictions] about a certain
 phenomenon under study <br> <br>
@@ -84,14 +84,14 @@ grid.arrange(p1, p2, p3, ncol=3)
 
 
 ---
-# Supervised learning
+## Supervised learning
 
 $\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N$ 
 
 where $(y_i, x_i) \sim P(Y, X) = P(X) \underbrace{P(Y|X)}_{}$ where $P(Y, X)$ means that these arise from some probability distribution. $``\sim"$ means distributed as, arise from. Typically, we only are interested in $P(Y|X)$, the distribution of $Y$ conditional on $X$.
 
 ---
-# Supervised learning
+## Supervised learning
 
 - $Y = (Y_1, \dots, Y_q)$: response (output) (could be multivariate, $q=1$ for us)
 - $X = (X_1, \dots, X_p)$: set of $p$ predictors (input)
@@ -100,7 +100,7 @@ We seek a function $h(X)$ for predicting $Y$ given values of the input $X$. This
 
 
 ---
-# Supervised learning
+## Supervised learning
 
 $\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N \mbox{ where } (y_i, x_i) \sim P(Y, X)$
 
@@ -118,7 +118,13 @@ where $L(y, {\hat{y}})$ is a non-negative real-valued .orange[loss function], su
 
 ---
 
-# Regression 
+class: middle center
+
+# Regression
+
+---
+
+## Regression 
 
 We often assume that our data arose from a statistical model
 
@@ -131,14 +137,9 @@ $Y=f(X) + \varepsilon,$ where $f$ is the true unknown function, $\varepsilon$ is
 
 ---
 
-```{r}
-if (!file.exists("images/2.2.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf", density = 300), "images/2.2.png", 
-      format = "png", density = 300)
-```
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf" target="_BLANK"> <img src="images/2.2.png" style="width: 100%; align: center"/> </a>
-
+<center>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf" target="_BLANK"> <img src="images/2.2.png" style="width: 70%; align: center"/> </a>
+</center>
 .light-blue[Blue curve] is $f(x)$, the true functional relationship.
 
 .font_tiny[(Chapter2/2.2.pdf)]
@@ -146,22 +147,19 @@ if (!file.exists("images/2.2.png"))
 
 ---
 
-
-```{r}
-if (!file.exists("images/2.3.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf", density = 300), "images/2.3.png", 
-      format = "png", density = 300)
-```
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="images/2.3.png" style="width: 100%; align: center"/> </a>
-
+<center>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="images/2.3.png" style="width: 70%; align: center"/> </a>
+</center>
 .light-blue[Blue surface] is $f(x)$, the true functional relationship.
 
 .font_tiny[(Chapter2/2.3.pdf)]
 
 
 ---
-# Goals of a regression analysis
+
+## Goals of a regression analysis
+
+<br>
 
 - **Prediction**: 
     - $\hat{y}_{*} = \hat f(x_{*})$ for a new observation $x_{*}$
@@ -170,52 +168,25 @@ if (!file.exists("images/2.3.png"))
     - What is the relationship between the response and each predictor?
 
 ---
-# Estimation
+## Estimation
 
-```{r}
-if (!file.exists("images/2.3.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf", density = 300), "images/2.3.png", 
-      format = "png", density = 300)
-```
-
-```{r}
-if (!file.exists("images/2.4.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf", density = 300), "images/2.4.png", 
-      format = "png", density = 300)
-```
+<center>
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="images/2.3.png" style="width: 45%; align: center"/> </a>
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"> <img src="images/2.4.png" style="width: 45%; align: center"/>  </a>
 
+</center>
+
 Linear model: $\hat f(\mbox{education}, \mbox{seniority}) =$ 
 $~~~~~~~~\hat \beta_0 + \hat \beta_1 \times \mbox{education} + \hat \beta_2 \times \mbox{seniority}$
 
-.boxshadow[Why would we ever choose to use a **more restrictive method** instead of a **very flexible approach**?]
+.green[Why would we ever choose to use a **more restrictive method** instead of a **very flexible approach**?]
 
----
-# Estimation
-
-```{r}
-if (!file.exists("images/2.5.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.5.pdf", density = 300), "images/2.5.png", 
-      format = "png", density = 300)
-if (!file.exists("images/2.6.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf", density = 300), "images/2.6.png", 
-      format = "png", density = 300)
-
-```
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="images/2.3.png" style="width: 60%; align: center"/> </a>
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"> <img src="images/2.4.png" style="width: 30%; align: center"/> </a>
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.5.pdf" target="_BLANK"> <img src="images/2.5.png" style="width: 30%; align: center"/> </a>
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf" target="_BLANK"> <img src="images/2.6.png" style="width: 30%; align: center"/> </a>
-
-.font_tiny[(Chapter2/2.3.pdf, 2.4.pdf, 2.5.pdf, 2.6.pdf)]
 
 
 
 ---
-# Methods
+## Methods
 
 ```{r}
 library(emo)
@@ -237,7 +208,7 @@ library(emo)
 
 
 ---
-# Measures of accuracy
+## Measures of accuracy
 
 Suppose we have a regression model $y=f(x)+\varepsilon$. .orange[Estimate]
 $\hat{f}$ from some .orange[training data], $Tr=\{x_i,y_i\}_{i=1}^n$.
@@ -251,14 +222,10 @@ $MSE_{Tr} = \mathop{\mbox{Ave}}\limits_{i\in Tr}[y_i-\hat{f}(x_i)]^2 = \frac{1}{
 
 
 ---
-# Measures of accuracy
+## Measures of accuracy
 
 Suppose we have a regression model $y=f(x)+\varepsilon$. .orange[Estimate]
 $\hat{f}$ from some .orange[training data], $Tr=\{x_i,y_i\}_{i=1}^n$.
-
-One common measure of accuracy is: .orange[Training Mean Squared Error]
-
-$MSE_{Tr} = \mathop{\mbox{Ave}}\limits_{i\in Tr}[y_i-\hat{f}(x_i)]^2 = \frac{1}{n}\sum_{i=1}^n [(y_i-\hat{f}(x_i)]^2$
 
 
 Measure .orange[real accuracy] using .orange[test data] $Te=\{x_j,y_j\}_{j=1}^m$, .orange[Test Mean Squared Error]
@@ -267,7 +234,9 @@ $MSE_{Te} = \mathop{\mbox{Ave}}\limits_{j\in Te}[y_j-\hat{f}(x_j)]^2 = \frac{1}{
 
 
 ---
-# Training vs Test MSEs
+## Training vs Test MSEs
+
+<br>
 
 - In general, the more .orange[flexible] a method is, the .orange[lower] its
 .orange[training MSE] will be. i.e. it will “fit” the training data very well.
@@ -278,19 +247,26 @@ a trade-off between .orange[flexibility] and .orange[model interpretability].
 
 
 ---
-# Interpretability vs Flexibility
 
-```{r}
-if (!file.exists("images/2.7.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf", density = 300), "images/2.7.png", 
-      format = "png", density = 300)
-```
+class: split-two
+
+.column[.pad50px[
+
+## Interpretability vs Flexibility
+
+Simplistic overview of methods on the flexibility vs interpretability scale. Interpretability is when it is clear how the explanatory variable is related to the response, e.g. linear model. .orange[Poor interpretability] is often called a .orange["black box"] method.
+
+<br>
+
+.font_tiny[(Chapter2/2.7.pdf)]
+
+]]
+
+.column[.content.vmiddle.center[
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" target="_BLANK"> <img src="images/2.7.png" style="width: 70%; align: center"/> </a>
  
-Simplistic overview of methods on the flexibility vs interpretability scale. Interpretability is when it is clear how the explanatory variable is related to the response, e.g. linear model. .orange[Poor interpretability] is often called a .orange["black box"] method.
-
-.font_tiny[(Chapter2/2.7.pdf)]
+]]
 
 
 ---
@@ -311,11 +287,7 @@ class: split-30
 .split-two[
 .row[
 
-```{r}
-if (!file.exists("images/2.9.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf", density = 300), "images/2.9.png", 
-      format = "png", density = 300)
-```
+
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf" target="_BLANK"> <img src="images/2.9.png" style="width: 90%; align: center"/> </a>
 
@@ -365,11 +337,6 @@ class: split-30
 .split-two[
 .row[
 
-```{r}
-if (!file.exists("images/2.10.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf", density = 300), "images/2.10.png", 
-      format = "png", density = 300)
-```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf" target="_BLANK"> <img src="images/2.10.png" style="width: 90%; align: center"/> </a>
 
@@ -418,11 +385,6 @@ class: split-30
 .column[.top50px[
 .split-two[
 .row[
-```{r}
-if (!file.exists("images/2.11.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf", density = 300), "images/2.11.png", 
-      format = "png", density = 300)
-```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf" target="_BLANK"> <img src="images/2.11.png" style="width: 90%; align: center"/> </a>
 
@@ -457,22 +419,13 @@ if (!file.exists("images/2.11.png"))
 
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+## Bias - variance tradeoff
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-        - Training vs Test MSEs
-        - Example
-        - Bias-variance tradeoff 
-]]
+<div style="line-height:80%;">
+    <br>
+</div>
 
-.column[.top50px[
-
-.boxshadow[There are two competing forces that govern the
+.tip[There are two competing forces that govern the
 choice of learning method: .orange[bias] and .orange[variance].] 
 
 .orange[Bias]
@@ -484,26 +437,16 @@ complicated problem by a simpler problem.
 - In general, the .orange[more flexible] a method is, the .orange[less bias] it will have. 
 
 [This site](https://degreesofbelief.roryquinn.com/bias-variance-tradeoff) has a lovely explanation, if you don't like mine.
-]]
+
 
 ---
-class: split-30
-count: false
+## Bias - variance tradeoff
 
-.column[.pad10px[
-## Outline
+<div style="line-height:80%;">
+    <br>
+</div>
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-        - Training vs Test MSEs
-        - Example
-        - Bias-variance tradeoff 
-]]
-
-.column[.top50px[
-.boxshadow[There are two competing forces that govern the
+.tip[There are two competing forces that govern the
 choice of learning method: .orange[bias] and .orange[variance].] 
 
 .orange[Variance]
@@ -513,8 +456,6 @@ refers to how much your estimate would change if you had different training data
 - In general, the .orange[more flexible] a method is, the .orange[more variance] it has. 
 - The .orange[size] of the training data has an impact on the variance.
 
-
-]]
 ---
 
 ## MSE decomposition
@@ -533,35 +474,17 @@ Test MSE = Bias $^2$ + Variance + Irreducible variance
 ---
 .nopadding[
 
-```{r}
-if (!file.exists("images/2.12.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.12.pdf", density = 300), "images/2.12.png", 
-      format = "png", density = 300)
-```
-
+<center>
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.12.pdf" target="_BLANK"> <img src="images/2.12.png" style="width: 90%; align: center"/> </a>
 
-.green[squared bias], .orange[variance], Var(ε) (dashed line), and .red[test MSE] for the three data sets shown earlier. The vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
+.blue[Squared bias], .orange[variance], .black[Var(ε) (dashed line)], and .red[test MSE] for the three data sets shown earlier. The vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
+</center>
 
 .font_tiny[(Chapter2/2.12.pdf)]
 
 ]
 ---
-class: split-30
-.column[.nopadding[
-## Outline
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-        - Training vs Test MSEs
-        - Example
-        - Bias-variance tradeoff 
-        - Optimal prediction
-]]
-
-.column[.top50px[
+## Optimal Prediction
 
 The optimal MSE is obtained when 
 
@@ -573,47 +496,34 @@ $\mbox{MSE} = \mbox{irreducible variance}$
 
 This is called the .orange[oracle predictor] because it is not achievable in practice.
 
-]]
+---
+
+class: middle center
+
+# Classification
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-
-]]
-
-.column[.nopadding[
+## Classification
 
 Here the response variable $Y$ is .orange[qualitative].
 
 - e.g., email is one of ${\cal C} = (\mbox{spam},\mbox{ham})$
 - e.g., voters are one of ${\cal C} = (\mbox{Liberal},\mbox{Labor},\mbox{Green},\mbox{National},\mbox{Other})$
 
-Our goals are:
+---
+
+## Classification - goals
+
+.green[Our goals are:]
 1. Build a classifier $C(x)$ that assigns a class label from ${\cal C} = \{\mathcal{C}_1, \dots, \mathcal{C}_K\}$ to a future unlabeled observation $x$.
 2. Such a classifier will divide the input space into regions $\mathcal{R}_k$ called decision regions, one for each class, such that all points in $\mathcal{R}_k$ are assigned to class $\mathcal{C}_k$
 3. Assess the uncertainty in each classification (i.e., the probability of misclassification).
 4. Understand the roles of the different predictors among $X = (X_1,X_2,\dots,X_p)$.
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-
-]]
-
-.column[.top50px[
+## Classification
 
 Recall that we want to minimize the expected prediction error
 
@@ -624,54 +534,28 @@ where $L(y, {\hat{y}})$ is a non-negative real-valued .orange[loss function].
 In classification, the output $Y$ is a .orange[categorical variable], and our loss function can be represented by a $K \times K$ matrix $L$, where $K = \mbox{card}(\mathcal{C})$. $L(k, l)$ is the cost of classifying $C_k$ as $C_l$. With zero-one loss, i.e. $L(y, \hat{y}) = I(y \neq \hat{y})$ the cost is equal for mistakes between any class.
 
 
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+## Error rates
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Optimal classifier
-    - Error 
 
-]]
-
-.column[.top50px[ 
 .orange[Compute] $\hat{C}$ from some .orange[training data], $Tr=\{x_i,y_i\}_1^n$.
 
 In place of MSE, we now use the error rate (fraction of misclassifications).
 
-*Training Error Rate*
+.green[Training Error Rate]
 
 $\text{Error rate}_{Tr} = \frac{1}{n}\sum_{i=1}^n I(y_i \ne \hat{C}(x_i))$
 
 Measure .orange[real accuracy] using .orange[test data] $Te=\{x_j,y_j\}_1^m$
 
-*Test Error Rate*
+.green[Test Error Rate]
 
 $\text{Error rate}_{Te} = \frac{1}{m}\sum_{j=1}^m I(y_j \ne \hat{C}(x_j))$
 
-]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Error 
-    - Bayes classifier
-
-]]
-
-.column[.top50px[
+## Bayes Classifier
 
 Let ${\cal C} = \{\mathcal{C}_1, \dots, \mathcal{C}_K\}$, and let
 
@@ -685,78 +569,35 @@ $C(x) = C_j \quad \mbox{ if } p_j(x) = \max\{p_1(x), p_2(x), \dots, p_K(x)\}$
 
 *This gives the minimum average test error rate.* 
 
-]]
-
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
-
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Error 
-    - Bayes classifier 
-
-]]
-
-.column[.top50px[ 
+## Bayes Classifier
 
 $1-\text{E}\left(\max_j \text{P}(Y = C_j | X)\right)$
 
-- The .orange[Bayes error rate] is the lowest possible error rate that could be achieved if we knew exactly the .orange[true] probability distribution of the data.
+- The .orange[Bayes error rate] is the lowest possible error rate that could be achieved *if we knew* exactly the .orange[true] probability distribution of the data.
 - It is analogous to the irreducible error in regression.
 - On test data, no classifier can get lower error rates than the Bayes error rate.
-- In reality, the Bayes error rate is not known exactly.
 
-]]
+.tip[In reality, the Bayes error rate is not known exactly!!]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+## Bayes Classifier
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Error 
-    - Bayes classifier 
+<center>
 
-]]
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.13.pdf" target="_BLANK"> <img src="images/2.13.png" style="width: 60%; align: center"/> </a>
 
-.column[.top50px[ 
 
-```{r}
-if (!file.exists("images/2.13.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.13.pdf", density = 300), "images/2.13.png", 
-      format = "png", density = 300)
-```
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.13.pdf" target="_BLANK"> <img src="images/2.13.png" style="width: 80%; align: center"/> </a>
+</center>
 
 .font_tiny[(Chapter2/2.13.pdf)]
 
-]]
-
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+## K Nearest Neighbours (KNN)
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Error 
-    - Bayes classifier 
-    - kNN
-]]
-
-.column[.pad10px[ 
 
 One of the simplest classifiers. Given a test observation $x_0$,
 
@@ -765,123 +606,62 @@ One of the simplest classifiers. Given a test observation $x_0$,
 $=P(Y = C_j \mid X=x_0) = \frac{1}{K}\sum_{i\in {\cal N}_0} I(y_i = C_j).$
 - Classify $x_0$ to class with largest probability.
 
-]]
+
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+## KNN
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Error 
-    - Bayes classifier 
-    - kNN
-]]
+<center>
+ <img src="images/KNN.png" style="width: 60%">
 
-.column[.top50px[ 
+</center>
 
-```{r}
-if (!file.exists("images/2.14.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.14.pdf", density = 300), "images/2.14.png", 
-      format = "png", density = 300)
-```
+---
+## KNN
 
+<center>
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.14.pdf" target="_BLANK"> <img src="images/2.14.png" style="width: 100%; align: center"/> </a>
+
+</center>
 
 .font_tiny[(Chapter2/2.14.pdf)]
 
-]]
+
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+## KNN
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Error 
-    - Bayes classifier 
-    - kNN
-]]
-
-.column[.top50px[ 
-
-```{r}
-if (!file.exists("images/2.16.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf", density = 300), "images/2.16.png", 
-      format = "png", density = 300)
-```
+<center>
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf" target="_BLANK"> <img src="images/2.16.png" style="width: 100%; align: center"/> </a>
 
+</center>
+
 .font_tiny[(Chapter2/2.16.pdf)]
 
-]]
-
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+## KNN
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Error 
-    - Bayes classifier 
-    - kNN
-]]
+<center>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.15.pdf" target="_BLANK"> <img src="images/2.15.png" style="width:50%; align: center"/> </a>
 
-.column[.top50px[ 
-
-```{r}
-if (!file.exists("images/2.15.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.15.pdf", density = 300), "images/2.15.png", 
-      format = "png", density = 300)
-```
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.15.pdf" target="_BLANK"> <img src="images/2.15.png" style="width: 80%; align: center"/> </a>
+</center>
 
 .font_tiny[(Chapter2/2.15.pdf)]
 
-]]
-
 ---
-class: split-30
-.column[.pad10px[
-## Outline
+## KNN
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Classification
-    - Error 
-    - Bayes classifier 
-    - kNN
-]]
-
-.column[.top50px[ 
-
-```{r}
-if (!file.exists("images/2.17.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.17.pdf", density = 300), "images/2.17.png", 
-      format = "png", density = 300)
-```
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.17.pdf" target="_BLANK"> <img src="images/2.17.png" style="width: 100%; align: center"/> </a>
+<center>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.17.pdf" target="_BLANK"> <img src="images/2.17.png" style="width: 70%; align: center"/> </a>
+</center>
 
 .font_tiny[(Chapter2/2.17.pdf)]
 
-]]
 ---
-### A fundamental picture
+## A fundamental picture
 
 
-<img src="images/bias-var-tradeoff.png" style="width: 90%; align: center"/>
+<img src="images/bias-var-tradeoff.png" style="width: 70%; align: center"/>
 
 
 ---

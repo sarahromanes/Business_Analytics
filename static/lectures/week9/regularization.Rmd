@@ -1,6 +1,6 @@
 ---
 title: "ETC3250: Regularization"
-subtitle: "Semester 1, 2019"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 9 (a)"
 output: 
@@ -33,17 +33,7 @@ library(magick)
 ```
 
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .orange[Shrinkage methods]
-
-
-]]
-.column[.top50px[
+## Shrinkage methods
 
 <br>
 
@@ -51,25 +41,12 @@ layout: false
 .orange[Shrinkage methods] fit a model containing all $p$ predictors using a technique that constrains or regularizes the coefficient estimates, or equivalently, that .orange[shrinks some of the coefficient estimates towards zero].
 
 <br>
-.boxshadow[There are two main methods: .orange[ridge] regression and .orange[lasso].]
+.tip[There are two main methods: .orange[ridge] regression and .orange[lasso].]
 
-]]
 
 ---
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Shrinkage Methods
-    - Ridge regression
-
-
-]]
-
-.column[.top50px[
+## Ridge regression
 
 \begin{align*}
 	& \mbox{RSS} =  \sum_{i = 1}^n \left(y_i - \beta_0 - \sum_{j = 1}^p \beta_j x_{ij} \right)^2 
@@ -88,20 +65,8 @@ Least squares:
 \end{align*}
 where $\lambda \geq 0$ is a tuning parameter.
 
-]]
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Shrinkage Methods
-    - Ridge regression
-
-
-]]
-.column[.top50px[
+## Ridge regression
 
 $$\lambda \sum_{j=1}^p \beta_j^2$$ 
 is called a .orange[shrinkage penalty]. It is small when $\beta_1, ..., \beta_p$ are close to 0.
@@ -109,21 +74,15 @@ is called a .orange[shrinkage penalty]. It is small when $\beta_1, ..., \beta_p$
 $\lambda$ serves as a .orange[tuning parameter], controlling the relative impact of these two terms on the regression coefficient estimates. When it is 0, the penalty term has no effect on the fit. 
 
 Ridge regression will produce a .orange[different set of coefficients] for each $\lambda$, call them $\hat{\beta}_{\lambda}^R$. Tuning $\lambda$, typically by cross-validation, is critical component of fitting the model. 
-]]
+
 
 ---
 class: split-60
 layout: false
 
 .column[.pad10px[
-Standardized ridge regression coefficients for the Credit data set. 
+.orange[Standardized ridge regression coefficients for the Credit data set. ]
 
-```{r}
-library(magick)
-if (!file.exists("images/6.4.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.4.pdf", density = 300), "images/6.4.png", 
-      format = "png", density = 300)
-```
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.4.pdf" target="_BLANK"> <img src="images/6.4.png" style="width: 100%; align: center"/> </a>
 

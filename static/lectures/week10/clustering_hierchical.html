@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>ETC3250: hierarchical clustering</title>
+    <title>ETC3250: Hierarchical clustering</title>
     <meta charset="utf-8" />
     <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <script src="libs/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
-    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+    <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# ETC3250: hierarchical clustering
-## Semester 1, 2019
+# ETC3250: Hierarchical clustering
+## Semester 1, 2020
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 10 (b)
 
@@ -25,24 +25,17 @@ class: center, middle, inverse, title-slide
 
 
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .orange[Hierarchical clustering]
 
 
-]]
-.column[.top50px[
+## Hierarchical clustering
 
 &lt;br&gt;
+
 - .orange[Agglomeration]: Begin with all observations in singleton clusters. Sequentially .orange[join] points into clusters, until all are in one cluster. 
 - .orange[Divisive]: Begin with all observtions in one cluster, adn sequentially .orange[divide] until all observations are in singleton clusters. 
 - Produces a tree diagram illustrating the process, called a .orange[dendrogram].
 
-]]
+
 
 ---
 class: split-50
@@ -56,9 +49,9 @@ Some new data 🤸
 &lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white;background-color: #3F9F7A;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; x2 &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
@@ -142,24 +135,24 @@ layout: false
 &lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; a &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; b &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; c &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; e &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; f &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; g &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; h &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; i &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; j &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; k &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; l &lt;/th&gt;
+   &lt;th style="text-align:left;color: white;background-color: #3F9F7A;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; a &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; b &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; c &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; d &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; e &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; f &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; g &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; h &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; i &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; j &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; k &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; l &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 4.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5.7 &lt;/td&gt;
@@ -174,7 +167,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 13.0 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 4.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 1.4 &lt;/td&gt;
@@ -189,7 +182,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 16.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5.7 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 1.4 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
@@ -204,7 +197,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 17.5 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2.2 &lt;/td&gt;
@@ -219,7 +212,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 19.6 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.7 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.1 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 15.8 &lt;/td&gt;
@@ -234,7 +227,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 18.8 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.0 &lt;/td&gt;
@@ -249,7 +242,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 12.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.1 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.2 &lt;/td&gt;
@@ -264,7 +257,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 14.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.9 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.6 &lt;/td&gt;
@@ -279,7 +272,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 19.9 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 15.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.8 &lt;/td&gt;
@@ -294,7 +287,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 9.1 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.3 &lt;/td&gt;
@@ -309,7 +302,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 3.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 8.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10.2 &lt;/td&gt;
@@ -324,7 +317,7 @@ layout: false
    &lt;td style="text-align:right;"&gt; 9.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.5 &lt;/td&gt;
@@ -379,19 +372,7 @@ What is the .orange[distance] between the new .orange[cluster (b,c)] and all of 
 
 ---
 
-
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- .orange[Linkage]
-
-
-]]
-.column[.top50px[
+## Linkage
 
 Between points .orange[in] the cluster to points .orange[not in] the cluster. 
 
@@ -401,7 +382,7 @@ Between points .orange[in] the cluster to points .orange[not in] the cluster.
 - .orange[Centroid]: distances between the average of the different clusters
 - .orange[Wards]: minimizes the total within-cluster variance
 
-]]
+
 ---
 class: split-60
 layout: false
@@ -413,27 +394,27 @@ layout: false
 &lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; a &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; b &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; c &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; e &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; f &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; g &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; h &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; i &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; j &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; k &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; l &lt;/th&gt;
+   &lt;th style="text-align:left;color: white;background-color: #3F9F7A;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; a &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; b &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; c &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; d &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; e &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; f &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; g &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; h &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; i &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; j &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; k &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; l &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 4.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 5.7 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.7 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
@@ -445,40 +426,40 @@ layout: false
    &lt;td style="text-align:right;"&gt; 13.0 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; b &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;color: #CA6627 !important;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;color: #CA6627 !important;"&gt; 1.4 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.6 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.1 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.6 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.1 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 18.9 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9.5 &lt;/td&gt;
-   &lt;td style="text-align:right;color: #CA6627 !important;"&gt; 16.3 &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 4.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;color: #CA6627;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;color: #CA6627;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 3.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 18.9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 13.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 9.5 &lt;/td&gt;
+   &lt;td style="text-align:right;color: #CA6627;"&gt; 16.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; c &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5.7 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;color: #CA6627 !important;"&gt; 1.4 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;color: #CA6627 !important;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 18.6 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.3 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 10.2 &lt;/td&gt;
-   &lt;td style="text-align:right;color: #CA6627 !important;"&gt; 17.5 &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 5.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;color: #CA6627;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;color: #CA6627;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 2.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 15.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 17.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 18.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 10.2 &lt;/td&gt;
+   &lt;td style="text-align:right;color: #CA6627;"&gt; 17.5 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.6 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 3.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 2.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
@@ -490,10 +471,10 @@ layout: false
    &lt;td style="text-align:right;"&gt; 19.6 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.7 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.1 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 15.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
@@ -505,10 +486,10 @@ layout: false
    &lt;td style="text-align:right;"&gt; 18.8 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.6 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 17.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
@@ -520,10 +501,10 @@ layout: false
    &lt;td style="text-align:right;"&gt; 12.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.1 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 15.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 4.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 4.1 &lt;/td&gt;
@@ -535,10 +516,10 @@ layout: false
    &lt;td style="text-align:right;"&gt; 14.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 18.9 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 18.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 18.9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 18.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.1 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 8.1 &lt;/td&gt;
@@ -550,10 +531,10 @@ layout: false
    &lt;td style="text-align:right;"&gt; 19.9 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 15.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3.2 &lt;/td&gt;
@@ -565,10 +546,10 @@ layout: false
    &lt;td style="text-align:right;"&gt; 9.1 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 13.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 11.0 &lt;/td&gt;
@@ -580,10 +561,10 @@ layout: false
    &lt;td style="text-align:right;"&gt; 3.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 8.5 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9.5 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 10.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 9.5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 10.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 12.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 11.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
@@ -595,10 +576,10 @@ layout: false
    &lt;td style="text-align:right;"&gt; 9.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.3 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17.5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 17.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 12.2 &lt;/td&gt;
@@ -629,6 +610,8 @@ Wards: Your turn to calculate it 🤷
 ]]]
 ---
 
+class: middle center
+
 &lt;img src="images/linkage.png" style="width: 100%" /&gt;
 
 ---
@@ -643,25 +626,25 @@ layout: false
 &lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; a &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; (b,c) &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; e &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; f &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; g &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; h &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; i &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; j &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; k &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; l &lt;/th&gt;
+   &lt;th style="text-align:left;color: white;background-color: #3F9F7A;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; a &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; (b,c) &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; d &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; e &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; f &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; g &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; h &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; i &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; j &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; k &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; l &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 4.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.7 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
@@ -673,23 +656,23 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13.0 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; (b,c) &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;color: #CA6627 !important;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.6 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.1 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 18.6 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9.5 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.3 &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; (b,c) &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 4.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;color: #CA6627;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 2.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 15.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 18.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 13.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 9.5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 2.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
@@ -701,9 +684,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.6 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.7 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 15.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
@@ -715,9 +698,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.8 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
@@ -729,9 +712,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 12.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.1 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 15.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 4.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 4.1 &lt;/td&gt;
@@ -743,9 +726,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 18.6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 18.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.1 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 8.1 &lt;/td&gt;
@@ -757,9 +740,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.9 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 15.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3.2 &lt;/td&gt;
@@ -771,9 +754,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9.1 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 13.2 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 11.0 &lt;/td&gt;
@@ -785,9 +768,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 8.5 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9.5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 9.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 12.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 11.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
@@ -799,9 +782,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 12.2 &lt;/td&gt;
@@ -837,25 +820,25 @@ layout: false
 &lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; a &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; (b,c) &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; e &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; f &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; g &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; h &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; i &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; j &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; k &lt;/th&gt;
-   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; l &lt;/th&gt;
+   &lt;th style="text-align:left;color: white;background-color: #3F9F7A;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; a &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; (b,c) &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; d &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; e &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; f &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; g &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; h &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; i &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; j &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; k &lt;/th&gt;
+   &lt;th style="text-align:right;color: white;background-color: #3F9F7A;"&gt; l &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 5.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.7 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
@@ -867,23 +850,23 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13.0 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; (b,c) &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;color: #CA6627 !important;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.9 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.1 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 18.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.5 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.9 &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; (b,c) &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 5.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;color: #CA6627;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 2.9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 18.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 13.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 9.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.9 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 2.9 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
@@ -895,9 +878,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.6 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17.7 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
@@ -909,9 +892,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.8 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.3 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 0.0 &lt;/td&gt;
@@ -923,9 +906,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 12.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.8 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 14.1 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 15.3 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 4.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 4.1 &lt;/td&gt;
@@ -937,9 +920,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 14.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20.2 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 18.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 18.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.1 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 8.1 &lt;/td&gt;
@@ -951,9 +934,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.9 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 15.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.4 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3.2 &lt;/td&gt;
@@ -965,9 +948,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9.1 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 13.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.5 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 11.0 &lt;/td&gt;
@@ -979,9 +962,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 8.5 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9.8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 9.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 12.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 11.0 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7.8 &lt;/td&gt;
@@ -993,9 +976,9 @@ layout: false
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;color: white !important;background-color: #3F9F7A !important;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:left;color: white;background-color: #3F9F7A;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13.0 &lt;/td&gt;
-   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16.9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627;"&gt; 16.9 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19.6 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 18.8 &lt;/td&gt;
    &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 12.2 &lt;/td&gt;
@@ -1029,20 +1012,7 @@ e and h would be joined at the next step
 
 ---
 
-
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- [Linkage](#7)
-- .orange[Dendrogram]
-
-
-]]
-.column[.top50px[
+## Dendrogram
 
 &lt;br&gt;
 
@@ -1052,8 +1022,8 @@ layout: false
 &lt;br&gt;
 &lt;br&gt;
 
-.orange[Cut the tree] to partition the data into `\(k\)` clusters
-]]
+.orange[Cut the tree] to partition the data into `\(k\)` clusters.
+
 ---
 
 &lt;img src="clustering_hierchical_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
@@ -1061,19 +1031,7 @@ layout: false
 ---
 
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- [Linkage](#7)
-- [Dendrogram](#13)
-- .orange[Pros and cons]
-
-]]
-.column[.top50px[
+## Pros and cons
 
 &lt;br&gt;
 - Single linkage tends to "chain" the data into long stringy clusters, can avoid confusion from nuisance variables but gets confused by "inliers" (outliers between clusters)
@@ -1082,7 +1040,7 @@ layout: false
 
 No one perfect method for all problems, but Wards tends to be a good starting point. 
 
-]]
+
 ---
 class: split-50
 layout: false
@@ -1135,30 +1093,31 @@ Variables that don't contribute to the clustering but are included in the distan
 ---
 
 
-class: split-30
-layout: false
+class: split-two
 
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- [Linkage](#7)
-- [Dendrogram](#13)
-- [Pros and cons](#16)
-- .orange[Example]
-
-]]
-.column[.top50px[
+.column[.pad50px[
 
 
+## Example - flea data
 
-Flea data: 6 variables, 74 cases. Shown here is the best 2D projection showing the three true clusters.
+&lt;br&gt;
+
+.green[Flea data:] 6 variables, 74 cases. Shown here is the best 2D projection showing the three true clusters.
 
 Data has a mix of nuisance variables and observations.
 
-&lt;img src="clustering_hierchical_files/figure-html/unnamed-chunk-22-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
 
 ]]
+
+.column[.content.vmiddle[
+
+
+
+&lt;img src="clustering_hierchical_files/figure-html/unnamed-chunk-22-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+]]
+
 
 ---
 
@@ -1168,21 +1127,7 @@ Data has a mix of nuisance variables and observations.
 &lt;img src="clustering_hierchical_files/figure-html/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Hierarchical clustering](#2)
-- [Linkage](#7)
-- [Dendrogram](#13)
-- [Pros and cons](#16)
-- [Example](#23)
-- .orange[Dendrogram in p-space]
-
-]]
-.column[.top50px[
+## Dendrogram in p-space
 
 &lt;br&gt;
 
@@ -1191,7 +1136,7 @@ Examining the dendrogram in the high-dimensional data space can be done using th
 1. Add points to the data to provide the places where the leaves join. These are the .orange[nodes] in the dendrogram.
 2. Create a data set of .orange[edges], indicating which points should be connected.
 
-]]
+
 ---
 Dendrogram in `\(p\)`-dimensions (Wards and average linkage)
 

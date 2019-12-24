@@ -1,6 +1,6 @@
 ---
 title: "ETC3250: k-means clustering"
-subtitle: "Semester 1, 2019"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 10 (a)"
 output: 
@@ -33,24 +33,13 @@ library(magick)
 ```
 
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .orange[Cluster analysis]
-
-
-]]
-.column[.top50px[
+## Cluster analysis
 
 <br>
 
 - The aim of cluster analysis is to group cases (objects) according to their similarity on the variables. It is also often called unsupervised classification, meaning that classification is the ultimate goal, but the classes (groups) are not known ahead of time. 
 - Hence the first task in cluster analysis is to construct the class information. To determine closeness we start with measuring the interpoint distances.
 
-]]
 
 ---
 
@@ -86,21 +75,7 @@ ggplot(data=flea) + geom_point(aes(x=tars1, y=aede1)) + theme(aspect.ratio=1) + 
 
 ---
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- .orange[k-means]
-
-
-]]
-
-.column[.top50px[
-
-.orange[Algorithm]
+## k-means clustering - algorithm
 
 This is an iterative procedure. To use it the number of clusters, $k$, must be decided first.  The stages of the iteration are:
 
@@ -110,7 +85,6 @@ This is an iterative procedure. To use it the number of clusters, $k$, must be d
 - Iterate steps 2 and 3 until convergence.
 
 [Thean C. Lim's blog post](https://theanlim.rbind.io/post/clustering-k-means-k-means-and-gganimate/)
-]]
 
 ---
 class: split-50
@@ -655,20 +629,9 @@ ggplot(data=flea) +
 ]]]
 
 ---
-class: split-30
-layout: false
+## Choosing k
 
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- [k-means](#4)
-- .orange[Choosing k]
-
-]]
-.column[.pad50px[
-
-.boxshadow[Cluster statistics]
+.green[Cluster statistics]
 
 - .orange[WBRatio]: average within/average between want it to be low, but always drops for each additional cluster so look for large drops
 - .orange[Hubert Gamma]: (s+ - s-)/(s+ + s-) where $s+=$sum of number of within $<$ between, $s-=$ sum of number within $>$ between, want this to be high
@@ -676,7 +639,6 @@ layout: false
 - .orange[Calinski-Harabasz Index]: $\frac{\sum_{i=1}^p B_{ii}/(k-1)}{\sum_{i=1}^p W_{ii}/(n-k)}$ want this to be high
 
 
-]]
 ---
 
 class: split-30
@@ -716,20 +678,9 @@ ggplot(data=f.km.stats.m) +
 
 ]]
 ---
-class: split-30
-layout: false
+## k-means caveats
 
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- [k-means](#4)
-- [Choosing k](#17)
-- .orange[k-means caveats]
-]]
-.column[.pad50px[
-
-.boxshadow[Effect of seed]
+.green[Effect of seed]
 
 - The k-means algorithm can yield quite different results depending on the initial seed.
 - Example runs used 5 random starts, and used the `within.cluster.ss` metric to decide on the best solution.
@@ -763,24 +714,12 @@ p3 <- ggplot(data=flea, aes(x=tars1, y=aede1,
 grid.arrange(p1, p2, p3, ncol=3)
 ```
 
-]]
+
 
 ---
-class: split-30
-layout: false
+## Interpoint distance measures 
 
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- [k-means](#4)
-- [Choosing k](#17)
-- [k-means caveats](#19)
-- .orange[Interpoint distance measures]
-    - Euclidean
-
-]]
-.column[.pad50px[
+.green[Euclidean]
 
 - Cluster analysis depends on the interpoint distances, points close together should be grouped together
 - Euclidean distance was used for the example. Let $A=(x_{a1}, x_{a2}, ..., x_{ap}), B=(x_{b1}, x_{b2}, ..., x_{bp})$
@@ -790,7 +729,7 @@ d_{EUC}(A, B) &= \sqrt{\sum_{j=1}^p (x_{aj}-x_{bj})^2} &\\
 &= ((X_A-X_B)^T (X_A-X_B))&
 \end{align*}
 
-]]
+
 
 ---
 class: split-50

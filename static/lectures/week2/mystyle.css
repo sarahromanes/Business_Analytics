@@ -210,9 +210,9 @@ table, th, td {
 
 
 .tip{
-    padding: 1em;
-    margin: 1em 0;
-    padding-left: 100px;
+    padding: 0.35em;
+    margin: 0.35em 0;
+    padding-left: 50px;
     background-size: 70px;
     background-repeat: no-repeat;
     background-position: 15px center;
@@ -254,8 +254,8 @@ table, th, td {
 }
 
 div.tipmin, .note, .note-code {
-    padding: 1em;
-    margin: 1em 0;
+    padding: 0.35em;
+    margin: 0.35em 0;
     color: #1f5386;
     background-color: #ffffcc;
     border-left: 20px solid #ffeb3b;
@@ -302,4 +302,6 @@ div.tipmin, .note, .note-code {
   content: "equation";
   color: #ffeb3b;
 }
+
+table { display: inline-block; }
 

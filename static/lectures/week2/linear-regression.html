@@ -6,14 +6,14 @@
     <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
-    <link rel="stylesheet" href="..\..\..\assets\mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
 # ETC3250: Linear Regression
-## Semester 1, 2019
+## Semester 1, 2020
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 2 (a)
 
@@ -23,7 +23,7 @@ class: center, middle, inverse, title-slide
 
 
 
-# Multiple Regression
+## Multiple Regression
 
 &lt;br&gt;
 
@@ -39,23 +39,20 @@ in the model.
 
 ---
 
-# Multiple Regression
+## Multiple Regression
 
 
 - The model describes a .orange[**line**, plane or hyperplane] in the predictor space.
-
-
 
 
 &lt;center&gt;&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" target="_BLANK"&gt; &lt;img src="images/3.1.png" style="width: 60%"/&gt; &lt;/a&gt;
 &lt;/center&gt;
 
 ---
-# Multiple Regression
+## Multiple Regression
 
 
 - The model describes a .orange[line, **plane** or hyperplane] in the predictor space.
-
 
 
 &lt;center&gt;
@@ -63,7 +60,7 @@ in the model.
 &lt;/center&gt;
 
 ---
-# Categorical Variables
+## Categorical Variables
 
 Qualitative variables need to be converted to numeric.
 
@@ -85,17 +82,7 @@ These are called .orange[dummy variables].
 
 
 ---
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- .green[Multiple regression]
-    - Model
-    - Categorical variables
-    
-]]
-.column[.top50px[
+## Categorical Variables
 
 More than two categories
 
@@ -122,10 +109,10 @@ which would result in the model
 
 These are called .orange[dummy variables].
 
-]]
+
 
 ---
-# Ordinary Least Squares (OLS)
+## Ordinary Least Squares (OLS)
 
 &lt;br&gt;
 
@@ -134,7 +121,9 @@ These are called .orange[dummy variables].
 
 
 ---
-# Model Diagnostics
+## Model Diagnostics
+
+&lt;br&gt;
 
 `\(R^2\)` is the proportion of variation explained by the model, and measures the goodness of the fit, close to 1 the model explains most of the variability in `\(Y\)`, close to 0 it explains very little. 
 
@@ -146,7 +135,9 @@ where `\(RSS = \sum_{i=1}^n (y_i-\hat{y})^2\)` (read: Residual Sum of Squares), 
 
 ---
 
-# Model Diagnostics
+## Model Diagnostics
+
+&lt;br&gt;
 
 .orange[Residual Standard Error (RSE)] is an estimate of the standard deviation of `\(\varepsilon\)`. This is meaningful with the assumption that `\(\varepsilon \sim N(0, \sigma^2)\)`. 
 
@@ -154,7 +145,9 @@ where `\(RSS = \sum_{i=1}^n (y_i-\hat{y})^2\)` (read: Residual Sum of Squares), 
 
 
 ---
-# Model Diagnostics
+## Model Diagnostics
+
+&lt;br&gt;
 
 F statistic tests whether any predictor explains response, by testing
 
@@ -162,7 +155,9 @@ F statistic tests whether any predictor explains response, by testing
 
 
 ---
-# Think about ...
+## Think about ...
+
+&lt;br&gt;
 
 - Is at least one of the predictors useful in predicting the response?
 - Do all the predictors help to explain `\(Y\)`, or is only a subset of the predictors useful?
@@ -171,7 +166,7 @@ F statistic tests whether any predictor explains response, by testing
 
 
 ---
-# Example - Wages
+## Example - Wages
 
 Wage and other data for a group of 3000 male workers in the Mid-Atlantic region. 
 .orange[Goal:] .green[Predict wage based on worker characteristics.]
@@ -193,19 +188,21 @@ Wage and other data for a group of 3000 male workers in the Mid-Atlantic region.
 ## $ wage       &lt;dbl&gt; 75.04315, 70.47602, 130.98218, 154.68529, 75.04315,...
 ```
 
+
 ---
+
 class: split-two
 
 .column[.pad50px[
 
-# Take a look
+## Take a look
 
 - Pairwise comparisons of select columns reveal...
 
 ]]
 
 .column[.content.vmiddle.center[
-&lt;img src="linear-regression_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+&lt;img src="linear-regression_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
 ]]
 
 ---
@@ -213,7 +210,7 @@ class: split-two
 
 .column[.pad50px[
 
-# Take a look
+## Take a look
 
 - Pairwise comparisons of select columns reveal...
 - Examining .. instead of ... reveals..
@@ -221,11 +218,11 @@ class: split-two
 ]]
 
 .column[.content.vmiddle.center[
-&lt;img src="linear-regression_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+&lt;img src="linear-regression_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;
 ]]
 
 ---
-# Model for wage data
+## Model for wage data
 
 &lt;br&gt;
 
@@ -237,7 +234,7 @@ where `\(Y=\)` `logwage`, `\(X_1=\)` `year`, `\(X_2=\)` `age`, and `\(X_3=\)` `e
 
 
 ---
-# Fitting the model in R
+## Fitting the model in R
 
 
 ```
@@ -260,7 +257,7 @@ F-statistic: 178.1 on 6 and 2993 DF,  p-value: &lt; 2.2e-16
 
 
 ---
-# Interpretation
+## Interpretation
 
 - The ideal scenario is when the predictors are uncorrelated.
     - Each coefficient can be interpreted and tested separately.
@@ -271,7 +268,7 @@ F-statistic: 178.1 on 6 and 2993 DF,  p-value: &lt; 2.2e-16
 - Claims of causality should be avoided for observational data.
 
 ---
-# Interactions
+## Interactions
 
 - An interaction occurs when the one variable changes the effect of a second variable. (e.g., spending on radio advertising increases the effectiveness of TV advertising).
 - To model an interaction, include the product `\(X_1X_2\)` in the model in addition to `\(X_1\)` and `\(X_2\)`.
@@ -282,75 +279,30 @@ with their coefficients are not significant. (This is because the interactions a
 
 
 ---
-# Interactions
-
+## Interactions
 
 
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf" target="_BLANK"&gt; &lt;img src="images/3.7.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
 
 ---
-class: split-30
-layout: true
+## Residuals
 
-.column[.pad10px[
-## Outline
+&lt;br&gt;
 
-- Multiple regression
-- Example
-- .green[Modelling]
-    - Interpretation
-    - Interactions
-    - Residuals
-
-]]
-.column[.top50px[
-.split-3[
-.row[.content[
-- If a plot of the residuals vs any predictor in the model shows a pattern, then the .orange[relationship is nonlinear].
-]]
-.row[.content[
-- If a plot of the residuals vs any predictor **not** in the model shows a pattern, then .orange[the predictor should be added to the model].
-]]
-.row[.content[
+- If a plot of the residuals vs any predictor in the model shows a pattern, then the .orange[relationship is nonlinear.]
+- If a plot of the residuals vs any predictor **not** in the model shows a pattern, then .orange[the predictor should be added to the model.]
 - If a plot of the residuals vs fitted values shows a pattern, then there is .orange[heteroscedasticity in the errors]. (Could try a transformation.)
-]]
-]
-]]
+
 
 ---
-class: fade-row2-col2 fade-row3-col2 
-count: false
+## Residuals
 
----
-class: fade-row3-col2 
-count: false
-
----
-count: false
-
----
-layout: false
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Multiple regression
-- Example
-- .green[Modelling]
-    - Interpretation
-    - Interactions
-    - Residuals
-
-]]
-.column[.top50px[
-
-
-
+&lt;center&gt;
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.9.pdf" target="_BLANK"&gt; &lt;img src="images/3.9.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
+&lt;/center&gt;
 
 .font_tiny[(Chapter3/3.9.pdf)]
-]]
+
 
 ---
 class: split-30
@@ -388,73 +340,29 @@ Then
 ]]
 
 ---
-layout: true
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Multiple regression
-- Example
-- Modelling
-- .green[Matrix formulation]
-    - Model
-    - Estimation
-]]
-.column[.top50px[
-
-.split-3[
-.row[.content[
-**.orange[Least squares estimation]**
+## Least squares estimation
 
 Minimize: `\((Y - X\beta)'(Y - X\beta)\)`
-]]
-.row[.content[
+
 Differentiate wrt `\(\beta\)` and equal to zero gives
 
 `\(\hat{\beta}=(X'X)^{-1}X'Y\)`
 
 (The "normal equation".)
-]]
-.row[.content[
+
 
 `$$\hat{\sigma}^2 = \frac{1}{n-p-1}({Y} - {X}\hat{{\beta}})' ({Y} - {X}\hat{{\beta}})$$`
 
 **Note:** If you fall for the dummy variable trap, `\(({X}'{X})\)` is a singular matrix.
 
-]]]
-]]
+
+
 
 ---
-class: fade-row2-col2 fade-row3-col2 
-count: false
 
----
-class: fade-row3-col2 
-count: false
+## Likelihood
 
----
-count: false
 
----
-layout: true
-class: split-30
-
-.column[.pad10px[
-## Outline
-
-- Multiple regression
-- Example
-- Modelling
-- .green[Matrix formulation]
-    - Model
-    - Estimation
-    - Likelihood
-    
-]]
-.column[.top50px[
-.split-2[
-.row[.content[
 If the errors are iid and normally distributed, then
 
 `$${Y} \sim \mathcal{N}_n({X}{\beta},\sigma^2{I})$$`
@@ -463,23 +371,11 @@ So the likelihood is
 
 `$$L = \frac{1}{\sigma^n(2\pi)^{n/2}}\exp\left(-\frac1{2\sigma^2}({Y}-{X}{\beta})'({Y}-{X}{\beta})\right)$$`
 
-]]
-.row[.content[
+
 which is maximized when `\(({Y}-{X}{\beta})'({Y}-{X}{\beta})\)` is minimized.
 
-.orange[.content[
-So MLE `\(\equiv\)` OLS.
-]]
-]]]
+.orange[So MLE `\\(\equiv \\)` OLS.]
 
-]]
-
----
-class: fade-row2-col2
-count: false
-
----
-count: false
 
 ---
 layout: true

@@ -25,10 +25,13 @@
   --color-light-gray: #DCDCDC;
   --main-monashblue: rgba(0, 99, 167, 1);
   --main-monashblue2: #0063A7;
-  --link-color: #7570b3;
+  --link-color: #67b69c;
   --color-opacity70: rgba(0, 99, 167, 0.7);
   --logo: url("https://monba.dicook.org/img/M-large.png");
+  --code-inline-color: #E61771;
 }
+
+E61771
 
 .bg-monashblue { background-color: var(--color-monashblue2); }
 .monashblue { color: var(--color-monashblue2); }
@@ -106,7 +109,7 @@
 }
 
 .remark-slide-content {
-  font-size: 32px;
+  font-size: 30px;
 }
 
 .remark-code-line-highlighted { 
@@ -121,7 +124,7 @@ h1, h2, h3 {
 
 .remark-code, .remark-inline-code {
   font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace;
-  color: var(--color-blue);
+  color: var(--code-inline-color);
 }
 .remark-code {
   color: var(--code-text-color);
@@ -200,3 +203,105 @@ ul li li:before {
   background-color: var(--color-light-gray);
   box-shadow: 5px 5px 10px var(--color-gray);
 }
+
+table, th, td {   
+  border: 10px; 
+}
+
+
+.tip{
+    padding: 0.35em;
+    margin: 0.35em 0;
+    padding-left: 50px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    background-image: url("blub.png");
+    min-height: 120px;
+    color: #1f5386;
+    background-color: #bed3ec;
+    border: dashed 5px #1f5386;
+    width: 70%;
+    display: table;
+    margin: 0 auto;
+  }
+  
+.tip > ul li::before {
+  color: #003F7F;
+}
+
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+
+
+.font-65 {
+  font-size: 0.65em;
+}
+
+.font-70 {
+  font-size: 0.7em;
+}
+
+.font-80 {
+  font-size: 0.8em;
+}
+
+.font-90 {
+  font-size: 0.9em;
+}
+
+div.tipmin, .note, .note-code {
+    padding: 0.35em;
+    margin: 0.35em 0;
+    color: #1f5386;
+    background-color: #ffffcc;
+    border-left: 20px solid #ffeb3b;
+    width: 70%;
+    display: table;
+    margin: 0 auto;
+  }
+.note {
+  background-color: #FFFFE5;
+}
+
+.note-code {
+  background-color: #FDEBFF!important;
+}
+
+.box {
+  width:70%;
+  display: table;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.eqn-black {
+  background-color: #D6AC24;
+  border: solid 10px black;
+  position: relative;
+  padding-top: 10px;
+}
+
+.eqn-black::after {
+  position: absolute;
+  top:0;
+  left:0;
+  margin-top: -10px;
+  margin-left: -10px;
+  background-color: black;
+  padding-left:20px;
+  font-family: monospace;
+  padding-right:20px;
+  font-weight: 800;
+}
+
+.eqn-black::after { 
+  content: "equation";
+  color: #ffeb3b;
+}
+
+table { display: inline-block; }
+
