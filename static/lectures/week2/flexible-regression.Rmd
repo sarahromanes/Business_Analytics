@@ -1,6 +1,6 @@
 ---
 title: "ETC3250: Flexible Regression"
-subtitle: "Semester 1, 2019"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 2 (b)"
 output:

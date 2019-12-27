@@ -35,24 +35,10 @@ class: center, middle, inverse, title-slide
 
 ---
 
-class: split-30
-layout: false
+## Cluster this!
 
-.column[.pad10px[
-## Outline
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-1-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
-- .orange[Cluster analysis]
-    - Cluster this
-
-
-]]
-
-.column[.top50px[
-
-&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-1-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-
-
-]]
 
 ---
 
@@ -1396,24 +1382,11 @@ Recompute means, and re-assign the cluster membership
 
 ---
 
-class: split-30
-layout: false
+## Example
 
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- .orange[k-means]
-    - Example
-
-]]
-
-.column[.top50px[
-
-&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-28-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-28-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 
-]]
 
 
 ---
@@ -1463,25 +1436,13 @@ layout: false
 - .orange[Calinski-Harabasz Index]: `\(\frac{\sum_{i=1}^p B_{ii}/(k-1)}{\sum_{i=1}^p W_{ii}/(n-k)}\)` want this to be high
 
 
-]]
 ---
 
-class: split-30
-layout: false
+## Choosing k
 
-.column[.pad10px[
-## Outline
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-33-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
-- [Cluster analysis](#2)
-- [k-means](#4)
-- .orange[Choosing k]
 
-]]
-
-.column[.top50px[
-&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-33-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-]]
 ---
 ## k-means caveats
 
@@ -1515,7 +1476,7 @@ layout: false
 
 .column[.pad10px[
 
-.boxshadow[Other distance metrics]
+### Other distance metrics
 
 - Mahalanobis (or statistical) distance
 
@@ -1531,7 +1492,7 @@ layout: false
 ]]
 .column[.pad10px[
 
-.boxshadow[Distances for count data]
+### Distances for count data
 
 - Canberra: 
 
@@ -1543,23 +1504,9 @@ layout: false
 
 ]]
 ---
-class: split-30
-layout: false
+## Interpoint distance measures - Euclidean
 
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- [k-means](#4)
-- [Choosing k](#17)
-- [k-means caveats](#19)
-- .orange[Interpoint distance measures]
-    - Euclidean
-    - Rules
-
-]]
-.column[.pad50px[
-.boxshadow[Rules for any metric to be a distance]
+.green[Rules for any metric to be a distance]
 
 1. `\(d(A, B) \geq 0\)`
 2. `\(d(A, A) = 0\)`
@@ -1568,7 +1515,7 @@ layout: false
 `\(d(A, B) \leq d(A, C) + d(C, B)\)`, and an ultrametric dissimilarity satisfies
 `\(d(A, B) \leq max\{d(A, C), d(C, B)\}\)`
 
-]]
+
 ---
 
 layout: false

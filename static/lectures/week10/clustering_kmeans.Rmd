@@ -27,7 +27,7 @@ knitr::opts_chunk$set(tidy = FALSE,
                       fig.width=8,
                       fig.height=6,
                       fig.align = "center",
-                      fig.retina = 2)
+                      fig.retina = 4)
 options(htmltools.dir.version = FALSE)
 library(magick)
 ```
@@ -43,21 +43,9 @@ library(magick)
 
 ---
 
-class: split-30
-layout: false
+## Cluster this!
 
-.column[.pad10px[
-## Outline
-
-- .orange[Cluster analysis]
-    - Cluster this
-
-
-]]
-
-.column[.top50px[
-
-```{r out.width="80%", fig.width=6}
+```{r out.width="60%", fig.width=6}
 library(tidyverse)
 library(tourr)
 library(gridExtra)
@@ -70,8 +58,6 @@ ggplot(data=flea) + geom_point(aes(x=tars1, y=aede1)) + theme(aspect.ratio=1) + 
 # Add two more examples
 ```
 
-
-]]
 
 ---
 
@@ -537,26 +523,13 @@ ggplot() +
 
 ---
 
-class: split-30
-layout: false
+## Example
 
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- .orange[k-means]
-    - Example
-
-]]
-
-.column[.top50px[
-
-```{r out.width="80%", fig.width=4, fig.height=4}
+```{r out.width="60%", fig.width=4, fig.height=4}
 ggplot(data=flea) + geom_point(aes(x=tars1, y=aede1)) + theme(aspect.ratio=1) + xlab("") + ylab("")
 ```
 
 
-]]
 
 
 ---
@@ -641,20 +614,9 @@ ggplot(data=flea) +
 
 ---
 
-class: split-30
-layout: false
+## Choosing k
 
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- [k-means](#4)
-- .orange[Choosing k]
-
-]]
-
-.column[.top50px[
-```{r out.width="100%", fig.width=8, fig.height=6}
+```{r out.width="80%", fig.width=8, fig.height=6}
 library(fpc)
 set.seed(31)
 f.km <- NULL; f.km.stats <- NULL
@@ -676,7 +638,7 @@ ggplot(data=f.km.stats.m) +
   theme_bw()
 ```
 
-]]
+
 ---
 ## k-means caveats
 
@@ -737,7 +699,7 @@ layout: false
 
 .column[.pad10px[
 
-.boxshadow[Other distance metrics]
+### Other distance metrics
 
 - Mahalanobis (or statistical) distance
 
@@ -753,7 +715,7 @@ $$(\sum_{j=1}^p|(X_{aj}-X_{bj})|^m)^{1/m}$$
 ]]
 .column[.pad10px[
 
-.boxshadow[Distances for count data]
+### Distances for count data
 
 - Canberra: 
 
@@ -765,23 +727,9 @@ $$\frac{\sum_{j=1}^p|X_{aj}-X_{bj}|}{\sum_{j=1}^p(X_{aj}+X_{bj})}$$
 
 ]]
 ---
-class: split-30
-layout: false
+## Interpoint distance measures - Euclidean
 
-.column[.pad10px[
-## Outline
-
-- [Cluster analysis](#2)
-- [k-means](#4)
-- [Choosing k](#17)
-- [k-means caveats](#19)
-- .orange[Interpoint distance measures]
-    - Euclidean
-    - Rules
-
-]]
-.column[.pad50px[
-.boxshadow[Rules for any metric to be a distance]
+.green[Rules for any metric to be a distance]
 
 1. $d(A, B) \geq 0$
 2. $d(A, A) = 0$
@@ -790,7 +738,7 @@ layout: false
 $d(A, B) \leq d(A, C) + d(C, B)$, and an ultrametric dissimilarity satisfies
 $d(A, B) \leq max\{d(A, C), d(C, B)\}$
 
-]]
+
 ---
 
 layout: false

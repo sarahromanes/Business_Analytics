@@ -1,6 +1,6 @@
 ---
 title: "ETC3250: Regression Trees"
-subtitle: "Semester 1, 2019"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 6 (a)"
 output: 
@@ -334,88 +334,30 @@ Finding the best binary partition in terms of minimum sum of squares is generall
 
 
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+## Diagnostics
 
-- What is a tree?
-- .green[Regression]
-    - Description
-    - Algorithm
-    - Stopping
-    - Diagnostics
+<br>
 
-]]
-.column[.top50px[
-
-.boxshadow[.content[Residual Sum of Squared Error]]
+.green[Residual Sum of Squared Error]
 
 $$\mbox{RSS}(T) = \sum_{m = 1}^{|T|}  N_m Q_m(T), ~~ N_m = \#\{x_i \in R_m\},$$
 where $Q_m(T) = \frac{1}{N_m } \sum_{x_i \in R_m} (y_i - \hat{c}_m)^2$ and $|T|$ is the number of terminal nodes in $T$.
 
-]]
+
 ---
-class: split-30
-layout: true
+ 
+## Size of tree
 
-.column[.pad10px[
-## Outline
+<br>
 
-- What is a tree?
-- .green[Regression]
-    - Description
-    - Algorithm
-    - Stopping
-    - Size of tree
-
-]]
-.column[.top50px[
-
-.row[.content[
 - It is possible to produce good predictions on the **training set**, but is likely to .orange[overfit] the data (trees are very flexible).
-]]
-.row[.content[
 - A smaller tree with fewer splits (that is, fewer regions) might lead to .orange[lower variance] and better interpretation at the cost of a .orange[little bias].
-]]
-.row[.content[
 - Tree size is a tuning parameter governing the **model’s complexity**, and the optimal tree size should be adaptively chosen from the data
-]]
-.row[.content[
 - Produce splits only if RSS decrease exceeds some **(high) threshold** can mean that a low gain split early on, might stop the fitting, even though there may be a very good split later.
-]]
-
-]]
----
-class: fade-row2 fade-row3 fade-row4
-count: false
----
-class: fade-row3 fade-row4
-count: false
----
-class: fade-row4
-count: false
----
-count: false
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- What is a tree?
-- .green[Regression]
-    - Description
-    - Algorithm
-    - Stopping
-    - Size of tree
-    - Pruning
-
-]]
-.column[.top50px[
+## Pruning
 
 Grow a big tree, $T_0$, and then **prune** it back. The *pruning* procedure is:
 
@@ -424,26 +366,10 @@ $$\frac{ \text{RSS}(T_1) - \text{RSS}(T_0) }{|T_1| - |T_0| }$$
 - Iteratively prune to obtain a sequence $T_0, T_1, T_2, \dots, T_{R}$ where $T_{R}$ is the tree with a single leaf node.
 - Select the optimal tree $T_m$ by cross validation
 
-]]
 
 ---
-class: split-30
-layout: false
+## Model selection
 
-.column[.pad10px[
-## Outline
-
-- What is a tree?
-- .green[Regression]
-    - Description
-    - Algorithm
-    - Stopping
-    - Size of tree
-    - Pruning
-    - Model selection
-
-]]
-.column[.top50px[
 
 Using a 50-50 training test set split.
 
@@ -474,13 +400,12 @@ ggplot(hitters_fit, aes(x=nnodes, y=MSE, colour=type)) +
   xlab("Size of tree") +
   geom_vline(xintercept=5)
 ```
-]]
 
 ---
 class: split-50
 layout: false
 
-.column[.pad10px[
+.column[.pad50px[
 
 Yielding this model: 
 
@@ -511,7 +436,7 @@ ggplot(Hitters, aes(x=Years, y=Hits, colour=lSalary)) + geom_point(alpha=0.7, si
 class: split-50
 layout: false
 
-.column[.pad10px[
+.column[.pad50px[
 
 Cross-validation recommendation suggests more. 
 

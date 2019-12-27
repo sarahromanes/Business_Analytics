@@ -128,46 +128,36 @@ Red dots are .orange["fails"], blue dots are .green["passes"], and crosses indic
 
 So we split on the best of these, i.e., split the data on `Exam1` at 56.7.
 ---
-class: split-30
-layout: false
+## Split criteria - purity/impurity metrics
 
-.column[.pad10px[
-## Outline
-
-- .green[Classification]
-    - Split criteria
-
-]]
-.column[.top50px[
-
-.orange[Purity/Impurity metrics]
 
 - The .orange[Gini index] measures total variance across the $K$ classes:
 	$$G = \sum_{k =1}^K \hat{p}_{mk}(1 - \hat{p}_{mk})$$
 - .orange[Entropy] is defined as
 	$$D = - \sum_{k =1}^K \hat{p}_{mk} log(\hat{p}_{mk})$$ 
 - If all $\hat{p}_{mk}$’s close to zero or one, $G$ and $D$ are small.
-]]
+
 
 ---
-class: split-30
-layout: false
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- .green[Classification]
-    - Split criteria
-    - Example
+## Example - predicting heart disease
+
+<br>
+
+$Y$: presence of heart disease (Yes/No)
+
+$X$: heart and lung function measurements
+
+
 
 ]]
-.column[.top50px[
 
-Y: presence of heart disease (Yes/No)
+.column[.content.vmiddle.center[
 
-X: heart and lung function measurements
-
-```{r  out.width="90%", fig.width=6, fig.height=4}
+```{r}
 library(tidyverse)
 library(ISLR)
 library(rpart)
@@ -185,21 +175,13 @@ prp(heart_finalrp)
 ```
 
 
+
 ]]
+
+
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .green[Classification]
-    - Split criteria
-    - Example
-
-]]
-.column[.top50px[
+## Training vs testing performance
 
 Reason for choice of model.
 
@@ -237,31 +219,20 @@ heart_rp <- train(AHD~.,
 prp(heart_rp$finalModel, digits=2, roundint=FALSE)
 ```
 
-]]
+
 
 ---
-class: split-30
-layout: false
+## Model diagnostics
 
-.column[.pad10px[
-## Outline
-
-- .green[Classification]
-    - Split criteria
-    - Example
-    - Model diagnostics
-
-]]
-.column[.top50px[
 
 Tabulate true vs predicted to make a .orange[confusion table]. 
 
 <center>
 <table>
 <tr> <td> </td> <td colspan="2" align="center"> true </td> </tr>
-<tr> <td> </td> <td align="right" bgcolor="#3F9F7A"> C1 </td> <td align="right" bgcolor="#3F9F7A"> C2 </td> </tr>
-<tr> <td bgcolor="#3F9F7A"> C1 </td> <td align="right"> <em>a</em> </td> <td align="right"> <em>b</em> </td> </tr>
-<tr> <td bgcolor="#3F9F7A"> C2</td> <td align="right"> <em>c</em> </td> <td align="right"> <em>d</em> </td> </tr>
+<tr> <td> </td> <td align="right" bgcolor="#daf2e9"> C1 </td> <td align="right" bgcolor="#daf2e9"> C2 </td> </tr>
+<tr> <td bgcolor="#daf2e9"> C1 </td> <td align="right"> <em>a</em> </td> <td align="right"> <em>b</em> </td> </tr>
+<tr> <td bgcolor="#daf2e9"> C2</td> <td align="right"> <em>c</em> </td> <td align="right"> <em>d</em> </td> </tr>
 </table>
 </center>
 
@@ -273,98 +244,93 @@ Tabulate true vs predicted to make a .orange[confusion table].
 - Precision: *a/(a+b)*
 - Recall: *a/(a+c)*
 
-]]
+
 
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-20
 
-- .green[Classification]
-    - Split criteria
-    - Example
-    - Model diagnostics
+.row[.content.vmiddle[
+## Model diagnostics
 ]]
-.column[.top50px[
 
-.split-50[
-.column[.content[
-Confusion table
-
-Training
+.row[.content[
+.split-two[
+.column[.pad10px[
+<center>
+    Training confusion and error
+</center>
 
 ```{r}
 confusionMatrix(heart_tr$AHD, predict(heart_finalrp, newdata=heart_tr, type="class"))$table
-```
-
-Test
-
-```{r}
-confusionMatrix(heart_ts$AHD, predict(heart_finalrp, newdata=heart_ts, type="class"))$table
-```
-]]
-.column[.content[
-Classification accuracy
-
-Training
-
-```{r}
 confusionMatrix(heart_tr$AHD, predict(heart_finalrp, newdata=heart_tr, type="class"))$overall[1]
 ```
-
-Test
-
-```{r}
-confusionMatrix(heart_ts$AHD, predict(heart_finalrp, newdata=heart_ts, type="class"))$overall[1]
-```
-
-]]
-]
-]]
----
-class: split-30
-layout: false
-
+     ]]
 .column[.pad10px[
-## Outline
+<center>
+    Test confusion and error
+</center>
+```{r}
+confusionMatrix(heart_ts$AHD, predict(heart_finalrp, newdata=heart_ts, type="class"))$table
+confusionMatrix(heart_ts$AHD, predict(heart_finalrp, newdata=heart_ts, type="class"))$overall[1]
 
-- Classification
-- .green[Comparison with linear]
+```
+     ]]
+
+]]]
+
+
+---
+class: split-two
+
+.column[.pad50px[
+
+## Comparison with LDA
+
+<br>
+
+Look at the following classification problems and resultant decision boundaries for LDA (left) and CART (right). 
+
+<br>
+
+.green[What characteristics determine which method is more appropriate?]
+
 
 ]]
-.column[.top50px[
 
-```{r}
-library(magick)
-if (!file.exists("images/8.7.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter8/8.7.pdf", density = 300), "images/8.7.png", 
-      format = "png", density = 300)
-```
+.column[.content.vmiddle.center[
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter8/8.7.pdf" target="_BLANK"> <img src="images/8.7.png" style="width: 70%; align: center"/>  </a>
 
 
 ]]
 
+
+
+
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-two
 
-- Classification
-- .green[Comparison with linear]
-    - Example
+.column[.pad50px[
+
+## Example - Crabs
+
+<br>
+
+Physical measurements on WA crabs, males and females.
+
+<br>
+
+.font_small[*Data source*: Campbell, N. A. & Mahon, R. J. (1974)]
 
 ]]
-.column[.top50px[
 
-Physical measurements on WA crabs, males and females
+.column[.content.vmiddle.center[
 
-```{r out.width="90%", fig.width=6, fig.height=4}
+
+
+```{r}
 crab <- read.csv("data/australian-crabs.csv") #online link is broken
 crab <- subset(crab, species=="Blue", select=c("sex", "FL", "RW"))
 crab_rp <- rpart(sex~FL+RW, data=crab, parms = list(split = "information"), 
@@ -372,22 +338,12 @@ crab_rp <- rpart(sex~FL+RW, data=crab, parms = list(split = "information"),
 prp(crab_rp)
 ```
 
-.font_small[*Data source*: Campbell, N. A. & Mahon, R. J. (1974)]
 ]]
+
+
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Classification
-- .green[Comparison with linear]
-    - Example
-
-]]
-.column[.top50px[
+## Example - Crabs
 
 ```{r out.width="100%", fig.width=6, fig.height=4}
 ggplot(data=crab, aes(x=FL, y=RW, color=sex, shape=sex)) + 
@@ -405,13 +361,12 @@ ggplot(data=crab, aes(x=FL, y=RW, color=sex, shape=sex)) +
   geom_segment(aes(x=14, xend=14, y=11, yend=12), color="black", linetype=2) +
   geom_segment(aes(x=16, xend=21.3, y=16, yend=16), color="black", linetype=2)
 ```
-]]
 
 ---
 class: split-50
 layout: false
 
-.column[.pad10px[
+.column[.content.vmiddle.center[
 
 Classification tree
 
@@ -427,7 +382,7 @@ ggplot(data=crab_grid, aes(x=FL, y=RW, color=sex)) +
 
 ```
 ]]
-.column[.top50px[
+.column[.content.vmiddle.center[
 
 Linear discriminant classifier
 
@@ -446,49 +401,14 @@ ggplot(data=crab_grid, aes(x=FL, y=RW, color=sex)) +
 ]]
 
 ---
-class: split-30
-layout: true
+## Pros and cons
 
-.column[.pad10px[
-## Outline
 
-- Classification
-- Comparison with linear
-- .green[Pros and cons]
-
-]]
-.column[.top50px[
-
-.row[.content[
 - The decision rules provided by trees are very easy to explain, and follow. A simple classification model.
-]]
-.row[.content[
-- Trees can handle a mix of predictor types, categorical, quantitative, ....
-]]
-.row[.content[
+- Trees can handle a mix of predictor types, categorical and quantitative.
 - Trees efficiently operate when there are missing values in the predictors.
-]]
-.row[.content[
-- Algorithm is greedy, a better final solution might be obtained by taking a second best split earlier
-]]
-.row[.content[
+- Algorithm is greedy, a better final solution might be obtained by taking a second best split earlier.
 - When separation is in linear combinations of variables trees struggle to provide a good classification
-]]
-]]
----
-class: fade-row2 fade-row3 fade-row4 fade-row5
-count: false
----
-class: fade-row3 fade-row4 fade-row5
-count: false
----
-class: fade-row4 fade-row5
-count: false
----
-class: fade-row5
-count: false
----
-count: false
 
 ---
 layout: false
