@@ -7,14 +7,14 @@
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
-    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+    <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
 # ETC3250: Regularization
-## Semester 1, 2019
+## Semester 1, 2020
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 8 (b)
 
@@ -24,16 +24,7 @@ class: center, middle, inverse, title-slide
 
 
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .orange[Too many variables]
-
-]]
-.column[.top50px[
+## Too many variables
 
 Fitting a linear regression model requires:
 
@@ -47,13 +38,13 @@ The least square solution for `\(\beta\)` is
 
 $$ {\hat \beta} = \color{orange}{({X}' {X})^{-1}} {X}' {y} $$
 
-To .orange[invert] a matrix, requires it to be .orange[full rank], fills the `\(p\)` dimensions.
+To .orange[invert] a matrix, requires it to be .orange[full rank].
 
-]]
+
 
 ---
 
-## Example: using simulation
+## Example: Using simulation
 
 - 20 observations
 - 2 classes: A, B
@@ -130,20 +121,8 @@ Estimated coefficients as dimensions of noise increase:
 
 &lt;img src="regularization_files/figure-html/unnamed-chunk-7-.gif" width="100%" style="display: block; margin: auto;" /&gt;
 ---
-class: split-30
-layout: true
+## Subset selection
 
-.column[.pad10px[
-## Outline
-
-- [Too many variables](#2)
-- .orange[Subset selection]
-
-
-]]
-.column[.top50px[
-
-.row[.content[
 Identify a subset `\(s\)` of the `\(p\)` predictors, most related to response.
 
 `\begin{align*}
@@ -151,58 +130,26 @@ Identify a subset `\(s\)` of the `\(p\)` predictors, most related to response.
 	&amp; \text{subject to}\sum_{j = 1}^p {I}(\beta_j \neq 0) \leq k, \quad  k \geq 0.
 \end{align*}`
 where `\(k \geq 0\)` is a tuning parameter.
-]]
-.row[.content[
+
 - Need to consider `\({p \choose k}\)` models containing `\(s\)` predictors computationally infeasible when `\(p\)` and `\(s\)` are large
 - Stepwise procedures: forward, backward, etc.
-]]
-
-]]
----
-class: fade-row2
 
 ---
-count: false
 
----
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Too many variables](#2)
-- .orange[Subset selection]
-    - Model fit statistics
-
-]]
-.column[.top50px[
+## Model fit statistics
 
 - `\(MSE = RSS/n\)`, but the training `\(MSE\)` is an under-estimate of test `\(MSE\)`, and it will decrease with larger `\(p\)`.
 - Methods for adjusting the training error for model size include Mallows `\(C_p\)`, Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC) and adjusted `\(R^2\)`.
 
-*Fit statistics computer for the Credit data.*
-
-
-
+&lt;center&gt;
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.2.pdf" target="_BLANK"&gt; &lt;img src="images/6.2.png" style="width: 90%; align: center"/&gt; &lt;/a&gt;
+&lt;/center&gt;
 
-
-]]
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+## Mallows `\(C_p\)`
 
-- [Too many variables](#2)
-- .orange[Subset selection]
-    - Model fit statistics
-    - `\(C_p\)`
-
-]]
-.column[.top50px[
+&lt;br&gt;
 
 For a fitted least squares model containing `\(d\)` predictors, a reasonable estimate of the test MSE is:
 
@@ -211,22 +158,11 @@ where `\(\hat{\sigma}^2\)` is an estimate of the variance of the error `\(\varep
 
 The additional part penalises the training RSS to adjust for the under-estimation of test error.
 
-]]
+
 ---
-class: split-30
-layout: false
+## AIC and BIC
 
-.column[.pad10px[
-## Outline
-
-- [Too many variables](#2)
-- .orange[Subset selection]
-    - Model fit statistics
-    - `\(C_p\)`
-    - AIC, BIC
-
-]]
-.column[.top50px[
+&lt;br&gt;
 
 `$$AIC = \frac{1}{n\hat{\sigma}^2} (RSS+2d\hat{\sigma}^2)$$`
 and hence is `\(\propto C_p\)`. 
@@ -235,23 +171,9 @@ and hence is `\(\propto C_p\)`.
 
 all tend to take on low values for models with small test error.
 
-]]
+
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Too many variables](#2)
-- .orange[Subset selection]
-    - Model fit statistics
-    - `\(C_p\)`
-    - AIC, BIC
-    - Adjusted `\(R^2\)`
-
-]]
-.column[.top50px[
+## Adjusted `\(R^2\)`
 
 &lt;br&gt;
 &lt;br&gt;
@@ -259,13 +181,12 @@ layout: false
 `$$\mbox{Adjusted }R^2 = 1-\frac{RSS/(n-d-1)}{TSS/(n-1)}$$`
 
 The intuition is that once all of the correct variables have been included in the model, adding additional *noise* variables will lead to only a very small decrease in RSS.
-]]
+
 ---
-class: split-60
-layout: false
 
-.column[.pad50px[
+## Best subset selection algorithm
 
+&lt;br&gt;
 
 1. Let `\({\mathcal M}_o\)` denote the null model, which contains no predictors. This
 model simply predicts the sample mean for each observation.
@@ -273,23 +194,30 @@ model simply predicts the sample mean for each observation.
     a. Fit all `\({p \choose k}\)` models that contain exactly `\(k\)` predictors.&lt;br&gt;
     b. Pick the best among these `\({p \choose k}\)` models, and call it `\({\mathcal M}_k\)`. Best means smallest RSS (or largest `\(R^2\)`).
 3. Select a single best model from among `\({\mathcal M}_o\)`, . . . , `\({\mathcal M}_p\)` using cross- validated prediction error, `\(C_p\)` (AIC), BIC, or adjusted `\(R^2\)`.
-]]
-.column[.pad50px[
+
+---
+## Best subset selection algorithm
+
 
 .orange[Best subset selection] algorithm applied to the 11 predictors of the Credit data.
 
+&lt;center&gt;
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.1.pdf" target="_BLANK"&gt; &lt;img src="images/6.1.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
+&lt;/center&gt;
 
-
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.1.pdf" target="_BLANK"&gt; &lt;img src="images/6.1.png" style="width: 115%; align: center"/&gt; &lt;/a&gt;
-
-]]
 
 ---
-class: split-60
-layout: false
+## Foward stepwise selection 
 
-.column[.pad50px[
+.orange[Forward stepwise selection] is a computationally efficient alternative to best subset selection. It considers a much smaller set of models.
 
+When `\(p = 20\)`, best subset selection requires fitting 1,048,576 models, whereas forward stepwise selection requires fitting only 211 models.
+
+---
+
+## Foward stepwise selection - algorithm
+
+&lt;br&gt;
 
 1. Let `\({\mathcal M}_o\)` denote the null model, which contains no predictors. This
 model simply predicts the sample mean for each observation.
@@ -297,32 +225,15 @@ model simply predicts the sample mean for each observation.
     a. Consider all `\({p - k}\)` models that augment `\({\mathcal M}_k\)` with *one additional predictor*.&lt;br&gt;
     b. Pick the best among these `\({p - k}\)` models, and call it `\({\mathcal M}_{k+1}\)`. Best means smallest RSS (or largest `\(R^2\)`).
 3. Select a single best model from among `\({\mathcal M}_o\)`, . . . , `\({\mathcal M}_p\)` using cross- validated prediction error, `\(C_p\)` (AIC), BIC, or adjusted `\(R^2\)`.
-]]
-.column[.pad50px[
 
-.orange[Forward stepwise selection] is a computationally efficient alternative to best subset selection. It considers a much smaller set of models.
-
-When `\(p = 20\)`, best subset selection requires fitting 1,048,576 models, whereas forward stepwise selection requires fitting only 211 models.
-
-]]
 ---
-class: split-30
-layout: true
+## Backwise stepwise selection
 
-.column[.pad10px[
-## Outline
-
-- [Too many variables](#2)
-- .orange[Subset selection]
-
-
-]]
-.column[.top50px[
+&lt;br&gt;
 
 - Backward stepwise starts with all variables in the model, and removes the variable with smallest RSS. 
 - Forward and backwards stepwise procedures are not guaranteed to provide the best model. 
 - Backwards stepwise requires that `\(n&gt;p\)`, but forward stepwise does not, and can stop adding variables once `\(n (&lt;p)\)` is reached.
-]]
 
 ---
 

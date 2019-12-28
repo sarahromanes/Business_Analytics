@@ -16,7 +16,7 @@
 class: center, middle, inverse, title-slide
 
 # ETC3250: Classification
-## Semester 1, 2019
+## Semester 1, 2020
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 3 (a)
 
@@ -133,18 +133,11 @@ where
 
 
 ---
-class: split-30
+class: split-two
 
-.column[.pad10px[
-## Outline
+.column[.pad50px[
 
-- Classification
-- .green[Logistic regression]
-    - Logistic function
-]]
-.column[.top50px[
-
-.split-50[.column[
+## Logistic function
 
 Transform the function: 
 
@@ -159,8 +152,8 @@ Transform the function:
 `\(\rightarrow  \frac{1}{1/f(x) - 1} = e^{\beta_0+\beta_1x}\)`
 
 `\(\rightarrow ~~ ...\)`
-]
-.column[
+]]
+.column[.pad50px[
 
 `\(\rightarrow ~~ ...\)`
 
@@ -176,11 +169,9 @@ The left-hand side `\(\log_e\frac{f(x)}{1 - f(x)}\)` is called the .orange[log-o
 
 <span>&lt;i class="fas  fa-dice fa-lg faa-bounce animated faa-slow " style=" color:orange;"&gt;&lt;/i&gt;</span>
 
-]]]
-
 ]]
 ---
-##n  The logistic regression model 
+## The logistic regression model 
 
 The fitted model is then written as:
 
@@ -515,8 +506,6 @@ For `\(K&gt;2\)`, the discriminant space is found be taking an eigen-decompositi
 ## Multivariate LDA
 
 
-
-
 The dashed lines are the Bayes decision boundaries. Ellipses
 that contain 95% of the probability for each of the three classes are shown. Solid line corresponds to the class boundaries from the LDA model fit to the sample.
 
@@ -530,7 +519,6 @@ that contain 95% of the probability for each of the three classes are shown. Sol
 ---
 ## Quadratic DA (QDA)
 A quadratic boundary is obtained by relaxing the assumption of equal variance-covariance, and assume that `\(\Sigma_k \neq \Sigma_l, ~~k\neq l, k,l=1,...,K\)`
-
 
 
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.9.pdf" target="_BLANK"&gt; &lt;img src="images/4.9.png" style="width: 90%; align: center"/&gt; &lt;/a&gt;

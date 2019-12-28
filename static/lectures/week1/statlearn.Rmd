@@ -116,6 +116,16 @@ where $L(y, {\hat{y}})$ is a non-negative real-valued .orange[loss function], su
 ---
 # Regression vs Classification Problems
 
+<br>
+
+
+<center>
+
+<a href="https://towardsdatascience.com/regression-or-classification-linear-or-logistic-f093e8757b9c" target="_BLANK"> <img src="images/problems.png" style="width: 55%; align: center"/> </a>
+
+</center>
+
+.center[.font_tiny[Source: [Taylor Fogarty](https://towardsdatascience.com/regression-or-classification-linear-or-logistic-f093e8757b9c) ]]
 ---
 
 class: middle center
@@ -185,27 +195,37 @@ $~~~~~~~~\hat \beta_0 + \hat \beta_1 \times \mbox{education} + \hat \beta_2 \tim
 
 
 
+
 ---
+class: split-20
+
+.row[.content.vmiddle[
 ## Methods
 
 ```{r}
 library(emo)
 ```
 
-.orange[Parametric methods]
+]]
+
+.row[.content[
+.split-two[
+.column[.pad10px[
+.orange[.center[Parametric methods]]
     <br> `r set.seed(1000); emo::ji("math")` Assumption about the form of $f$, e.g. linear
     <br> `r set.seed(1000); emo::ji("smile")` The problem of estimating $f$ reduces to estimating a set of parameters
     <br> `r set.seed(1000); emo::ji("smile")` Usually a good starting point for many learning problems
-    <br> `r set.seed(1000); emo::ji("frown")` Poor performance if linearity assumption is wrong
-    
-  <br>
-  
-.orange[Non-parametric methods]
+    <br> `r set.seed(1000); emo::ji("frown")` Poor performance if model assumtion (such as linearity) is wrong
+  ]]
+.column[.pad10px[
+.orange[.center[Non-parametric methods]]
     <br> `r set.seed(1000); emo::ji("smile")` No *explicit* assumptions about the  form of $f$, e.g. nearest neighbours: $\hat Y(x) = \frac1k \sum_{x_i \in N_k(x)} y_i$
     <br>  `r set.seed(1000); emo::ji("smile")` High flexibility: it can potentially fit a range of shapes
     <br> `r set.seed(1000); emo::ji("frown")` A large number of observations is required to estimate $f$ with good accuracy
 
+   ]]
 
+]]]
 
 ---
 ## Measures of accuracy
@@ -264,158 +284,85 @@ Simplistic overview of methods on the flexibility vs interpretability scale. Int
 
 .column[.content.vmiddle.center[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" target="_BLANK"> <img src="images/2.7.png" style="width: 70%; align: center"/> </a>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" target="_BLANK"> <img src="images/2.7.png" style="width: 80%; align: center"/> </a>
  
 ]]
 
 
 ---
 
-class: split-30
-.column[.pad10px[
-## Outline
+class: split-70 
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-        - Training vs Test MSEs
-        - Example
+.row.bg-main5[.content.vmiddle.center[
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf" target="_BLANK"> <img src="images/2.9.png" style="width: 85%; align: center"/> </a>
 ]]
 
-.column[.top50px[
+.row[.content[
 .split-two[
-.row[
+.column[.content.vmiddle.center[
 
-
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf" target="_BLANK"> <img src="images/2.9.png" style="width: 90%; align: center"/> </a>
-
-.font_tiny[(Chapter2/2.9.pdf)]
-
-]
-.row[
-.split-50[
-.column[
-<br>
-<br>
-<br>
-
-.black[true curve]<br>
-.orange[linear regression]<br>
-.green[Smoothing] splines
-]
-.column[
-<br>
-<br>
-<br>
-
+.orange[Linear regression]<br>
+.green[Smoothing] splines <br>
+.black[True curve]
+     ]]
+.column[.content.vmiddle.center[
+     
 .gray[Training MSE]<br>
 .red[Test MSE]<br>
-.black[Dashed: Minimum test MSE]
-]
-]
-]
-]
-
-]]
+.black[Dashed: Minimum test MSE]]
+     
+  ]]
+]]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-        - Training vs Test MSEs
-        - Example
+class: split-70 
+
+.row.bg-main5[.content.vmiddle.center[
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf" target="_BLANK"> <img src="images/2.10.png" style="width: 85%; align: center"/> </a>
 ]]
 
-.column[.top50px[
+.row[.content[
 .split-two[
-.row[
+.column[.content.vmiddle.center[
 
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf" target="_BLANK"> <img src="images/2.10.png" style="width: 90%; align: center"/> </a>
-
-.font_tiny[(Chapter2/2.9.pdf)]
-
-]
-.row[
-.split-50[
-.column[
-<br>
-<br>
-<br>
-
-.black[true curve]<br>
-.orange[linear regression]<br>
-.green[Smoothing] splines
-]
-.column[
-<br>
-<br>
-<br>
-
+.orange[Linear regression]<br>
+.green[Smoothing] splines <br>
+.black[True curve]
+     ]]
+.column[.content.vmiddle.center[
+     
 .gray[Training MSE]<br>
 .red[Test MSE]<br>
-.black[Dashed: Minimum test MSE]
-]
-]
-]
-]
-
-]]
+.black[Dashed: Minimum test MSE]]
+     
+  ]]
+]]]
 
 ---
-class: split-30
-.column[.pad10px[
-## Outline
 
-- Introduction
-- Supervised learning
-- .green[Assessing model accuracy]
-    - Regression
-        - Training vs Test MSEs
-        - Example
+class: split-70 
+
+.row.bg-main5[.content.vmiddle.center[
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf" target="_BLANK"> <img src="images/2.11.png" style="width: 85%; align: center"/> </a>
 ]]
 
-.column[.top50px[
+.row[.content[
 .split-two[
-.row[
+.column[.content.vmiddle.center[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf" target="_BLANK"> <img src="images/2.11.png" style="width: 90%; align: center"/> </a>
-
-.font_tiny[(Chapter2/2.11.pdf)]
-
-]
-.row[
-.split-50[
-.column[
-<br>
-<br>
-<br>
-
-.black[true curve]<br>
-.orange[linear regression]<br>
-.green[Smoothing] splines
-]
-.column[
-<br>
-<br>
-<br>
-
+.orange[Linear regression]<br>
+.green[Smoothing] splines <br>
+.black[True curve]
+     ]]
+.column[.content.vmiddle.center[
+     
 .gray[Training MSE]<br>
 .red[Test MSE]<br>
-.black[Dashed: Minimum test MSE]
-]
-]
-]
-]
-
-]]
+.black[Dashed: Minimum test MSE]]
+     
+  ]]
+]]]
 
 
 ---

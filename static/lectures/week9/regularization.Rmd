@@ -142,19 +142,7 @@ if (!file.exists("images/6.5.png"))
 
 ]]
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Shrinkage Methods
-    - [Ridge regression](#3)
-    - Lasso
-
-
-]]
-.column[.top50px[
+## The Lasso
 
 Ridge regression: 
 
@@ -162,7 +150,7 @@ Ridge regression:
 	& \underset{{\beta}}{\text{minimize}} \mbox{ RSS} + \lambda \sum_{j=1}^p \beta_j^2
 \end{align*}
 
-.orange[Lasso]:
+.orange[Lasso:]
 
 \begin{align*}
 	& \underset{{\beta}}{\text{minimize}} \mbox{ RSS} + \lambda \sum_{j=1}^p \color{orange}{|\beta_j|}
@@ -170,7 +158,7 @@ Ridge regression:
 
 and same $\lambda \geq 0$ is a tuning parameter.
 
-]]
+
 
 ---
 class: split-60

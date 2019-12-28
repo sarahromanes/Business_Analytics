@@ -25,27 +25,29 @@ knitr::opts_chunk$set(tidy = FALSE,
                       fig.width=8,
                       fig.height=6,
                       fig.align = "center",
-                      fig.retina = 2)
+                      fig.retina = 4)
 options(htmltools.dir.version = FALSE)
 library(magick)
 ```
 
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-two
 
-- .green[Why]
+.column[.pad50px[
+
+
+## Why is visualisation important?
+
+<br>
+
+Consider the following datasets, known as .green[Anscombe's quartet], which all have the same numerical statistical summaries.
 
 ]]
-.column[.top50px[
 
-.split-two[
-.column[.content[
-Plots provide a more detailed statistical summary. 
+.column[.content.vmiddle.center[
 
-```{r out.width="90%", fig.width=5, fig.height=4}
+```{r}
+library(kableExtra)
 library(tidyverse)
 anscombe_tidy <- anscombe %>%
   gather(variable, value) %>%
@@ -54,57 +56,77 @@ anscombe_tidy <- anscombe %>%
          id=c(1:44, 1:44)) %>%
   select(-variable) %>%
   spread(axis, value)
-ggplot(anscombe_tidy, aes(x=x, y=y)) +
-  geom_smooth(method="lm", se=F, colour="grey50") +
-  geom_point(colour="orange", size=3) +
-  facet_wrap(~set, ncol=2) +
-  xlab("") + ylab("")
-```
-
-[Anscombe's quartet](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
-
-]]
-.column[.content[
-<br>
-<br>
-<br>
-<br>
-All of these sets of data have the same numerical statistical summary.
-
-.font_small[.content[
-```{r}
-library(kableExtra)
 anscombe_tidy %>% group_by(set) %>%
   summarise(mx=round(mean(x),1), my=round(mean(y),1), sx=round(sd(x),2), sy=round(sd(y), 2), r=round(cor(x,y), 2)) %>%
   kable() %>% kable_styling(bootstrap_options = c("striped", full_width = F)) %>%
   column_spec(1:6, border_right = T) %>%
   column_spec(1, border_left = T) %>%
   row_spec(0:4, hline_after = T, monospace = T) %>%
-  row_spec(0, background="#CA6627")
+  row_spec(0, background="#daf2e9")
 ```
+
+
 ]]
-]]]
+
+
+
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+
+## Why is visualisation important?
+
+<br>
+
+
+Consider the following datasets, known as .green[Anscombe's quartet], which all have the same numerical statistical summaries.
+
+<br>
+
+.orange[Plots provide a more detailed statistical summary.]
+
+]]
+
+.column[.content.vmiddle.center[
+
+```{r}
+ggplot(anscombe_tidy, aes(x=x, y=y)) +
+  geom_smooth(method="lm", se=F, colour="grey50") +
+  geom_point(colour="orange", size=3) +
+  facet_wrap(~set, ncol=2) +
+  xlab("") + ylab("") +
+  theme_minimal(base_size = 18)
+```
+
 ]]
 
 
 
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-two
 
-- .green[Why]
+.column[.pad50px[
 
-]]
-.column[.top50px[
 
-.boxshadow[Why visualise? Very .orange[different data] can have the .orange[same numerical summaries].]
+## Why is visualisation important?
+
+<br>
+
+
+.tip[Very .orange[different data] can have the .orange[same numerical summaries].]
 
 [Datasaurus dozen](https://www.autodeskresearch.com/publications/samestats): all have the same means, standard deviations and correlation, also.
 
-```{r out.width="70%"}
+]]
+
+.column[.content.vmiddle.center[
+
+```{r}
 library(datasauRus)
 ggplot(filter(datasaurus_dozen, dataset != "slant_up"), aes(x=x, y=y)) +
   geom_point() +
@@ -113,45 +135,27 @@ ggplot(filter(datasaurus_dozen, dataset != "slant_up"), aes(x=x, y=y)) +
   theme(aspect.ratio=1)
 ```
 
-
 ]]
 
 ---
-class: split-30
-layout: false
+## Why is visualisation important?
 
-.column[.pad10px[
-## Outline
+<br>
 
-- .green[Why]
-
-]]
-.column[.top50px[
 In machine learning visualisation is used for:
 
-- .orange[initial data analysis]: to examine whether the data 
+- .orange[Initial data analysis]: to examine whether the data 
     - satisfies assumptions required for the method
     - has unexpected complications like outliers or nonlinearity
-- .orange[assess the model fit]:    
+- .orange[Assess the model fit]:    
     - predicted vs observed
     - residuals
     - boundaries between classes
 
     
-]]
-
 ---
-class: split-30
-layout: false
+## High dimensional visualisation
 
-.column[.pad10px[
-## Outline
-
-- Why
-- .green[High-dim vis]
-
-]]
-.column[.top50px[
 Common methods for visualising high-dimensions
 
 - Tour
@@ -160,102 +164,72 @@ Common methods for visualising high-dimensions
 - Mosaic plot
 
 Most of what you find when you google "visualising high-dimensions" is awful, e.g. use colour and symbol after 3D to show 5D; PCA, MDS, tSNE, are visualisation methods; "you can't see beyond 3D".... Rubbish!
-]]
+
 
 ---
-class: split-30
-layout: false
+## Dimensionality
 
-.column[.pad10px[
-## Outline
+<br>
 
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-
-]]
-.column[.top50px[
-
+<center>
 <img src="images/cubes.png" style="width: 90%; align: center" />
+</center>
 
 - When you add another variable, you implicitly add another orthogonal axis. 
 - The space is effectively a $p$-dimensional cube
 - The data might not fill the cube, and then dimension reduction might make it a $k(<p)$-dimensional cube
 
-]]
+
 
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-two
 
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
+.column[.pad50px[
 
-]]
-.column[.top50px[
+
+## Grand tours
+
+<br>
 
 A .orange[grand tour] is by definition a movie of low-dimensional projections constructed in such a way that it comes arbitrarily close to showing all possible low-dimensional projections; in other words, a grand tour is a space-filling curve in the manifold of low-dimensional projections of high-dimensional data spaces.
+
+
+]]
+
+.column[.content.vmiddle.center[
 
 <img src="images/hands.png" width="60%">
 
 ]]
+
+
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-two
 
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
+.column[.pad50px[
 
-]]
-.column[.top50px[
 
-.split-60[
-.column[
-.content[
+## Notation
+
 - ${\mathbf x}_i \in \mathcal{R}^p$, $i^{th}$ data vector
 - $d$ projection dimension
 - $F$ is a $p\times d$ orthonormal basis, $F'F=I_d$
 - The projection of ${\mathbf x}$ onto $F$ is ${\mathbf y}_i=F'{\mathbf x}_i$.
 - Its a movie, so the tour is indexed by time, $F(t)$, where $t\in [a, z]$. Starting and target frame denoted as $F_a = F(a), F_z=F(t)$.
 - The animation of the projected data is given by a path ${\mathbf y}_i(t)=F'(t){\mathbf x}_i$.
+
 ]]
-.column[
-.content[
+
+.column[.content.vmiddle.center[
+
 <img src="images/tour_path.png" style="width: 90%; align: center" /a>
-]]]
+
 ]]
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-
-]]
-.column[.top50px[
+## Examples
 
 ```{r eval=FALSE, echo=FALSE, warning=FALSE}
 library(tourr)
@@ -314,25 +288,9 @@ $p=3, d=2$
 
 <iframe src="flea3d.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
 
-]]
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-
-]]
-.column[.top50px[
+## Examples
 
 ```{r eval=FALSE, echo=FALSE, warning=FALSE}
 bases <- save_history(flea[,1:6], grand_tour(2),
@@ -386,25 +344,11 @@ $p=6, d=2$
 
 <iframe src="flea6d.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
 
-]]
+
 
 ---
-class: split-30
-layout: false
+## Examples
 
-.column[.pad10px[
-## Outline
-
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-
-]]
-.column[.top50px[
 
 ```{r eval=FALSE, echo=FALSE, warning=FALSE}
 track <- read_csv("data/womens_track.csv")
@@ -458,50 +402,22 @@ $p=7, d=2$
 
 <iframe src="track.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
 
-]]
+
 ---
-class: split-30
-layout: false
+## Examples
 
-.column[.pad10px[
-## Outline
+<br>
 
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-
-]]
-.column[.top50px[
 With the grand tour, you can get a good overall sense of the distribution (shape) of the data in its $p$-dimensional space:
 
-- in the first data set, the primary shape are .orange[three well separated clusters]
-- in the track data, the primary shape is that it lives in essentially a .orange[1-D] subspace, with a small amount of variation in other directions. It is also possible to see several .orange[outliers].
-]]
+- In the first data set, the primary shape are .orange[three well separated clusters]
+- In the track data, the primary shape is that it lives in essentially a .orange[1-D] subspace, with a small amount of variation in other directions. It is also possible to see several .orange[outliers].
+
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-    - Guided
-
-]]
-.column[.top50px[
+## Guided tours
 
 
-.boxshadow[.font_small[.content[
+.tip[.font_small[.content[
 Remember: projection pursuit
 
 $$\mathop{\text{maximize}}_{\phi_{11},\dots,\phi_{p1}} f\left(\sum_{j=1}^p \phi_{j1}x_{ij}\right) \text{ subject to }
@@ -514,26 +430,11 @@ The guided tour chooses new target projections by optimising a function of inter
 - `central mass`: The opposite of holes, high density in the centre of the projection, and often "outliers" on the edges. 
 - `LDA`: An index based on the linear discrimination dimension reduction, optimised by projections where the named classes are most separated.
 ]
-]]
+
 
 ---
-class: split-30
-layout: false
+## Guided tours
 
-.column[.pad10px[
-## Outline
-
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-    - Guided
-
-]]
-.column[.top50px[
 ```{r eval=FALSE, echo=FALSE, warning=FALSE}
 set.seed(20190401)
 bases <- save_history(flea[,1:6], guided_tour(lda_pp(cl=flea$species)),
@@ -584,27 +485,10 @@ $p=6, d=2,$ guidance using the LDA index
 
 <iframe src="flea6d_lda.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
 
-]]
+
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-    - Guided
-    - Usage
-
-]]
-.column[.top50px[
+## Usage - in R
 
 To run a tour live:
 
@@ -638,61 +522,26 @@ sphere10 <- data.frame(sphere.hollow(10)$points)
 animate_xy(sphere10, axes = "bottomleft")
 ```
 
-]]
+
 ---
-class: split-30
-layout: false
+## Others
 
-.column[.pad10px[
-## Outline
-
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-    - Guided
-    - Usage
-    - Others
-
-]]
-.column[.top50px[
+<br>
 
 - .orange[Little]: Interpolates between all possible pairs of variables. Like the scatterplot matrix, but animated between them.
 - .orange[Local]: Rocks back and forth from a given projection, so shows all possible projections within a radius.
 - .orange[Frozen]: Fixes some of the values of the orthonormal projection matrix and allows the others to vary freely according to any of the other tour methods. 
 - .orange[Manual]: Control the contribution of a single variable, and move along this axis. This is really useful to examine the sensitivity of structure (e.g. clustering) to the contribution of a variable. Maybe the variable can be "zero'd out" and the structure would not be affected, thus simplifying the "model". This is available in the .orange[spinifex] package.
 
-]]
+
 ---
-class: split-30
-layout: false
+## Rendering
 
-.column[.pad10px[
-## Outline
+<br>
 
-- Why
-- High-dim vis
-- .green[Tours]
-    - Dimension
-    - Grand
-    - Notation
-    - Examples
-    - Guided
-    - Usage
-    - Others
-    - Rendering
+.tip[The projection dimension `\\(d\\)` can be 1, 2, 3, ... It is just a projection of the data, and then you need to decide how to *render* the data.]
 
-]]
-.column[.top50px[
-
-.boxshadow[
-.content[
-The projection dimension $d$ can be 1, 2, 3, ... It is just a projection of the data, and then you need to decide how to *render* the data.
-]
-]
+<br>
 
 - *d=1* : The projected data can be displayed as a dotplot, density, histogram, boxplot, ...
 - *d>2* : Use stereo (for *d=3* ) or a scatterplot matrix (or parallel coordinate plot)
@@ -703,7 +552,7 @@ animate_dist(flea[, 1:6])
 animate_dist(flea[, 1:6], method = "hist")
 ```
 
-]]
+
 ---
 layout: false
 # `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer

@@ -197,7 +197,9 @@ class: split-two
 
 ## Take a look
 
-- Pairwise comparisons of select columns reveal...
+&lt;br&gt;
+
+- What do the following pairwise comparisons of the variables `year`, `age` and, `education` against `wage` show us?
 
 ]]
 
@@ -212,8 +214,8 @@ class: split-two
 
 ## Take a look
 
-- Pairwise comparisons of select columns reveal...
-- Examining .. instead of ... reveals..
+&lt;br&gt;
+- If we examine `logwage` instead of `wage` as response variable - what changes?
 
 ]]
 
@@ -305,24 +307,12 @@ with their coefficients are not significant. (This is because the interactions a
 
 
 ---
-class: split-30
+## Model
 
-.column[.pad10px[
-## Outline
-
-- Multiple regression
-- Example
-- Modelling
-- .green[Matrix formulation]
-    - Model
-]]
-.column[.top50px[
-
-.boxshadow[.content[
+.green[
 `$$Y_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \cdots + \beta_pX_{p,i} + e_i.$$`
-]]
+]
 
-.content[
 Let `\(Y = (Y_1,\dots,Y_n)'\)`, `\(e = (e_1,\dots,e_n)'\)`, `\(\beta = (\beta_0,\dots,\beta_p)'\)` and
 
 `$$X = \begin{bmatrix}
@@ -332,12 +322,10 @@ Let `\(Y = (Y_1,\dots,Y_n)'\)`, `\(e = (e_1,\dots,e_n)'\)`, `\(\beta = (\beta_0,
   1 &amp; X_{1,n} &amp; X_{2,n} &amp; \dots &amp; X_{p,n}
   \end{bmatrix}.$$`
 Then
-]
 
-.boxshadow[.content[
-`\({Y} = {X}{\beta} + {e}.\)`
-]]
-]]
+.green[
+`$${Y} = {X}{\beta} + {e}$$`]
+
 
 ---
 ## Least squares estimation
@@ -378,66 +366,25 @@ which is maximized when `\(({Y}-{X}{\beta})'({Y}-{X}{\beta})\)` is minimized.
 
 
 ---
-layout: true
-class: split-30
+## Predictions
 
-.column[.pad10px[
-## Outline
+.green[Optimal predictions]
 
-- Multiple regression
-- Example
-- Modelling
-- .green[Matrix formulation]
-    - Model
-    - Estimation
-    - Likelihood
-    - Predictions
-    
-]]
-.column[.top50px[
-.split-3[
-.row[
 
-.boxshadow[.content[
-**Optimal predictions**
-]]
-
-.content[
 `$$\hat{Y}^* = \text{E}(Y^* | {X}^*, {Y},{X}) =
 {X}^*\hat{{\beta}} = {X}^*({X}'{X})^{-1}{X}'{Y}$$`
 
 where `\({X}^*\)` is a row vector containing the values of the regressors for the predictions (in the same format as `\({X}\)`).
 
-]]
-.row[.content[
+.green[Prediction variance]
 
-.boxshadow[.content[
-**Prediction variance**
-]]
-
-.content[
 `$$\text{Var}(Y^* | {X}^*, {Y},{X}) = \sigma^2 \left[1 + {X}^* ({X}'{X})^{-1} ({X}^*)'\right]$$`
-
-]]]
-.row[.content[
 
 - This ignores any errors in `\({X}^*\)`.
 - 95% prediction intervals assuming normal errors:
 `\(\hat{Y}^* \pm 1.96 \sqrt{\text{Var}(Y^*| {Y},{X},{X}^*)}\)`.
 
-]]]
-]]
 
----
-class: fade-row2-col2 fade-row3-col2 
-count: false
-
----
-class: fade-row3-col2 
-count: false
-
----
-count: false
 
 ---
 layout: false
