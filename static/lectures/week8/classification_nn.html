@@ -14,7 +14,7 @@
 class: center, middle, inverse, title-slide
 
 # ETC3250: Neural networks
-## Semester 1, 2019
+## Semester 1, 2020
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 8 (a)
 
@@ -182,31 +182,72 @@ To build a feedforward neural network, we need .orange[four key components:]
 4. and a model training approch.
 
 
+
+---
+
+## The data - preprocrssing
+
+Add warning sign for data to be one hot encoded (dummy variables)
+
+
 ---
 
 ## Network architecture
 
 When building architecture for the neural network, we are concerned about two key features: 
 
-a) the number of layers and nodes, and
-
-b) how signal is activated through the network 
+- The number of layers and nodes, and
+- How signal is activated through the network 
 
 ---
 
 ## Layers and nodes
 
-- input and output layers
-- hidden
+- Input and output layers
+- Hidden layers
 
 
-In `R`, we use the `keras` package to help us build neural networks with a layered approach. It is very different to other machine learning types we have encountered in this course.
+In R, we use the `keras` package to help us build neural networks with a layered approach. It is very different to other machine learning types we have encountered in this course.
+
 
 ---
 
+## Hidden layers
+
+- No well-defined approach for selecting the number of hidden layers - this is just one of many hyperparameters we will need to tune! .orange[2-5 laters works well most of the time for regulat tabular data].
+- The more hidden layers - the longer the model will take to train (as we are adding more parameters!)
+
+[insert picture higlighting hidden layers]
 
 
+---
 
+## Output layers
+
+- Choice of output later is determined by the ML task. If you are doing regression - a single node.
+- Classification - a node for each class if multiclass.
+- If binary, single node for probability of predicting success.
+
+Think? How many nodes will MNIST data NN contain?
+---
+
+## Building network structure in R
+
+We use the keras package. Initiate an architecture.
+
+
+```r
+library(keras)
+model &lt;- keras_model_sequential() %&gt;%
+  layer_dense(units = 128, input_shape = ncol(mnist_x)) %&gt;%
+  layer_dense(units = 64) %&gt;%
+  layer_dense(units = 10)
+```
+
+
+---
+
+## Activation - how do the layers speak?
 
 ---
 class: split-30
@@ -250,14 +291,14 @@ y =\frac{1}{1+e^{-(\beta_0+\sum_{j=1}^p\beta_jx_j})}
 .column[.top50px[
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-3-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 
 ]]
 ---
 class: middle
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 &lt;center&gt;
 .font_large[Hang on to this idea....]
@@ -369,7 +410,7 @@ Warren S. McCulloch &amp; Walter Pitts
 Mathematical model for a neuron.
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-4-.gif" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-5-.gif" width="576" style="display: block; margin: auto;" /&gt;
 
 ]]
 
@@ -378,7 +419,7 @@ Mathematical model for a neuron.
 
 Back to logistic regression: When the proportion gets to 0.5, it .orange[activates] an event to happen `\((Y=1)\)`.
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: split-30
@@ -429,6 +470,20 @@ layout: false
 &lt;img src="images/nn_neurons.png" style="width:100%" /&gt;
 
 ]]
+
+
+---
+
+## Adding in activation information in R
+
+
+```r
+model &lt;- keras_model_sequential() %&gt;%
+  layer_dense(units = 128, activation = "relu", input_shape = p) %&gt;%
+  layer_dense(units = 64, activation = "relu") %&gt;%
+  layer_dense(units = 10, activation = "softmax")
+```
+
 ---
 class: split-30
 layout: false
@@ -456,7 +511,7 @@ where `\(w\)` indicates the set of weights in the model, labelled `\(\alpha, \be
 ---
 layout: false
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: split-30
@@ -493,7 +548,7 @@ table(choc_ts$Type, choc_ts$pred)
 ##   Milk     1   15
 ```
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ]]
@@ -554,7 +609,7 @@ layout: false
 .column[.top50px[
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Mistakes made by each neuron
 
@@ -682,7 +737,7 @@ Because the variables have all been standardised, the .orange[magnitude] of the 
 .column[.top50px[
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]]
 ---

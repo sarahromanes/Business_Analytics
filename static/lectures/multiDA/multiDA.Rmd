@@ -330,7 +330,21 @@ We then use the shrunken centroids $\bar{x}'_{kj}$ in place of $\bar{x}_{kj}$ in
 
 ## NSC in R
 
-NSC can be used through the `pamr` function in R. It requires cross-validation to select the parameter $\Delta$.
+NSC can be used through the `pamr` function in R. It requires cross-validation to select the parameter $\Delta$ - this is captured in the function `pamr.adaptthresh`.
+
+```{r, echo = TRUE, eval = FALSE}
+ p <- ncol(x_train)
+ mydata <-  list(x=t(x_train),y=as.factor(y), geneid=1:p)
+
+ #Initial training
+ train_res <-  pamr.train(mydata)
+ new.scales <-  pamr.adaptthresh(train_res)
+ 
+ # Retrain with new delta value
+ train_res <-  pamr.train(mydata, threshold.scale=new.scales)
+ predicted_values <- pamr.predict(train_res, t(x_test), threshold=new.scales)
+```
+
 
 
 ---
@@ -738,21 +752,91 @@ class: split-60
  
 <br>
 
-```{r, eval = FALSE, echo = TRUE}
-res <- multiDA(y = y, #<<
-               X = X,
+```{r, eval = TRUE, echo = TRUE}
+library(multiDA)
+res <- multiDA(y = SRBCT$y, 
+               X = SRBCT$X,
                penalty = "EBIC",
                equal.var = TRUE,
                set.options = "exhaustive")
 ```  
+
+We can then examine the class groupings using the `plot()` method for `multiDA`:
+
+```{r, eval = FALSE, echo = TRUE}
+plot(res, ranks= 1)
+```
 
 
  ]]
 
 .column[.content.vmiddle.center[
 
+```{r}
+plot(res, ranks= 1)
+```
+
+
 
 ]]
+
+
+---
+
+class: split-60
+
+.column[.pad50px[
+
+## multiDA in R
+ 
+<br>
+
+```{r, eval = FALSE, echo = TRUE}
+library(multiDA)
+res <- multiDA(y = SRBCT$y, 
+               X = SRBCT$X,
+               penalty = "EBIC",
+               equal.var = TRUE,
+               set.options = "exhaustive")
+```  
+
+This feature is one that `multiDA` is not as confident in - with the most likely seperation only having an estimated probability of 0.57.
+
+```{r, eval = FALSE, echo = TRUE}
+plot(res, ranks= 199)
+```
+
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r}
+plot(res, ranks= 199)
+```
+
+
+
+]]
+
+---
+
+## Compare performance - 100 trial, 5 fold CV
+
+```{r, fig.width=8}
+load("data/SRBCT.RData")
+data$as.factor.ours.=as.factor(data$as.factor.ours.)
+library(ggthemes)
+library(ochRe)
+p_cv <- ggplot(data, aes(x = labels, y = 1-vals, fill=as.factor.ours.)) +
+              geom_boxplot() +
+              scale_fill_manual(values = c("thistle4","thistle3"))+
+              theme_hc() +
+              theme(legend.position="none",
+                    text = element_text(size=18)) +ylab("Accuracy (%)") + xlab(" ") 
+    
+p_cv
+```
 
 ---
 layout: false

@@ -1,6 +1,6 @@
 ---
 title: "ETC3250: Neural networks"
-subtitle: "Semester 1, 2019"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 8 (a)"
 output: 
@@ -191,29 +191,75 @@ To build a feedforward neural network, we need .orange[four key components:]
 4. and a model training approch.
 
 
+
+---
+
+## The data - preprocrssing
+
+Add warning sign for data to be one hot encoded (dummy variables)
+
+```{r}
+library(dplyr) 
+library(keras)
+
+# Import MNIST training data
+mnist <- dslabs::read_mnist()
+mnist_x <- mnist$train$images
+mnist_y <- mnist$train$labels
+
+# Rename columns and standardize feature values
+colnames(mnist_x) <- paste0("V", 1:ncol(mnist_x))
+mnist_x <- mnist_x / 255
+
+# One-hot encode response
+mnist_y <- to_categorical(mnist_y, 10)
+```
 ---
 
 ## Network architecture
 
 When building architecture for the neural network, we are concerned about two key features: 
 
-a) the number of layers and nodes, and
-
-b) how signal is activated through the network 
+- The number of layers and nodes, and
+- How signal is activated through the network 
 
 ---
 
 ## Layers and nodes
 
-- input and output layers
-- hidden
+- Input and output layers
+- Hidden layers
 
 
 In R, we use the `keras` package to help us build neural networks with a layered approach. It is very different to other machine learning types we have encountered in this course.
 
+
 ---
 
-```{r, eval = FALSE}
+## Hidden layers
+
+- No well-defined approach for selecting the number of hidden layers - this is just one of many hyperparameters we will need to tune! .orange[2-5 laters works well most of the time for regulat tabular data].
+- The more hidden layers - the longer the model will take to train (as we are adding more parameters!)
+
+[insert picture higlighting hidden layers]
+
+
+---
+
+## Output layers
+
+- Choice of output later is determined by the ML task. If you are doing regression - a single node.
+- Classification - a node for each class if multiclass.
+- If binary, single node for probability of predicting success.
+
+Think? How many nodes will MNIST data NN contain?
+---
+
+## Building network structure in R
+
+We use the keras package. Initiate an architecture.
+
+```{r, eval = FALSE, echo = TRUE}
 library(keras)
 model <- keras_model_sequential() %>%
   layer_dense(units = 128, input_shape = ncol(mnist_x)) %>%
@@ -222,6 +268,9 @@ model <- keras_model_sequential() %>%
 ```
 
 
+---
+
+## Activation - how do the layers speak?
 
 ---
 class: split-30
@@ -478,6 +527,19 @@ layout: false
 <img src="images/nn_neurons.png" style="width:100%" />
 
 ]]
+
+
+---
+
+## Adding in activation information in R
+
+```{r, eval = FALSE, echo = TRUE}
+model <- keras_model_sequential() %>%
+  layer_dense(units = 128, activation = "relu", input_shape = p) %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax")
+```
+
 ---
 class: split-30
 layout: false
