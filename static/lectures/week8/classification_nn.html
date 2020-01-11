@@ -239,8 +239,9 @@ We use the keras package. Initiate an architecture.
 ```r
 library(keras)
 model &lt;- keras_model_sequential() %&gt;%
-  layer_dense(units = 128, input_shape = ncol(mnist_x)) %&gt;%
-  layer_dense(units = 64) %&gt;%
+  layer_dense(units = 16,
+              input_shape = ncol(mnist_x)) %&gt;%
+  layer_dense(units = 16) %&gt;%
   layer_dense(units = 10)
 ```
 
@@ -479,40 +480,96 @@ layout: false
 
 ```r
 model &lt;- keras_model_sequential() %&gt;%
-  layer_dense(units = 128, activation = "relu", input_shape = p) %&gt;%
-  layer_dense(units = 64, activation = "relu") %&gt;%
+  layer_dense(units = 16, 
+              activation = "relu", 
+              input_shape = ncol(x_train)) %&gt;%
+  layer_dense(units = 16, activation = "relu") %&gt;%
   layer_dense(units = 10, activation = "softmax")
 ```
 
+
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+# Backpropagation
 
-- [Logistic regression](#2)
-- [Network explanation](#5)
-- [Neural network model](#7)
-- .orange[Fitting procedures]
-
-]]
-.column[.top50px[
-
-`$$RSS = \sum_{i=1}^{n} (y_i-\hat{y}_i)^2$$`
-
-Often combined with some shrinkage criterion (covered in "Regularization" section).
-
-`$$RSS + \lambda \sum_{k} w_k^2$$`
-
-where `\(w\)` indicates the set of weights in the model, labelled `\(\alpha, \beta\)` earlier. Forces some of the weights to zero (or close to), to alleviate over-parametrization, and over-fitting.
-
-]]
 ---
-layout: false
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+## Compiling the model.
 
+Now that we have a model architecture in place - how will the model *learn* from the data? To do this, we need to specify a .orange[**loss function**] and .orange[**optimiser**] to use during training.
+
+- The loss function (also called objective function) helps measure performance. For regression you may use the MSE, for lassification you may use cross entropy.
+- The optimiser controls which optimisation algorithm is implemented in our NN. 
+
+
+---
+
+
+```r
+  # Backpropagation
+model %&gt;%   compile(
+    loss = 'categorical_crossentropy',
+    optimizer = "rmsprop",
+    metrics = c('accuracy')
+  )
+```
+
+
+
+---
+
+# Model training
+
+---
+
+## Model training
+
+Now that we have created the model specification, we are ready to give it some data! We can use the `fit` function in `keras` to achieve this.
+
+---
+
+
+```r
+model %&gt;% fit(
+  x = mnist_x,
+  y = mnist_y,
+  batch_size = 512,
+  epochs = 10
+)
+```
+
+
+
+---
+
+
+```r
+model %&gt;% fit(
+  x = mnist_x,
+  y = mnist_y,
+  batch_size = 512,
+  epochs = 10,
+  validation_split = 0.2
+)
+```
+
+---
+
+
+```r
+plot(model)
+```
+
+
+---
+
+# Regulirisation
+
+---
+
+Place contraints on model complexity. Can use a `\(L_1\)` or `\(L_2\)` penalty to add a cost to the size of the node weights.
+
+(Add back in Di's section)
 ---
 class: split-30
 layout: false
@@ -548,7 +605,7 @@ table(choc_ts$Type, choc_ts$pred)
 ##   Milk     1   15
 ```
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ]]
@@ -609,7 +666,7 @@ layout: false
 .column[.top50px[
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Mistakes made by each neuron
 
@@ -737,7 +794,7 @@ Because the variables have all been standardised, the .orange[magnitude] of the 
 .column[.top50px[
 
 
-&lt;img src="classification_nn_files/figure-html/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]]
 ---

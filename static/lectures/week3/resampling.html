@@ -15,7 +15,7 @@
 class: center, middle, inverse, title-slide
 
 # ETC3250: Resampling
-## Semester 1, 2019
+## Semester 1, 2020
 ### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
 ### Week 3 (b)
 
@@ -235,55 +235,9 @@ where `\(h_i=\frac{1}{n}+\frac{(x_i-\bar{x})^2}{\sum_{i'}^n(x_{i'}-\bar{x})^2}\)
 Black line is .black[10-fold CV]; .blue[training] and TRUE .orange[test] error for different choices of polynomial (left) and KNN classifier (right). 
 
 ---
-## Boostrap models
 
-&lt;img src="images/Bootstraps.jpg" style="width: 80%" /&gt;
+layout: false
 
-
-
----
-layout: true
-class: shuriken-full white 
-
-.blade1.bg-green[.content.center.vmiddle[
-We obtain distinct data sets (with the same size as our original dataset) by .yellow[repeatedly sampling] observations from the original data set with replacement (nonparametric) or from an estimated model (parametric).
-]]
-.blade2.bg-deep-purple[.content.center[
-&lt;img src="images/idealWorld.png" style="width: 92%" /&gt;
-]]
-.blade3.bg-deep-orange[.content.center[
-&lt;img src="images/bootstrapWorld.png" style="width: 92%" /&gt;
-]]
-.blade4.bg-pink[.content.center[
-
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.11.pdf" target="_BLANK"&gt; &lt;img src="images/5.11.png" style="width: 60%; align: center"/&gt; &lt;/a&gt;
-
-]]
-
----
-
-class: hide-blade2 hide-blade3 hide-blade4 hide-hole
-
----
-
-class: hide-blade3 hide-blade4 hide-hole
-count: false
-
----
-
-class: hide-blade4 hide-hole
-count: false
-
----
-
-class: hide-hole
-count: false
-
----
-
-count: false 
-
----
 ## Bootstrap procedure
 
 - Draw `\(B\)` independent bootstrap samples `\(X^{*(1)}, \dots, X^{*(B)}\)` from `\(\hat P\)`:

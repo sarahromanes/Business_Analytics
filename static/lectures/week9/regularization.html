@@ -34,7 +34,7 @@ class: center, middle, inverse, title-slide
 .orange[Shrinkage methods] fit a model containing all `\(p\)` predictors using a technique that constrains or regularizes the coefficient estimates, or equivalently, that .orange[shrinks some of the coefficient estimates towards zero].
 
 &lt;br&gt;
-.tip[There are two main methods: .orange[ridge] regression and .orange[lasso].]
+.tip[There are two main methods: .orange[Ridge] regression and .orange[Lasso].]
 
 
 ---
@@ -124,19 +124,7 @@ Simulation scenario! Ridge regression improves on least squares, for large numbe
 
 ]]
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- Shrinkage Methods
-    - [Ridge regression](#3)
-    - Lasso
-
-
-]]
-.column[.top50px[
+## The Lasso
 
 Ridge regression: 
 
@@ -144,7 +132,7 @@ Ridge regression:
 	&amp; \underset{{\beta}}{\text{minimize}} \mbox{ RSS} + \lambda \sum_{j=1}^p \beta_j^2
 \end{align*}`
 
-.orange[Lasso]:
+.orange[Lasso:]
 
 `\begin{align*}
 	&amp; \underset{{\beta}}{\text{minimize}} \mbox{ RSS} + \lambda \sum_{j=1}^p \color{orange}{|\beta_j|}
@@ -152,7 +140,7 @@ Ridge regression:
 
 and same `\(\lambda \geq 0\)` is a tuning parameter.
 
-]]
+
 
 ---
 class: split-60
@@ -178,15 +166,19 @@ Standardized lasso coefficients for the Credit data set.
 
 ---
 
-Simulation scenario! Bias-variance tradeoff with lasso, and comparison against ridge regression.
+## Simulation scenario! 
+
+Bias-variance tradeoff with lasso, and comparison against ridge regression.
 
 
-
+&lt;center&gt;
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.8.pdf" target="_BLANK"&gt; &lt;img src="images/6.8.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
+&lt;/center&gt;
 
-.black[bias]
-.green[variance]
-.purple[test error]
+.center[
+.black[Bias]
+.green[Variance]
+.purple[Test error]]
 
 
 .font_tiny[(Chapter6/6.5.pdf)]
@@ -198,8 +190,6 @@ layout: false
 
 .column[.pad10px[
 .orange[Bayesian] interpretation:  Ridge regression is the posterior mode for `\(\beta\)` under a Gaussian prior (left);  The lasso is the posterior mode for `\(\beta\)` under a double-exponential prior (right).
-
-
 
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.11.pdf" target="_BLANK"&gt; &lt;img src="images/6.11.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
 
@@ -219,20 +209,7 @@ layout: false
 ]]
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .orange[Shrinkage methods]
-    - [Ridge regression](#3)
-    - [Lasso](#7)
-    - Penalised LDA
-
-
-]]
-.column[.top50px[
+## Penalised LDA
 
 Recall: LDA involves the eigen decomposition of `\(\color{orange}{\Sigma^{-1}\Sigma_B}\)`, where
 
@@ -247,23 +224,10 @@ The eigen-decomposition is an analytical solution to a sequential optimisation p
 &amp; \underset{{\beta_k}}{\text{maximize}} \beta_k^T\hat{\Sigma}_B \beta_k \\
 &amp; \mbox{ subject to  }  \beta_k^T\hat{\Sigma} \beta_k \leq 1, \beta_k^T\hat{\Sigma}\beta_j = 0 \mbox{  } \forall i&lt;k
 \end{align*}`
-]]
+
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .orange[Shrinkage methods]
-    - [Ridge regression](#3)
-    - [Lasso](#7)
-    - Penalised LDA
-
-
-]]
-.column[.top50px[
+## Penalised LDA
 
 The problem is inverting `\(\color{orange}{\Sigma^{-1}}\)`, fix it by
 
@@ -277,24 +241,12 @@ where `\(\hat{\sigma}_j\)` is the within-class standard deviation for variable `
 
 
 
-]]
+
 
 ---
-class: split-30
-layout: false
+## PDA Index
 
-.column[.pad10px[
-## Outline
-
-- .orange[Shrinkage methods]
-    - [Ridge regression](#3)
-    - [Lasso](#7)
-    - [Penalised LDA](#11)
-    - PDA Index
-
-
-]]
-.column[.top50px[
+&lt;br&gt;
 
 Penalised LDA projection pursuit index. Available in the `tourr` package. 
 
@@ -307,81 +259,45 @@ Optimising this function over `\(p\times d\)` projection matrix `\(A\)`.
 
 
 
-]]
+
 
 ---
-class: split-30
-layout: false
+## Principal component regression
 
-.column[.pad10px[
-## Outline
-
-- [Shrinkage methods](#2)
-- Dimension reduction
-    - Principal component regression
-
-
-]]
-.column[.top50px[
+&lt;br&gt;
 
 The .orange[principal components regression (PCR)] approach involves constructing the first `\(M\)` principal components, `\(Z_1, ..., Z_M\)`, and then using these components as the predictors in a linear regression model, that is fit using least squares.
 
-]]
+
 ---
 
 PCR, ridge regression, and the lasso compared on simulated data. PCR does well when the response is related to few PCs. 
 
-
-
+&lt;center&gt;
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.19.pdf" target="_BLANK"&gt; &lt;img src="images/6.19.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
+&lt;/center&gt;
 
-.black[bias]
-.green[variance]
-.purple[test error]
+.center[
+.black[Bias]
+.green[Variance]
+.purple[Test error]]
 
 .font_tiny[(Chapter6/6.19.pdf)]
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Shrinkage methods](#2)
-- Dimension reduction
-    - Principal component regression
-    - Partial least squares
-
-
-]]
-.column[.top50px[
+## Partial least squares
 
 .orange[Partial least squares (PLS)], a supervised alternative to PCR. 
 
-
-
+&lt;center&gt;
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.21.pdf" target="_BLANK"&gt; &lt;img src="images/6.21.png" style="width: 70%; align: center"/&gt; &lt;/a&gt;
+&lt;/center&gt;
 
 Two predictors are shown: .green[Solid line is PLS], dashed line is PCR. 
 
 
-]]
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Shrinkage methods](#2)
-- Dimension reduction
-    - Principal component regression
-    - Partial least squares
-
-
-]]
-.column[.top50px[
+## Partial least squares
 
 1. .orange[Standardise] all variables
 2. Find `\(Z_1=\phi_{1j}X_j\)` by setting `\(\phi_{1j}\)` to be the coefficient from a .orange[simple linear regression] model `\(Y\)` ~ `\(X_j\)`.
@@ -392,7 +308,7 @@ Final model fitted for `\(Y\)` using `\(Z_1, ..., Z_M\)`.
 
 Performance is no better than ridge regression or PCR. Can reduce bias, has potential to increase variance. .orange[PLS is similar to partial regression], where new variables are first regressed on predictors that are already in the model, and it is the residuals that are used.
 
-]]
+
 ---
 
 layout: false

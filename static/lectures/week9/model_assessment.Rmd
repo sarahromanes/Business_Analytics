@@ -34,42 +34,20 @@ library(magick)
 ```
 
 
-class: split-30
-layout: true
+class: middle center
 
-.column[.pad10px[
-## Outline
-
-- Getting started
-
-]]
-.column[.top50px[
-
-.split-two[
-.row[.content[
 ```{r echo=TRUE}
 library(statquotes)
 search_quotes(search="Holdane", fuzzy=TRUE)
 ```
-]]
-.row[.content[
-<br>
-<br>
+
+---
+
+class: middle center
 
 ```{r echo=TRUE}
 statquote(source="Box")
 ```
-]]]
-]]
-
----
-
-class: fade-row2
-count: false
-
----
-
-count: false 
 
 
 ---
@@ -114,33 +92,23 @@ count: false
 
 ---
 
-class: split-30
+
 layout: false
 
-.column[.pad10px[
-## Outline
+## ROC for classification
 
-- [Getting started](#2)
-- .orange[Comparing fits]
-    - ROC for classification
-
-]]
-.column[.top50px[
 The .orange[ROC curve] is a popular graphic for simultaneously displaying the two types of errors for all possible thresholds. It is a common method for comparing classification models. 
 
-```{r}
-if (!file.exists("images/4.8.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf", density = 300), "images/4.8.png", 
-      format = "png", density = 300)
-```
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"> <img src="images/4.8.png" style="width: 40%; align: center"/> </a>
+<center>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"> <img src="images/4.8.png" style="width: 50%; align: center"/> </a>
+</center>
 
-ROC curve for the LDA classifier on the training set of CREDIT data. 
+
+ROC curve for the LDA classifier on the training set of `credit` data. 
 
 .font_tiny[Fig 4.8]
 
-]]
 
 ---
 
@@ -170,12 +138,12 @@ The .orange[ideal ROC curve hugs the top left corner], indicating a high true po
 class: split-two
 layout: false
 
-.row[
+.row[.center[
 Possible outcomes with a two class classification model:
 
 <img src="images/error_table.png" style="width: 80%" />
 
-]
+]]
 .row[
 .split-50[
 .column[.pad50px[
@@ -204,60 +172,30 @@ layout: false
 
 ]]
 .column[.pad10px[
-```{r}
-library(anicon)
-nia(text=".orange[How do we calculate different TPR/FPR?]", , animate="shake", speed="slow", flip="horizontal")
-```
+
+<br>
+
+<br>
 
 If the classifier returns a prediction between 0 and 1, interpret as the probability of a positive, then threshold this at different values, e.g. 0.1, 0.2, 0.3, 0.4, 0.5, ...
 
 ]]
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- .orage[Comparing fits]
-    - ROC for classification
-
-
-]]
-.column[.top50px[
-
-```{r}
-library(magick)
-if (!file.exists("images/9.10.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.10.pdf", density = 300), "images/9.10.png", 
-      format = "png", density = 300)
-```
+## ROC for classification
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.10.pdf" target="_BLANK"> <img src="images/9.10.png" style="width: 100%; align: center"/> </a>
 
-(left) LDA and SVM similar.
-
-(right) SVM radial basis with $\gamma=10^{-1}$ is the best. 
+.center[.font_small[(left) LDA and SVM similar.        (right) SVM radial basis with `\\(\gamma=10^{-1}\\)` is the best. ]]
 
 .font_tiny[Fig 9.10]
-]]
+
 ---
 
 class: split-30
 layout: false
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- .orange[Outliers]
-    - Multivariate outliers
-
-
-]]
-.column[.top50px[
+## Multivariate outliers
 
 .orange[Mahalanobis distance] measures the distance from the mean, relative to the variance-covariance matrix, and is useful for .orange[outlier detection]: $D^2 = (X-\mu)'\Sigma^{-1}(X-\mu)$
 
@@ -283,25 +221,12 @@ grid.arrange(p1, p2, ncol=2)
 
 Related to "leverage" in regression diagnostics.
 
-]]
+
 
 ---
 
-class: split-30
-layout: false
+## Influential observations
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- .orange[Outliers]
-    - Multivariate outliers
-    - Influential observations
-
-
-]]
-.column[.top50px[
 
 .orange[Cook's distance] measures the change in the model estimates due to the observation: $D_i = \frac{e_i^2}{MSE\times p}\frac{h_i}{(1-h_i)^2}$ where $h_i$ is the leverage of observation $i$. 
 
@@ -321,28 +246,13 @@ grid.arrange(p1, p2, ncol=2)
 ```
 
 Developed by Dennis Cook, University of Minnesota. 
-]]
+
 
 ---
 
-class: split-30
-layout: false
+## Utilising bagging
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- .orange[Outliers]
-    - Multivariate outliers
-    - Influential observations
-    - Utilising bagging
-
-
-]]
-.column[.top50px[
-
-Remember vote matrix available from random forests:
+Remember the vote matrix available from random forests:
 
 $$V = (V_1  V_2 ... V_K) \\
   = \left[ \begin{eqnarray*}
@@ -352,34 +262,18 @@ $$V = (V_1  V_2 ... V_K) \\
                           p_{n1} & p_{n2} & ... & p_{nK}
                           \end{eqnarray*} \right]$$
 
-With bagging, multiple out of bag predictions produces uncertainty measure for each observation. Its possible that observations with .orange[higher uncertainty are outliers].
-
-]]
+With bagging, multiple out of bag predictions produces uncertainty measure for each observation. It's possible that observations with .orange[higher uncertainty are outliers].
 
 ---
 
-class: split-30
-layout: false
+## Variable importance
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- [Outliers](#8)
-- .orange[Important variables]
-
-
-]]
-.column[.top50px[
-
-.orange[Variable importance]
+<br>
 
 - Working with .orange[standardised variables] helps, because magnitude of coefficients is then directly interpreted as importance
 - .orange[Permutation] approach in random forests is useful more broadly. Compare magnitude of coefficients between models built on original and permuted variable.
 - .orange[Effect of one predictor with the response] can depend on their relationship with one another. Called multicollinearity in regression. 
 
-]]
 
 ---
 layout: false
@@ -407,21 +301,7 @@ layout: false
 
 ---
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- [Outliers](#8)
-- [Important variables](#11)
-- .orange[Model choice - robustness of conclusions]
-
-
-]]
-.column[.top50px[
+## Model choice - robustness of conclusions
 
 Whatever way you model the data, the .orange[interpretations should be consistent]. 
 
@@ -429,7 +309,7 @@ Whatever way you model the data, the .orange[interpretations should be consisten
 - Broad changes in a model when some cases or some variables are not used, should evoke suspicions (your "spidey sense"). 
 - Model fit statistics are a measure of predictive power. A weak model can still be useful if there is a large cost involved.  
 
-]]
+
 ---
 
 layout: false

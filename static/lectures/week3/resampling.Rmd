@@ -312,55 +312,6 @@ $$CV_{(k)} = \frac{1}{k}\sum_{i=1}^n \frac{(y_i-\hat{y})^2}{1-h_i}$$
 Black line is .black[10-fold CV]; .blue[training] and TRUE .orange[test] error for different choices of polynomial (left) and KNN classifier (right). 
 
 ---
-## Boostrap models
-
-<img src="images/Bootstraps.jpg" style="width: 80%" />
-
-
-
----
-layout: true
-class: shuriken-full white 
-
-.blade1.bg-green[.content.center.vmiddle[
-We obtain distinct data sets (with the same size as our original dataset) by .yellow[repeatedly sampling] observations from the original data set with replacement (nonparametric) or from an estimated model (parametric).
-]]
-.blade2.bg-deep-purple[.content.center[
-<img src="images/idealWorld.png" style="width: 92%" />
-]]
-.blade3.bg-deep-orange[.content.center[
-<img src="images/bootstrapWorld.png" style="width: 92%" />
-]]
-.blade4.bg-pink[.content.center[
-
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.11.pdf" target="_BLANK"> <img src="images/5.11.png" style="width: 60%; align: center"/> </a>
-
-]]
-
----
-
-class: hide-blade2 hide-blade3 hide-blade4 hide-hole
-
----
-
-class: hide-blade3 hide-blade4 hide-hole
-count: false
-
----
-
-class: hide-blade4 hide-hole
-count: false
-
----
-
-class: hide-hole
-count: false
-
----
-
-count: false 
-
----
 
 layout: false
 

@@ -6,8 +6,6 @@
     <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
     <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
-    <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
-    <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
     <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
@@ -26,19 +24,8 @@ class: center, middle, inverse, title-slide
 
 
 
-class: split-30
-layout: true
+class: middle center
 
-.column[.pad10px[
-## Outline
-
-- Getting started
-
-]]
-.column[.top50px[
-
-.split-two[
-.row[.content[
 
 ```r
 library(statquotes)
@@ -60,10 +47,10 @@ search_quotes(search="Holdane", fuzzy=TRUE)
 ## --- John Burdon Sanderson Haldane (1892--1964) Possible Worlds, 
 ## 1927.
 ```
-]]
-.row[.content[
-&lt;br&gt;
-&lt;br&gt;
+
+---
+
+class: middle center
 
 
 ```r
@@ -71,20 +58,12 @@ statquote(source="Box")
 ```
 
 ```
-## Seek computer programs that allow you to do the thinking. 
-## --- George E. P. Box
+## Since small differences in probability cannot be appreciated by 
+## the human mind, there seems little point in being excessively 
+## precise about uncertainty. 
+## --- Box, G. E. P. &amp; Tiao, G. C. (1973), Bayesian inference in 
+## statistical analysis Addison-Wesley, Reading, MA, p. 65.
 ```
-]]]
-]]
-
----
-
-class: fade-row2
-count: false
-
----
-
-count: false 
 
 
 ---
@@ -129,29 +108,23 @@ count: false
 
 ---
 
-class: split-30
+
 layout: false
 
-.column[.pad10px[
-## Outline
+## ROC for classification
 
-- [Getting started](#2)
-- .orange[Comparing fits]
-    - ROC for classification
-
-]]
-.column[.top50px[
 The .orange[ROC curve] is a popular graphic for simultaneously displaying the two types of errors for all possible thresholds. It is a common method for comparing classification models. 
 
 
+&lt;center&gt;
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"&gt; &lt;img src="images/4.8.png" style="width: 50%; align: center"/&gt; &lt;/a&gt;
+&lt;/center&gt;
 
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"&gt; &lt;img src="images/4.8.png" style="width: 40%; align: center"/&gt; &lt;/a&gt;
 
-ROC curve for the LDA classifier on the training set of CREDIT data. 
+ROC curve for the LDA classifier on the training set of `credit` data. 
 
 .font_tiny[Fig 4.8]
 
-]]
 
 ---
 
@@ -181,12 +154,12 @@ The .orange[ideal ROC curve hugs the top left corner], indicating a high true po
 class: split-two
 layout: false
 
-.row[
+.row[.center[
 Possible outcomes with a two class classification model:
 
 &lt;img src="images/error_table.png" style="width: 80%" /&gt;
 
-]
+]]
 .row[
 .split-50[
 .column[.pad50px[
@@ -215,104 +188,56 @@ layout: false
 
 ]]
 .column[.pad10px[
-&lt;!-an class=" faa-shake animated faa-slow " data-fa-transform="flip-h " style=" display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">.orange[How do we calculate different TPR/FPR?]</span><!-f the classifier returns a prediction between 0 and 1, interpret as the probability of a positive, then threshold this at different values, e.g. 0.1, 0.2, 0.3, 0.4, 0.5, ...
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+If the classifier returns a prediction between 0 and 1, interpret as the probability of a positive, then threshold this at different values, e.g. 0.1, 0.2, 0.3, 0.4, 0.5, ...
 
 ]]
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- .orage[Comparing fits]
-    - ROC for classification
-
-
-]]
-.column[.top50px[
-
-
+## ROC for classification
 
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.10.pdf" target="_BLANK"&gt; &lt;img src="images/9.10.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
 
-(left) LDA and SVM similar.
-
-(right) SVM radial basis with `\(\gamma=10^{-1}\)` is the best. 
+.center[.font_small[(left) LDA and SVM similar.        (right) SVM radial basis with `\\(\gamma=10^{-1}\\)` is the best. ]]
 
 .font_tiny[Fig 9.10]
-]]
+
 ---
 
 class: split-30
 layout: false
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- .orange[Outliers]
-    - Multivariate outliers
-
-
-]]
-.column[.top50px[
+## Multivariate outliers
 
 .orange[Mahalanobis distance] measures the distance from the mean, relative to the variance-covariance matrix, and is useful for .orange[outlier detection]: `\(D^2 = (X-\mu)'\Sigma^{-1}(X-\mu)\)`
 
-&lt;img src="model_assessment_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="model_assessment_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Related to "leverage" in regression diagnostics.
 
-]]
+
 
 ---
 
-class: split-30
-layout: false
+## Influential observations
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- .orange[Outliers]
-    - Multivariate outliers
-    - Influential observations
-
-
-]]
-.column[.top50px[
 
 .orange[Cook's distance] measures the change in the model estimates due to the observation: `\(D_i = \frac{e_i^2}{MSE\times p}\frac{h_i}{(1-h_i)^2}\)` where `\(h_i\)` is the leverage of observation `\(i\)`. 
 
-&lt;img src="model_assessment_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="model_assessment_files/figure-html/unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 Developed by Dennis Cook, University of Minnesota. 
-]]
+
 
 ---
 
-class: split-30
-layout: false
+## Utilising bagging
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- .orange[Outliers]
-    - Multivariate outliers
-    - Influential observations
-    - Utilising bagging
-
-
-]]
-.column[.top50px[
-
-Remember vote matrix available from random forests:
+Remember the vote matrix available from random forests:
 
 `$$V = (V_1  V_2 ... V_K) \\
   = \left[ \begin{eqnarray*}
@@ -322,34 +247,18 @@ Remember vote matrix available from random forests:
                           p_{n1} &amp; p_{n2} &amp; ... &amp; p_{nK}
                           \end{eqnarray*} \right]$$`
 
-With bagging, multiple out of bag predictions produces uncertainty measure for each observation. Its possible that observations with .orange[higher uncertainty are outliers].
-
-]]
+With bagging, multiple out of bag predictions produces uncertainty measure for each observation. It's possible that observations with .orange[higher uncertainty are outliers].
 
 ---
 
-class: split-30
-layout: false
+## Variable importance
 
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- [Outliers](#8)
-- .orange[Important variables]
-
-
-]]
-.column[.top50px[
-
-.orange[Variable importance]
+&lt;br&gt;
 
 - Working with .orange[standardised variables] helps, because magnitude of coefficients is then directly interpreted as importance
 - .orange[Permutation] approach in random forests is useful more broadly. Compare magnitude of coefficients between models built on original and permuted variable.
 - .orange[Effect of one predictor with the response] can depend on their relationship with one another. Called multicollinearity in regression. 
 
-]]
 
 ---
 layout: false
@@ -377,21 +286,7 @@ layout: false
 
 ---
 
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Getting started](#2)
-- [Comparing fits](#3)
-- [Outliers](#8)
-- [Important variables](#11)
-- .orange[Model choice - robustness of conclusions]
-
-
-]]
-.column[.top50px[
+## Model choice - robustness of conclusions
 
 Whatever way you model the data, the .orange[interpretations should be consistent]. 
 
@@ -399,7 +294,7 @@ Whatever way you model the data, the .orange[interpretations should be consisten
 - Broad changes in a model when some cases or some variables are not used, should evoke suspicions (your "spidey sense"). 
 - Model fit statistics are a measure of predictive power. A weak model can still be useful if there is a large cost involved.  
 
-]]
+
 ---
 
 layout: false

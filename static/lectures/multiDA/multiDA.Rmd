@@ -203,6 +203,13 @@ $$C(\mathbf{x}^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(\mathbf{x}^*) = \ma
 ## DLDA in R
 
 DLDA is easy to run, is found in the `dlda` function provided by the `sparsediscrim` package (hosted on GitHub)
+
+
+```{r, eval = FALSE, echo = TRUE}
+devtools::install_github("cran/sparsediscrim")
+dlda(SRBCT$X, SRBCT$y)
+```
+
 ---
 
 ## What features are driving prediction?
@@ -823,7 +830,7 @@ plot(res, ranks= 199)
 
 ## Compare performance - 100 trial, 5 fold CV
 
-```{r, fig.width=8}
+```{r, fig.width=12}
 load("data/SRBCT.RData")
 data$as.factor.ours.=as.factor(data$as.factor.ours.)
 library(ggthemes)

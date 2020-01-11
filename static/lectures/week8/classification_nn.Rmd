@@ -238,7 +238,7 @@ In R, we use the `keras` package to help us build neural networks with a layered
 
 ## Hidden layers
 
-- No well-defined approach for selecting the number of hidden layers - this is just one of many hyperparameters we will need to tune! .orange[2-5 laters works well most of the time for regulat tabular data].
+- No well-defined approach for selecting the number of hidden layers - this is just one of many hyperparameters we will need to tune! .orange[2-5 laters works well most of the time for regular tabular data].
 - The more hidden layers - the longer the model will take to train (as we are adding more parameters!)
 
 [insert picture higlighting hidden layers]
@@ -262,8 +262,9 @@ We use the keras package. Initiate an architecture.
 ```{r, eval = FALSE, echo = TRUE}
 library(keras)
 model <- keras_model_sequential() %>%
-  layer_dense(units = 128, input_shape = ncol(mnist_x)) %>%
-  layer_dense(units = 64) %>%
+  layer_dense(units = 16,
+              input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 16) %>%
   layer_dense(units = 10)
 ```
 
@@ -535,349 +536,94 @@ layout: false
 
 ```{r, eval = FALSE, echo = TRUE}
 model <- keras_model_sequential() %>%
-  layer_dense(units = 128, activation = "relu", input_shape = p) %>%
-  layer_dense(units = 64, activation = "relu") %>%
+  layer_dense(units = 16, 
+              activation = "relu", 
+              input_shape = ncol(x_train)) %>%
+  layer_dense(units = 16, activation = "relu") %>%
   layer_dense(units = 10, activation = "softmax")
 ```
 
+
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+# Backpropagation
 
-- [Logistic regression](#2)
-- [Network explanation](#5)
-- [Neural network model](#7)
-- .orange[Fitting procedures]
+---
 
-]]
-.column[.top50px[
+## Compiling the model.
 
-$$RSS = \sum_{i=1}^{n} (y_i-\hat{y}_i)^2$$
+Now that we have a model architecture in place - how will the model *learn* from the data? To do this, we need to specify a .orange[**loss function**] and .orange[**optimiser**] to use during training.
 
-Often combined with some shrinkage criterion (covered in "Regularization" section).
+- The loss function (also called objective function) helps measure performance. For regression you may use the MSE, for lassification you may use cross entropy.
+- The optimiser controls which optimisation algorithm is implemented in our NN. 
+
+
+---
+
+```{r, eval = FALSE, echo = TRUE}
+  # Backpropagation
+model %>%   compile(
+    loss = 'categorical_crossentropy',
+    optimizer = "rmsprop",
+    metrics = c('accuracy')
+  )
+```
+
+
+
+---
+
+# Model training
+
+---
+
+## Model training
+
+Now that we have created the model specification, we are ready to give it some data! We can use the `fit` function in `keras` to achieve this.
+
+---
+
+```{r, eval = FALSE, echo = TRUE}
+model %>% fit(
+  x = mnist_x,
+  y = mnist_y,
+  batch_size = 512,
+  epochs = 10
+)
+```
+
+
+
+---
+
+```{r, eval = FALSE, echo = TRUE}
+model %>% fit(
+  x = mnist_x,
+  y = mnist_y,
+  batch_size = 512,
+  epochs = 10,
+  validation_split = 0.2
+)
+```
+
+---
+
+```{r, eval = FALSE, echo = TRUE}
+plot(model)
+```
+
+
+---
+
+# Regulirisation
+
+---
+
+Place contraints on model complexity. Can use a $L_1$ or $L_2$ penalty to add a cost to the size of the node weights.
 
 $$RSS + \lambda \sum_{k} w_k^2$$
 
 where $w$ indicates the set of weights in the model, labelled $\alpha, \beta$ earlier. Forces some of the weights to zero (or close to), to alleviate over-parametrization, and over-fitting.
-
-]]
----
-layout: false
-
-```{r out.width="50%"}
-rey <- image_read("images/rey.jpg")
-meme_text_top(rey, "Does anyone know \n how to use this?", 
-              degrees=270, location = "-200+240", font="Impact") %>%
-  image_rotate(90)
-```
-
----
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Logistic regression](#2)
-- [Network explanation](#5)
-- [Neural network model](#7)
-- [Fitting procedures](#12)
-- .orange[Example]
-
-]]
-.column[.top50px[
-
-```{r}
-choc <- read_csv("data/chocolates.csv")
-mystd <- function(x) {
-  x <- (x-mean(x, na.rm=TRUE))/sd(x, na.rm=TRUE)
-}
-choc_std <- choc %>%
-  mutate_if(is.numeric, list(mystd))
-library(caret)
-set.seed(20190426)
-tr_indx <- createDataPartition(choc$Type)$Resample1
-choc_tr <- choc_std[tr_indx,-c(1:3)]
-choc_ts <- choc_std[-tr_indx,-c(1:3)]
-```
-
-```{r echo=TRUE}
-library(neuralnet)
-set.seed(108)
-choc_nn <- neuralnet(Type~., data=choc_tr, hidden=7)
-pred <- predict(choc_nn, choc_ts)
-choc_ts$pred <- pred[,1] < 0.5
-table(choc_ts$Type, choc_ts$pred)
-```
-
-```{r out.width="50%", fig.width=4, fig.height=3}
-#choc_tr$pred <- predict(choc_nn, choc_tr)[,1] < 0.5
-#table(choc_tr$Type, choc_tr$pred)
-choc_ts$predy <- pred[,1]
-ggplot(choc_ts, aes(x=Type, y=predy, colour=Type)) +
-  geom_jitter(width=0.2, height=0, alpha=0.5) + 
-  scale_colour_brewer(palette="Dark2") +
-  ylab("Predicted")
-```
-
-```{r eval=FALSE}
-plot(choc_nn, show.weights=FALSE)
-```
-]]
-
----
-class: split-40
-layout: false
-
-.column[
-
-## Fitted model
-
-<img src="images/choc_nn.png" style="width: 80%" />
-
-
-]
-.column[
-
-```{r}
-wgts1 <- choc_nn$weights[[1]][[1]]
-rownames(wgts1) <- c("intercept", colnames(choc_tr[,-1]))
-colnames(wgts1) <- paste0("s", 1:7)
-round(wgts1, 2)
-wgts2 <- choc_nn$weights[[1]][[2]]
-rownames(wgts2) <- c("intercept", paste0("s", 1:7))
-colnames(wgts2) <- c("Dark", "Milk")
-round(wgts2, 2)
-```
-]
-
----
-class: split-40
-layout: false
-
-.column[.top50px[
-
-<img src="images/choc_nn_annotate.png" style="width: 80%" />
-
-
-]]
-.column[.top50px[
-
-
-```{r out.width="100%", fig.width=10, fig.height=4}
-logit <- function(x) {
-  1/(1+exp(-x))
-}
-neurons <- as.matrix(choc_tr[,-1])%*%wgts1[-1,] + rep(wgts1[1,], nrow(choc_tr))
-neurons <- as_tibble(neurons) %>% bind_cols(choc_tr[,1]) %>%
-  mutate_at(vars(contains("s")), logit) %>%
-  gather(neuron, prediction, -Type)
-ggplot(neurons, aes(x=prediction, fill=Type)) + 
-  geom_vline(xintercept=0.5, colour="grey60", linetype=2) +
-  geom_histogram(binwidth=0.1) +
-  facet_grid(Type~neuron) + 
-  scale_fill_brewer("", palette="Dark2") +
-  theme(legend.position="none")
-```
-
-Mistakes made by each neuron
-
-```{r}
-neurons %>%
-  group_by(neuron) %>%
-  mutate(predcl = ifelse(prediction<0.5, "Dark", "Milk")) %>%
-  filter(Type != predcl) %>%
-  tally() %>% spread(neuron, n)
-```
-
-]]
-
----
-class: split-40
-layout: false
-
-.column[.top50px[
-
-<img src="images/choc_nn_annotate2.png" style="width: 80%" />
-
-
-]]
-.column[.top50px[
-
-
-Weights of each neuron reflect their strength
-
-```{r}
-neurons %>%
-  group_by(neuron) %>%
-  mutate(predcl = ifelse(prediction<0.5, "Dark", "Milk")) %>%
-  filter(Type != predcl) %>%
-  tally() %>% spread(neuron, n)
-
-round(wgts2, 2)
-```
-
-```{r eval=FALSE}
-# Check what the two neurons give, whether they confirm each other
-fit1 <- neurons %>% 
-  mutate(obs = rep(1:44, 7)) %>%
-  spread(neuron, prediction)
-fit <- as.matrix(fit1[, 3:9])%*%wgts2[-1,] + matrix(rep(wgts2[1,], nrow(choc_tr)), byrow=T, ncol=2)
-fit <- fit %>% as_tibble() %>% mutate(Type=fit1$Type, obs=fit1$obs)
-fit <- fit %>% mutate(prediction = ifelse(Dark > Milk, "Dark", "Milk"))
-ggplot(fit, aes(x=Dark, y=Milk, colour=prediction)) + geom_point() + geom_abline(intercept=0, slope=1) + scale_colour_brewer(palette="Dark2")
-```
-
-]]
-
----
-class: split-70
-layout: false
-
-.column[.pad50px[
-
-Are the same observations misclassifed by each neuron, or do some neurons do unique work?
-
-```{r}
-obs_err <- neurons %>%
-  mutate(obs = rep(1:44, 7)) %>%
-  mutate(predcl = ifelse(prediction<0.5, "Dark", "Milk")) %>%
-  mutate(correct = ifelse(Type == predcl, 0, 1)) %>%
-  select(obs, neuron, correct) %>%
-  spread(neuron, correct) %>%
-  mutate(nerr = s1+s2+s3+s4+s5+s6+s7)
-obs_err %>% arrange(desc(nerr)) %>% print(n=11)
-```
-
-It's .orange[not the same] observations that are misclassifed by each neuron.
-
-]]
-.column[.top50px[
-
-.orange[Obs 10]: `r choc[tr_indx[10],1:3]`
-
-.orange[Obs 16]: `r choc[tr_indx[16],1:3]`
-
-.orange[Obs 14]: `r choc[tr_indx[14],1:3]`
-
-.orange[Obs 24]: `r choc[tr_indx[24],1:3]`
-
-*Note: Mars Dark choc was not in training set.*
-]]
-
----
-class: split-60
-layout: false
-
-.column[.pad50px[
-
-.font_tiny[.content[
-```{r}
-wgts1 <- choc_nn$weights[[1]][[1]]
-rownames(wgts1) <- c("intercept", colnames(choc_tr[,-1]))
-colnames(wgts1) <- paste0("s", 1:7)
-round(wgts1, 2)
-```
-]]
-
-.orange[Variable importance]
-
-Because the variables have all been standardised, the .orange[magnitude] of the weights reflect their importance.
-
-]]
-.column[.top50px[
-
-
-```{r out.width="100%", fig.width=5, fig.height=7}
-wgts1_df <- as_tibble(wgts1[-1,]) %>%
-  mutate_all(., abs) %>%
-  mutate(var=rownames(wgts1[-1,])) %>%
-  gather(neuron, weight, -var)
-ggplot(wgts1_df, aes(x=var, y=weight)) + geom_col() + 
-  facet_wrap(~neuron, ncol=2, scales="free_x") + 
-  coord_flip()
-```
-
-]]
----
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Logistic regression](#2)
-- [Network explanation](#5)
-- [Neural network model](#7)
-- [Fitting procedures](#12)
-- [Example](#13)
-- .orange[Stability]
-
-]]
-.column[.top50px[
-
-Different random .orange[start] could lead to a .orange[different model]. .orange[Choice of] $s$ also needs to be made, ideally by cross-validation.
-
-```{r echo=TRUE}
-choc_nn <- neuralnet(Type~., data=choc_tr, hidden=7)
-```
-
-```{r}
-pred <- predict(choc_nn, choc_ts)
-choc_ts$pred <- pred[,1] < 0.5
-table(choc_ts$Type, choc_ts$pred)
-```
-
-```{r}
-choc_nn <- neuralnet(Type~., data=choc_tr, hidden=7)
-pred <- predict(choc_nn, choc_ts)
-choc_ts$pred <- pred[,1] < 0.5
-table(choc_ts$Type, choc_ts$pred)
-```
-
-```{r}
-choc_nn <- neuralnet(Type~., data=choc_tr, hidden=7)
-pred <- predict(choc_nn, choc_ts)
-choc_ts$pred <- pred[,1] < 0.5
-table(choc_ts$Type, choc_ts$pred)
-```
-
-]]
-
-
----
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Logistic regression](#2)
-- [Network explanation](#5)
-- [Neural network model](#7)
-- [Fitting procedures](#12)
-- [Example](#13)
-- [Stability](#19)
-- .orange[Multiple classes]
-
-]]
-.column[.top50px[
-
-Response is coded as a binary matrix, which allows $K>2$.
-
-```{r}
-set.seed(5)
-choc_tr %>% mutate(Dark = ifelse(Type == "Dark", 1, 0), 
-                Milk = ifelse(Type == "Milk", 1, 0)) %>%
-  select(Type, Dark, Milk) %>%
-  sample_n(10)
-```
-
-]]
-
 ---
 
 class: middle center
