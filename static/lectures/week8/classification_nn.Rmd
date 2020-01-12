@@ -183,22 +183,31 @@ $$ y = f_1(f_2(\dots (f_d(x))))$$
 
 ## How do we build a neural network?
 
+<br>
+
 To build a feedforward neural network, we need .orange[four key components:]
 
 1. Input data (*in this case, the MNIST data*)
 2. A pre-defined network architecture;
-3. A feedback mechanism to enable the network to learn; 
-4. and a model training approch.
+3. A feedback mechanism to enable the network to learn; and 
+4. A model training approch.
 
 
 
 ---
 
-## The data - preprocrssing
+class:  middle center
+
+# **1. Preparing the data**
+
+
+---
+
+## Data preparation
 
 Add warning sign for data to be one hot encoded (dummy variables)
 
-```{r}
+```{r, echo = TRUE}
 library(dplyr) 
 library(keras)
 
@@ -210,60 +219,91 @@ mnist_y <- mnist$train$labels
 # Rename columns and standardize feature values
 colnames(mnist_x) <- paste0("V", 1:ncol(mnist_x))
 mnist_x <- mnist_x / 255
+p <- ncol(mnist_x)
 
 # One-hot encode response
 mnist_y <- to_categorical(mnist_y, 10)
 ```
 ---
 
+class:  middle center
+
+# **2. Network Architecture**
+
+---
 ## Network architecture
+
+<br>
 
 When building architecture for the neural network, we are concerned about two key features: 
 
 - The number of layers and nodes, and
-- How signal is activated through the network 
+- How signal is activated throughout the network.
 
 ---
 
+class: split-two
+
+.column[.pad50px[
+
 ## Layers and nodes
 
-- Input and output layers
-- Hidden layers
+<br>
+
+Our complex relationships are captured using layers and nodes. There are two different types of layers, namely,
+
+- Input and output layers, and
+- Hidden layers.
 
 
-In R, we use the `keras` package to help us build neural networks with a layered approach. It is very different to other machine learning types we have encountered in this course.
+.font_tiny[Source: [Gabriela de Quiroz](https://github.com/gdequeiroz/2018-04-25_intro-to-deep-learning-with-R/blob/master/presentation/basic-concepts.pdf)]
 
+]]
+
+.column[.content.vmiddle.center[
+
+
+<img src="images/nn_layers.JPG" style="width: 80%"/>
+
+
+]]
 
 ---
 
 ## Hidden layers
 
+<br>
+
 - No well-defined approach for selecting the number of hidden layers - this is just one of many hyperparameters we will need to tune! .orange[2-5 laters works well most of the time for regular tabular data].
 - The more hidden layers - the longer the model will take to train (as we are adding more parameters!)
 
-[insert picture higlighting hidden layers]
 
 
 ---
 
 ## Output layers
 
-- Choice of output later is determined by the ML task. If you are doing regression - a single node.
+
+Choice of output later is determined by the ML task.
+
+- If you are doing regression - a single node.
 - Classification - a node for each class if multiclass.
 - If binary, single node for probability of predicting success.
 
-Think? How many nodes will MNIST data NN contain?
+<br>
+
+.tip[**Think!** How many nodes will MNIST data neural network contain?  `r set.seed(2019); emo::ji("thinking")`]
 ---
 
 ## Building network structure in R
 
-We use the keras package. Initiate an architecture.
+We use the `keras` package to build neural networks in R. This is *very different* to other forms of ML algorithms in R. In `keras`, we first define the network structure as a standalone from our data.
 
 ```{r, eval = FALSE, echo = TRUE}
 library(keras)
 model <- keras_model_sequential() %>%
   layer_dense(units = 16,
-              input_shape = ncol(mnist_x)) %>%
+              input_shape = p) %>%
   layer_dense(units = 16) %>%
   layer_dense(units = 10)
 ```
@@ -273,18 +313,13 @@ model <- keras_model_sequential() %>%
 
 ## Activation - how do the layers speak?
 
+<br>
+
+
+Now that we have our structure in place, we need to determine how to pass signal throghout the network. To do this, we will make simple analogies with methods we already know, .orange[logistic] and .orange[linear regression.]
+
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- .orange[Logistic regression]
-
-
-]]
-.column[.top50px[
+## Logistic regression
 
 Remember the logistic function:
 
@@ -296,23 +331,27 @@ y &=& \frac{e^{\beta_0+\sum_{j=1}^p\beta_jx_j}}{1+e^{\beta_0+\sum_{j=1}^p\beta_j
 Alternatively,
 
 $$\log_e\frac{y}{1 - y} = \beta_0+\sum_{j=1}^p\beta_jx_j$$
-]]
+
 
 ---
 class: split-50
 layout: false
 
-.column[.top50px[
+.column[.pad50px[
+
+## Logistic regression
+
+<br>
 
 What the .orange[logistic function] looks like:
 
 \begin{align}
-y =\frac{1}{1+e^{-(\beta_0+\sum_{j=1}^p\beta_jx_j})}
+y =\frac{1}{1+e^{-(\beta_0+\sum_{j=1}^p\beta_jx_j)}}
 \end{align}
 
 ]]
 
-.column[.top50px[
+.column[.content.vmiddle.center[
 
 
 ```{r out.width="80%", fig.width=4, fig.height=4}
@@ -341,78 +380,44 @@ meme_get("ThinkAboutIt")
 .font_large[Hang on to this idea....]
 </center>
 ---
-class: split-30
-layout: false
 
-.column[.pad10px[
-## Outline
+class: split-50
 
-- [Logistic regression](#2)
-- .orange[Network explanation]
-    - Linear regression as a network
+.column[.pad50px[
 
-]]
-.column[.top50px[
+## Linear regression as a network
 
-.split-50[
 
-.column[
 $$\hat{y} =\beta_0+\sum_{j=1}^p\beta_jx_j$$
 
 Drawing as a network model: 
 
-<img src="images/reg_nn.png" style="width: 90%; align: center" />
-]
-.column[
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 $p$ .orange[inputs] (predictors), multiplied by .orange[weights] (coefficients), summed, add a .orange[constant], predicts .orange[output] (response)
-]
-]
+
 ]]
+.column[.content.vmiddle[
+
+
+
+<img src="images/reg_nn.png" style="width: 90%; align: center" />
+
+]]
+
+
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Logistic regression](#2)
-- .orange[Network explanation]
-    - Linear regression as a network
-    - Hidden layer
-
-]]
-.column[.top50px[
+## Network explanation - hidden layers
 
 $$\hat{y} =\alpha_{0}+\sum_{k=1}^s(\alpha_{k}(\beta_{j0}+\sum_{j=1}^p\beta_{jk}x_j))$$
 
 A linear regression model nested within a linear regression model allows for intrinsic dimension reduction, or expansion.
 
+<center>
 <img src="images/nn.png" style="width: 60%; align: center" />
-
-]]
+</center>
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Logistic regression](#2)
-- [Network explanation](#4)
-- .orange[Neural network model]
-    - Two layer perceptron
-
-]]
-.column[.top50px[
+## Two layer perceptron
 
 This is a single output, 2 layer, perceptron (neural network), with a linear threshold.
 
@@ -420,47 +425,15 @@ This is a single output, 2 layer, perceptron (neural network), with a linear thr
 \hat{y} =\alpha_{0}+\sum_{k=1}^s(\alpha_{k}(\beta_{j0}+\sum_{j=1}^p\beta_{jk}x_j))
 \end{align}
 
+
+<center>
 <img src="images/nn_annotate.png" style="width: 80%; align: center" />
+</center>
 
 
-]]
-
----
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Logistic regression](#2)
-- [Network explanation](#4)
-- .orange[Neural network model]
-    - Two layer perceptron
-    - History
-
-]]
-.column[.top50px[
-
-"A logical calculus of the ideas immanent in nervous activity" (1943)
-Warren S. McCulloch & Walter Pitts
-
-Mathematical model for a neuron.
 
 
-```{r, animation.hook='gifski'}
-library(ggpubr)
-library(png)
-fls <- list.files("images/neuron")
-plot.new()
-for (i in fls) {
-  name <- paste0("images/neuron/", i)
-  p <- readPNG(name)
-  print(ggplot() +
-    background_image(p))
-}
-```
 
-]]
 
 
 ---
@@ -480,21 +453,7 @@ ggplot(df2, aes(x=x, y=y)) +
 ```
 
 ---
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Logistic regression](#2)
-- [Network explanation](#4)
-- .orange[Neural network model]
-    - Two layer perceptron
-    - History
-    - Activation functions
-
-]]
-.column[.top50px[
+## Activation functions
 
 \begin{align}
 \hat{y} =\color{orange}g\color{orange}(\alpha_{0}+\sum_{k=1}^s(\alpha_{k}\color{orange}f\color{orange}(\beta_{0k}+\sum_{j=1}^p\beta_{jk}x_j)\color{orange})\color{orange})
@@ -505,34 +464,14 @@ Let $u=\beta_0+\sum_{j=1}^p\beta_jx_j$
 - $\texttt{Gaussian radial:} \quad \color{orange}{\frac{1}{\sqrt{2\pi}}e^{-u^2/2}}$
 - $\texttt{Hyperbolic tangent:} \quad \color{orange}{\frac{e^u-e^{-u}}{e^u+e^{-u}}}$
 
-]]
-
----
-class: split-30
-layout: false
-
-.column[.pad10px[
-## Outline
-
-- [Logistic regression](#2)
-- [Network explanation](#4)
-- .orange[Neural network model]
-    - Two layer perceptron
-    - History
-    - Activation functions
-    - Neurons
-
-]]
-.column[.top50px[
-
-<img src="images/nn_neurons.png" style="width:100%" />
-
-]]
-
 
 ---
 
 ## Adding in activation information in R
+
+To add in activation information to our model in `keras`, we simply adjust our model stucture previously by adding in the activation functions we would like to use for each layer.
+
+.green[Note - using different activations doesn't affect what the network can learn, just the speed at which it learns.]
 
 ```{r, eval = FALSE, echo = TRUE}
 model <- keras_model_sequential() %>%
@@ -545,23 +484,42 @@ model <- keras_model_sequential() %>%
 
 
 ---
+class:  middle center
 
-# Backpropagation
+# **3. Feedback Mechanism**
+
 
 ---
 
-## Compiling the model.
+## Compiling the model
 
 Now that we have a model architecture in place - how will the model *learn* from the data? To do this, we need to specify a .orange[**loss function**] and .orange[**optimiser**] to use during training.
 
-- The loss function (also called objective function) helps measure performance. For regression you may use the MSE, for lassification you may use cross entropy.
-- The optimiser controls which optimisation algorithm is implemented in our NN. 
+- The *loss function* (also called objective function) helps measure performance. For regression you may use the MSE, for classification you may use cross entropy.
+- The *optimiser* controls which optimisation algorithm is implemented in our NN. 
+
 
 
 ---
 
+class: middle center
+
+<center>
+<img src="images/loss_update.JPG" style="width: 80%; align: center" />
+</center>
+
+
+.font_tiny[Source: [Gabriela de Quiroz](https://github.com/gdequeiroz/2018-04-25_intro-to-deep-learning-with-R/blob/master/presentation/basic-concepts.pdf)]
+
+---
+
+## Compiling the model in R
+
+<br>
+
+In R, we pipe our model to the `compile` function. This is all done in place and is not assigned to an object! 
+
 ```{r, eval = FALSE, echo = TRUE}
-  # Backpropagation
 model %>%   compile(
     loss = 'categorical_crossentropy',
     optimizer = "rmsprop",
@@ -573,15 +531,15 @@ model %>%   compile(
 
 ---
 
-# Model training
+class:  middle center
+
+# **4. Model Training**
 
 ---
 
 ## Model training
 
 Now that we have created the model specification, we are ready to give it some data! We can use the `fit` function in `keras` to achieve this.
-
----
 
 ```{r, eval = FALSE, echo = TRUE}
 model %>% fit(
@@ -592,9 +550,14 @@ model %>% fit(
 )
 ```
 
-
+Note - `batch_size` refers to the number of samples fed into the model at a time, and `epoch` refers to how many times we will transverse the input data.
 
 ---
+## Model training
+
+Now that we have created the model specification, we are ready to give it some data! We can use the `fit` function in `keras` to achieve this.
+
+.green[Additionally, we can hold out data in `validation_split` to validate that we are not *overfitting* to out data.]
 
 ```{r, eval = FALSE, echo = TRUE}
 model %>% fit(
@@ -608,16 +571,34 @@ model %>% fit(
 
 ---
 
+class: split-50
+
+.column[.pad50px[
+
+## Model training
+
+We can plot the accuracy and loss of the neural network using the `plot` function.
+
 ```{r, eval = FALSE, echo = TRUE}
 plot(model)
 ```
 
 
----
 
-# Regulirisation
+]]
+.column[.content.vmiddle[
+
+```{r, eval = FALSE, echo = TRUE}
+plot(model)
+```
+
+
+
+]]
+
 
 ---
+## Additional thoughts - regularisation
 
 Place contraints on model complexity. Can use a $L_1$ or $L_2$ penalty to add a cost to the size of the node weights.
 
@@ -639,6 +620,11 @@ class: split-two
 
 ## Minimal interpretability
 
+<br>
+
+- Core concept of .orange[prediction] vs .orange[inference].
+- Neural networks are seen as a black box type of model, with limited information provided to as how the neural net is making decisions. (*Contrast this to trees, or logistic regression, say*)
+
 ]]
 
 .column[.content.vmiddle.center[
@@ -657,6 +643,11 @@ class: split-two
 
 ## Data intensive
 
+<br>
+
+- Deep learning algorithms don't work well when the number of features is larger than the number of observations (highly overparameterised).
+- If we only have a limited number of training data points, the model can potentially .orange[overfit] and fit very closely to the training data whilst lacking predictive performane for new data.
+
 ]]
 
 .column[.content.vmiddle.center[
@@ -672,6 +663,12 @@ class: split-two
 .column[.pad50px[
 
 ## Computationally intensive
+
+<br>
+
+- Many calculations are required to estimate all of the parameters in many neural networks (the one we have shown today is quite basic ).
+- Deep learning involves huge amounts of matrix multiplications and other operations.
+- Often used in conjuction with GPUs to paralellise computations.
 
 ]]
 
