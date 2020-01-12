@@ -197,19 +197,6 @@ The classification rule is then
 
 $$C(\mathbf{x}^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(\mathbf{x}^*) = \max_k \delta_k(\mathbf{x}^*).$$
 
-
----
-
-## DLDA in R
-
-DLDA is easy to run, is found in the `dlda` function provided by the `sparsediscrim` package (hosted on GitHub)
-
-
-```{r, eval = FALSE, echo = TRUE}
-devtools::install_github("cran/sparsediscrim")
-dlda(SRBCT$X, SRBCT$y)
-```
-
 ---
 
 ## What features are driving prediction?
@@ -369,11 +356,14 @@ class: middle center
 
 ---
 ## multiDA (DA via multiple hypothesis testing)
----
 
-class: center middle
+<br>
 
-Define, estimate, predict
+The multiDA method utilises a multiple hypothesis testing approach to select informative features. It uses a three step process:
+
+- .orange[Define] what is a discriminative feature
+- .orange[Estimate] parameters of the hypothesis testing process, and 
+- .orange[Predict] new data points using the estimates from training data.
 
 ---
 

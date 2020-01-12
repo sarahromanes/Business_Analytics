@@ -192,11 +192,23 @@ class:  middle center
 # **1. Preparing the data**
 
 
+
 ---
 
 ## Data preparation
 
-Add warning sign for data to be one hot encoded (dummy variables)
+&lt;br&gt;
+
+There are some data cleaning steps we need to keep in mind before we use neural networks.
+
+- Data needs input to be *numeric*. This means if our data has categorical variables, we will need to represent these as *dummy variables* (revise, Week 2!). This is also called .orange[one-hot encoding] in ML literature.
+- Neural nets are sensitive to scale of the feature values - hence they should be *standardised* first (have mean zero and unit variance).
+- If response is categorical (such as 0-9 response in MNIST data) - needs to be recoded as numerical. Can use `keras` function `to_categorical()`.
+---
+
+## Data preparation
+
+We can obtain the MNIST data from the `dslabs` package. Data prep is obtained from  [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/deep-learning.html)
 
 
 ```r
@@ -662,6 +674,7 @@ class: split-two
 - [Neural Networks: A Review from a Statistical Perspective](https://projecteuclid.org/euclid.ss/1177010638)
 - [A gentle journey from linear regression to neural networks](https://towardsdatascience.com/a-gentle-journey-from-linear-regression-to-neural-networks-68881590760e)
 - [McCulloch-Pitts Neuron -- Mankind’s First Mathematical Model Of A Biological Neuron](https://towardsdatascience.com/mcculloch-pitts-model-5fdf65ac5dd1)
+- [Hands on Machine Learning with R - Deep Learning](https://bradleyboehmke.github.io/HOML/deep-learning.html)
 
 ---
 layout: false
