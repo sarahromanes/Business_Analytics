@@ -123,7 +123,7 @@ James, Witten, Hastie and Tibshirani (2012) An Introduction to Statistical Learn
 ---
 class: split-40
 
-.column[.pad10x[
+.column[.pad50px[
 # Flavours of 
 
 .img-fill[![](images/cakes.jpg)]

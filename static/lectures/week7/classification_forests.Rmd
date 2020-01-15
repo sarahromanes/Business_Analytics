@@ -36,6 +36,7 @@ library(magick)
 <img src="images/overfitting.jpg" style="width: 70%"/>
 </center>
 
+.font_tiny[Source: Hugh MacLeod / Statistical Statistics Memes]
 ---
 ## Solution? Ensemble methods
 
@@ -541,7 +542,7 @@ Whereas random forests build an ensemble of .green[deep independent trees], .ora
 <img src="images/boosted-trees-process.png" style="width: 70%"/>
 </center>
 
-
+.font_tiny[Source: Hands on Machine Learning with R]
 ---
 ## Boosted trees - the algorithm
 

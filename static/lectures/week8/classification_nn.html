@@ -114,7 +114,7 @@ The .green[MNIST data] was presented to AT&amp;T Bell Lab's to build automatic m
 
 &lt;img src="images/MNIST.png" style="width: 80%"/&gt;
 
-
+.font_tiny[Sample images from MNIST test dataset .]
 ]]
 
 ---
@@ -165,7 +165,7 @@ $$ y = f_1(f_2(\dots (f_d(x))))$$
 
 &lt;img src="images/feedforward.png" style="width: 80%"/&gt;
 
-
+.font_tiny[Source: Hands on Machine Learning with R]
 ]]
 
 
@@ -208,7 +208,7 @@ There are some data cleaning steps we need to keep in mind before we use neural 
 
 ## Data preparation
 
-We can obtain the MNIST data from the `dslabs` package. Data prep is obtained from  [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/deep-learning.html)
+We can obtain the MNIST data from the `dslabs` package. Data prep is obtained from  [Hands on Machine Learning in R](https://bradleyboehmke.github.io/HOML/deep-learning.html).
 
 
 ```r
@@ -460,7 +460,7 @@ To add in activation information to our model in `keras`, we simply adjust our m
 model &lt;- keras_model_sequential() %&gt;%
   layer_dense(units = 16, 
               activation = "relu", 
-              input_shape = ncol(x_train)) %&gt;%
+              input_shape = p) %&gt;%
   layer_dense(units = 16, activation = "relu") %&gt;%
   layer_dense(units = 10, activation = "softmax")
 ```
@@ -527,7 +527,7 @@ Now that we have created the model specification, we are ready to give it some d
 
 
 ```r
-model %&gt;% fit(
+fit &lt;- model %&gt;% fit(
   x = mnist_x,
   y = mnist_y,
   batch_size = 512,
@@ -546,12 +546,13 @@ Now that we have created the model specification, we are ready to give it some d
 
 
 ```r
-model %&gt;% fit(
+fit &lt;- model %&gt;% fit(
   x = mnist_x,
   y = mnist_y,
   batch_size = 512,
   epochs = 10,
-  validation_split = 0.2
+  validation_split = 0.2,
+  verbose = FALSE
 )
 ```
 
@@ -567,7 +568,7 @@ We can plot the accuracy and loss of the neural network using the `plot` functio
 
 
 ```r
-plot(model)
+plot(fit)
 ```
 
 
@@ -575,10 +576,7 @@ plot(model)
 ]]
 .column[.content.vmiddle[
 
-
-```r
-plot(model)
-```
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -620,6 +618,8 @@ class: split-two
 
 &lt;img src="images/hidden-layers.jpg" style="width: 80%"/&gt;
 
+.font_tiny[Source: Machine Learning Memes for Convolutional Teens]
+
 
 ]]
 
@@ -643,7 +643,7 @@ class: split-two
 
 &lt;img src="images/nodata.png" style="width: 80%"/&gt;
 
-
+.font_tiny[Source: Machine Learning Memes for Convolutional Teens]
 ]]
 ---
 class: split-two
@@ -665,6 +665,7 @@ class: split-two
 
 &lt;img src="images/intense.png" style="width: 80%"/&gt;
 
+.font_tiny[Source: Machine Learning Memes for Convolutional Teens]
 
 ]]
 ---

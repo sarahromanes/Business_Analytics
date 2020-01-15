@@ -213,16 +213,16 @@ layout: false
 
 Recall: LDA involves the eigen decomposition of `\(\color{orange}{\Sigma^{-1}\Sigma_B}\)`, where
 
-`$$\Sigma_B = \frac{1}{K}\sum_{i=1}^{K} (\mu_i-\mu)(\mu_i-\mu)'$$`
+`$$\small{\Sigma_B = \frac{1}{K}\sum_{i=1}^{K} (\mu_i-\mu)(\mu_i-\mu)'}$$`
 
-`$$\Sigma = \frac{1}{n} \sum_{i=1}^{n} (x_i-\mu_i)(x_i-\mu_i)'$$`
+`$$\small{\Sigma = \frac{1}{n} \sum_{i=1}^{n} (x_i-\mu_i)(x_i-\mu_i)'}$$`
 
 The eigen-decomposition is an analytical solution to a sequential optimisation problem: 
 
 
 `\begin{align*}
-&amp; \underset{{\beta_k}}{\text{maximize}} \beta_k^T\hat{\Sigma}_B \beta_k \\
-&amp; \mbox{ subject to  }  \beta_k^T\hat{\Sigma} \beta_k \leq 1, \beta_k^T\hat{\Sigma}\beta_j = 0 \mbox{  } \forall i&lt;k
+&amp; \small{\underset{{\beta_k}}{\text{maximize}} \beta_k^T\hat{\Sigma}_B \beta_k} \\
+&amp; \small{\mbox{ subject to  }  \beta_k^T\hat{\Sigma} \beta_k \leq 1, \beta_k^T\hat{\Sigma}\beta_j = 0 \mbox{  } \forall i&lt;k}
 \end{align*}`
 
 
@@ -290,12 +290,12 @@ PCR, ridge regression, and the lasso compared on simulated data. PCR does well w
 .orange[Partial least squares (PLS)], a supervised alternative to PCR. 
 
 &lt;center&gt;
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.21.pdf" target="_BLANK"&gt; &lt;img src="images/6.21.png" style="width: 70%; align: center"/&gt; &lt;/a&gt;
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.21.pdf" target="_BLANK"&gt; &lt;img src="images/6.21.png" style="width: 55%; align: center"/&gt; &lt;/a&gt;
 &lt;/center&gt;
 
 Two predictors are shown: .green[Solid line is PLS], dashed line is PCR. 
 
-
+.font_tiny[(Chapter 6/6.21)]
 ---
 ## Partial least squares
 

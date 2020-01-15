@@ -50,6 +50,8 @@ in the model.
 <center><a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" target="_BLANK"> <img src="images/3.1.png" style="width: 60%"/> </a>
 </center>
 
+.font_tiny[(Chapter3/3.1.pdf)]
+
 ---
 ## Multiple Regression
 
@@ -61,6 +63,7 @@ in the model.
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf" target="_BLANK"> <img src="images/3.5.png" style="width: 60%"/> </a>
 </center>
 
+.font_tiny[(Chapter3/3.5.pdf)]
 ---
 ## Categorical Variables
 
@@ -80,7 +83,6 @@ $$\hat{y}_i = \left\{\begin{array}
 \beta_0 & \mbox{otherwise}  
 \end{array}\right\}$$
 
-These are called .orange[dummy variables].
 
 
 ---
@@ -100,7 +102,7 @@ $$x_{i2} = \left\{\begin{array}
 0 & \mbox{otherwise}  
 \end{array}\right\}$$
 
-which would result in the model
+which would result in the model using .orange[dummy variables].
 
 $$\hat{y}_i = \left\{\begin{array}
 {ll}
@@ -108,10 +110,6 @@ $$\hat{y}_i = \left\{\begin{array}
 \beta_0+\beta_2 & \mbox{if} ~~~  i^{\text{th}}  \mbox{ obs is a bilby}  \\
 \beta_0 & \mbox{otherwise}  
 \end{array}\right\}$$
-
-These are called .orange[dummy variables].
-
-
 
 ---
 ## Ordinary Least Squares (OLS)
@@ -286,6 +284,7 @@ with their coefficients are not significant. (This is because the interactions a
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf" target="_BLANK"> <img src="images/3.7.png" style="width: 100%; align: center"/> </a>
 
+.font_tiny[(Chapter3/3.7.pdf)]
 ---
 ## Residuals
 

@@ -1,6 +1,6 @@
 ---
-title: "ETC3250: Support vector machines"
-subtitle: "Semester 1, 2019"
+title: "ETC3250: Support Vector Machines"
+subtitle: "Semester 1, 2020"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
 date: "Week 7 (b)"
 output: 
@@ -37,10 +37,10 @@ library(magick)
 In a $p$-dimensional space, a .orange[hyperplane] is a flat affine subspace of dimension $p - 1$.
 
 <center>
-<img src="images/9.1.png" style="width: 50%"/>
+<img src="images/9.1.png" style="width: 40%"/>
 </center>
 
-.font-65[(ISLR: Fig 9.1)]
+.font_tiny[(ISLR: Fig 9.1)]
 ---
 ## Separating hyperplanes 
 
@@ -112,6 +112,7 @@ All are separating hyperplanes. .orange[Which is best?]
 <img src="images/svm_diagram.png" style="width: 80%" />
 </center>
 
+.font_tiny[Source: Machine Learning Memes for Convolutional Teens]
 
 ---
 
@@ -253,7 +254,7 @@ The maximal margin classifier only works when we have perfect seperability in ou
 
 <br>
 
-*Maximise* $M$, subject to $\sum_{i=1}^pb_i^2=1$, and $y_i(x_i'b+b_0)\geq M(1-\epsilon_i), i=1, ..., n$, AND $\epsilon_i\geq 0, \sum_{i=1}^n\epsilon_i\leq C$.
+*Maximise* $M$, subject to $\sum_{i=1}^p\beta_i^2=1$, and $y_i(x_i'\beta+\beta_0)\geq M(1-\epsilon_i), i=1, ..., n$, AND $\epsilon_i\geq 0, \sum_{i=1}^n\epsilon_i\leq C$.
 
 $\varepsilon_i$ tells us where the $i$th observation is located and $C$ is a nonnegative .orange[tuning parameter].
 
@@ -267,11 +268,6 @@ $\varepsilon_i$ tells us where the $i$th observation is located and $C$ is a non
 
 .orange[Tuning parameter]: decreasing the value of *C*
 
-```{r}
-if (!file.exists("images/9.7.png"))
-  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.7.pdf", density = 300), "images/9.7.png", 
-      format = "png", density = 300)
-```
 
 <center>
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.7.pdf" target="_BLANK"> <img src="images/9.7.png" style="width: 45%; align: center"/> </a>
@@ -297,6 +293,8 @@ Consider the following 2D non-linear classification problem. We can transform th
 <center>
 <img src="images/kernel-trick.png" style="width: 80%">
 </center>
+
+.font_tiny[Source: Grace Zhang @zxr.nju]
 ---
 
 ## The inner product
@@ -352,11 +350,13 @@ layout: false
 
 .orange[The kernel trick]
 
-Because $b=\sum_{i=1}^s (\alpha_iy_i)x_i$  $y_i(x_i'b+b_o)$ can be written as
+The linear support vector classifier can be represented as follows:
 
- $$y_i(\alpha_i x_i'x_i+b_o)$$ 
+$$f(x) = \beta_0 +  \sum_{i \in \mathcal{S}} \alpha_i \langle x, x_i \rangle.$$
 
-and $x_i'x_i$ can be wrapped into a kernel function $K(x_i'x_i)$ which enables building nonlinear boundaries.
+We can generalise this by replacing the inner product with the kernel function as follows:
+
+$$f(x) = \beta_0 +  \sum_{i \in \mathcal{S}} \alpha_i \mathcal{K}( x, x_i ).$$
 
 ]]
 

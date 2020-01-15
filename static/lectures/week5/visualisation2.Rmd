@@ -71,7 +71,7 @@ Compare the tour of the flea data, with three clusters:
 ---
 ## Comparison with tours
 
-with the parallel coordinate plot:
+With the parallel coordinate plot:
 
 ```{r eval=FALSE, out.width="100%"}
 library(tidyverse)
@@ -242,7 +242,7 @@ Ordered, scaled .orange[globally] to 0-1.
 
 For the $p$ variables $(x_1, ..., x_p)$ make a fourier transform $f_x(t) = x_1/\sqrt{2} +$ $x_2\sin(t) +$ $x_3\cos(t) +$ $x_4\sin(2t) +$ $x_5\cos(2t)+...$
 
-```{r out.width="70%", fig.width=10}
+```{r out.width="70%", fig.height = 3}
 library(tourr)
 library(tidyverse)
 # Code by yannabraham from https://gist.github.com/yannabraham/5b71b9599b460968f72e9b7ae63868e7
@@ -293,7 +293,7 @@ Preceded the tour, but like a tour $(d=1)$ laid out on a page, but algorithm is 
 
 .orange[Hammock plots] are a variation of parallel coordinate plots for categorical variables. They show the flow of groups between stacked barcharts, providing information about the association between multiple categorical variables.
 
-```{r out.width="80%", fig.width=10}
+```{r out.width="80%", fig.height = 4}
 library(ggparallel)
 titanic <- as.data.frame(Titanic)
 ggparallel(names(titanic)[c(1,4,2,3)], titanic, weight="Freq", asp=0.5,

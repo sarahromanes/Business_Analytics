@@ -23,7 +23,7 @@ knitr::opts_chunk$set(tidy = FALSE,
                       fig.width=8,
                       fig.height=6,
                       fig.align = "center",
-                      fig.retina = 2)
+                      fig.retina = 4)
 options(htmltools.dir.version = FALSE)
 library(magick)
 ```
@@ -534,7 +534,7 @@ ggplot() +
 
 Bootstrap can be used to assess whether the coefficients of a PC are significantly different from 0. The 95% bootstrap confidence intervals are:
 
-```{r out.width="60%", fig.width=5, fig.height=3}
+```{r out.width="60%", fig.width=5, fig.height=2}
 library(boot)
 compute_PC1 <- function(data, index) {
   pc1 <- prcomp(data[index,], center=TRUE, scale=TRUE)$rotation[,1]

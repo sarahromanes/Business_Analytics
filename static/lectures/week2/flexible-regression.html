@@ -125,7 +125,7 @@ where `\(b_1(X), b_2(X), \dots, b_K(X)\)` are a family of functions or transform
 ---
 # Polynomial basis functions 
 
-&lt;img src="flexible-regression_files/figure-html/basis-functions-1.png" width="800" height="500" /&gt;
+&lt;img src="flexible-regression_files/figure-html/basis-functions-1.png" width="800" height="400" /&gt;
 
 x1 `\(=x\)`, x2= `\(x^2\)`, x3= `\(x^3\)`, x4= `\(x^4\)`, x5= `\(x^5\)`
 
@@ -155,10 +155,11 @@ Piecewise cubic polynomial with a single knot at a point `\(c\)`:
 ---
 # Piecewise Poly
 
+&lt;center&gt;
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" target="_BLANK"&gt; &lt;img src="images/7.3.png" style="width: 60%; align: center"/&gt; &lt;/a&gt;
+&lt;/center&gt;
 
-
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" target="_BLANK"&gt; &lt;img src="images/7.3.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
-
+.font_tiny[(Chapter 7/ 7.3)]
 
 
 
@@ -180,7 +181,7 @@ Then the regression is piecewise order- `\(p\)` polynomials.
 
 
 
-&lt;img src="flexible-regression_files/figure-html/truncated-1.png" width="800" height="500" /&gt;
+&lt;img src="flexible-regression_files/figure-html/truncated-1.png" width="800" height="400" /&gt;
 
 x1 `\(=x\)`, x2= `\(x^2\)`, x3= `\(x^3\)`, x4= `\((x+0.5)^3_+\)`, x5= `\((x-0.5)^3_+\)`
 
@@ -214,7 +215,7 @@ We can fit a cubic spline in `R` using `splines::bs()`, and fit a natural cubic 
 
 .column[.content.vmiddle.center[
 
-&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
 
 ]]
 
@@ -232,7 +233,7 @@ class: split-two
 
 .column[.content.vmiddle.center[
 
-&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
 
 ]]
 ---
@@ -258,7 +259,7 @@ class: split-two
 ---
 ## Natural cubic splines with differing knots
 
-&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-7-1.png" width="936" /&gt;
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-6-1.png" width="936" /&gt;
 ---
 # Generalised additive models (GAMs)
 
@@ -313,7 +314,7 @@ my_gam &lt;- gam(logSalary~s(logCHits) +
 
 .column[.content.vmiddle.center[
 
-&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
+&lt;img src="flexible-regression_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
 
 ]]
 

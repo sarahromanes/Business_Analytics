@@ -225,18 +225,19 @@ class: split-two
 
 ### Linear regression
 
-$$f(X) = \beta_0 + \sum_{j = 1}^p X_j	\beta_j$$
+$$\small{f(X) = \beta_0 + \sum_{j = 1}^p X_j	\beta_j}$$
 
 <br>
 
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"> <img src="images/2.4.png" style="width: 80%; align: center"/></a>
 
+.font_tiny[(Chapter 2/2.4)]
 ]]
 .column[.pad50px[
 
 ### Regression trees
 
-$$f(X) = \sum_{m = 1}^M c_m ~ I(X \in R_m)$$
+$$\small{f(X) = \sum_{m = 1}^M c_m ~ I(X \in R_m)}$$
 
 <br>
 

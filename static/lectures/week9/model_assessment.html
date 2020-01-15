@@ -58,11 +58,9 @@ statquote(source="Box")
 ```
 
 ```
-## Since small differences in probability cannot be appreciated by 
-## the human mind, there seems little point in being excessively 
-## precise about uncertainty. 
-## --- Box, G. E. P. &amp; Tiao, G. C. (1973), Bayesian inference in 
-## statistical analysis Addison-Wesley, Reading, MA, p. 65.
+## If there were a probability of only p = 0.04 of finding a crock of 
+## gold behind the next tree, wouldn't you go and look? 
+## --- George E. P. Box
 ```
 
 
@@ -113,17 +111,12 @@ layout: false
 
 ## ROC for classification
 
-The .orange[ROC curve] is a popular graphic for simultaneously displaying the two types of errors for all possible thresholds. It is a common method for comparing classification models. 
+The .orange[ROC curve] is a popular graphic for simultaneously displaying the two types of errors for all possible thresholds. It is a common method for comparing classification models. Below: ROC curve for the LDA classifier on the training set of `credit` data. 
 
 
 &lt;center&gt;
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"&gt; &lt;img src="images/4.8.png" style="width: 50%; align: center"/&gt; &lt;/a&gt;
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"&gt; &lt;img src="images/4.8.png" style="width: 40%; align: center"/&gt; &lt;/a&gt;
 &lt;/center&gt;
-
-
-ROC curve for the LDA classifier on the training set of `credit` data. 
-
-.font_tiny[Fig 4.8]
 
 
 ---
@@ -200,9 +193,9 @@ If the classifier returns a prediction between 0 and 1, interpret as the probabi
 
 ## ROC for classification
 
-&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.10.pdf" target="_BLANK"&gt; &lt;img src="images/9.10.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.10.pdf" target="_BLANK"&gt; &lt;img src="images/9.10.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
 
-.center[.font_small[(left) LDA and SVM similar.        (right) SVM radial basis with `\\(\gamma=10^{-1}\\)` is the best. ]]
+.center[.font_small[(left) LDA and SVM similar.        (right) SVM radial basis with `\\( \gamma=10^{-1} \\)` is the best. ]]
 
 .font_tiny[Fig 9.10]
 
@@ -215,7 +208,7 @@ layout: false
 
 .orange[Mahalanobis distance] measures the distance from the mean, relative to the variance-covariance matrix, and is useful for .orange[outlier detection]: `\(D^2 = (X-\mu)'\Sigma^{-1}(X-\mu)\)`
 
-&lt;img src="model_assessment_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="model_assessment_files/figure-html/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 Related to "leverage" in regression diagnostics.
 
@@ -228,9 +221,9 @@ Related to "leverage" in regression diagnostics.
 
 .orange[Cook's distance] measures the change in the model estimates due to the observation: `\(D_i = \frac{e_i^2}{MSE\times p}\frac{h_i}{(1-h_i)^2}\)` where `\(h_i\)` is the leverage of observation `\(i\)`. 
 
-&lt;img src="model_assessment_files/figure-html/unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="model_assessment_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
-Developed by Dennis Cook, University of Minnesota. 
+.font_tiny[Developed by Dennis Cook, University of Minnesota. ]
 
 
 ---

@@ -55,7 +55,7 @@ There are numerous sorting algorithms
 <img src="images/sorting.gif" style="width:75%">
 </center>
 
-The "speed" of classification trees depends on how quickly one can sort.
+The "speed" of classification trees depends on how quickly one can sort. .green[[Source](www.sorting-algorithms.com)]
 
 
 ---

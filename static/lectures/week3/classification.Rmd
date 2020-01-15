@@ -266,6 +266,9 @@ class: center
 
 <img src="images/response.jpg", width="60%">
 
+
+.font_tiny[Source: Statistical Statistics Memes]
+
 ---
 class: split-40
 
@@ -385,6 +388,8 @@ class: center
 
 <img src="images/warning.jpg", width="60%">
 
+.font_tiny[Source: R Memes for Statistical Fiends]
+
 ---
 ## Linear Discriminant Analysis
 
@@ -417,6 +422,8 @@ class: center
 ## Assumptions are critical in LDA
 
 <img src="images/assumptions.png", width="70%">
+
+.font_tiny[Source: Statistical Statistics Memes]
 
 ---
 

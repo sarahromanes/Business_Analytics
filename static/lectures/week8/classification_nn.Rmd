@@ -123,7 +123,7 @@ The .green[MNIST data] was presented to AT&T Bell Lab's to build automatic mail 
 
 <img src="images/MNIST.png" style="width: 80%"/>
 
-
+.font_tiny[Sample images from MNIST test dataset .]
 ]]
 
 ---
@@ -174,7 +174,7 @@ $$ y = f_1(f_2(\dots (f_d(x))))$$
 
 <img src="images/feedforward.png" style="width: 80%"/>
 
-
+.font_tiny[Source: Hands on Machine Learning with R]
 ]]
 
 
@@ -485,11 +485,11 @@ To add in activation information to our model in `keras`, we simply adjust our m
 
 .green[Note - using different activations doesn't affect what the network can learn, just the speed at which it learns.]
 
-```{r, eval = FALSE, echo = TRUE}
+```{r, echo = TRUE}
 model <- keras_model_sequential() %>%
   layer_dense(units = 16, 
               activation = "relu", 
-              input_shape = ncol(x_train)) %>%
+              input_shape = p) %>%
   layer_dense(units = 16, activation = "relu") %>%
   layer_dense(units = 10, activation = "softmax")
 ```
@@ -531,7 +531,7 @@ class: middle center
 
 In R, we pipe our model to the `compile` function. This is all done in place and is not assigned to an object! 
 
-```{r, eval = FALSE, echo = TRUE}
+```{r, echo = TRUE}
 model %>%   compile(
     loss = 'categorical_crossentropy',
     optimizer = "rmsprop",
@@ -554,7 +554,7 @@ class:  middle center
 Now that we have created the model specification, we are ready to give it some data! We can use the `fit` function in `keras` to achieve this.
 
 ```{r, eval = FALSE, echo = TRUE}
-model %>% fit(
+fit <- model %>% fit(
   x = mnist_x,
   y = mnist_y,
   batch_size = 512,
@@ -571,13 +571,14 @@ Now that we have created the model specification, we are ready to give it some d
 
 .green[Additionally, we can hold out data in `validation_split` to validate that we are not *overfitting* to out data.]
 
-```{r, eval = FALSE, echo = TRUE}
-model %>% fit(
+```{r, echo = TRUE, message = FALSE, warning = FALSE}
+fit <- model %>% fit(
   x = mnist_x,
   y = mnist_y,
   batch_size = 512,
   epochs = 10,
-  validation_split = 0.2
+  validation_split = 0.2,
+  verbose = FALSE
 )
 ```
 
@@ -592,7 +593,7 @@ class: split-50
 We can plot the accuracy and loss of the neural network using the `plot` function.
 
 ```{r, eval = FALSE, echo = TRUE}
-plot(model)
+plot(fit)
 ```
 
 
@@ -600,8 +601,8 @@ plot(model)
 ]]
 .column[.content.vmiddle[
 
-```{r, eval = FALSE, echo = TRUE}
-plot(model)
+```{r}
+plot(fit)
 ```
 
 
@@ -644,6 +645,8 @@ class: split-two
 
 <img src="images/hidden-layers.jpg" style="width: 80%"/>
 
+.font_tiny[Source: Machine Learning Memes for Convolutional Teens]
+
 
 ]]
 
@@ -667,7 +670,7 @@ class: split-two
 
 <img src="images/nodata.png" style="width: 80%"/>
 
-
+.font_tiny[Source: Machine Learning Memes for Convolutional Teens]
 ]]
 ---
 class: split-two
@@ -689,6 +692,7 @@ class: split-two
 
 <img src="images/intense.png" style="width: 80%"/>
 
+.font_tiny[Source: Machine Learning Memes for Convolutional Teens]
 
 ]]
 ---

@@ -34,11 +34,11 @@ library(magick)
 
 The discriminant space is provided by the eigenvectors after making an eigen-decomposition of $\Sigma^{-1}\Sigma_B$, where
 
-$$\Sigma_B = \frac{1}{K}\sum_{i=1}^{K} (\mu_i-\mu)(\mu_i-\mu)'$$
+$$\small{\Sigma_B = \frac{1}{K}\sum_{i=1}^{K} (\mu_i-\mu)(\mu_i-\mu)'}$$
 
 and
 
-$$\Sigma = \frac{1}{K}\sum_{k=1}^K\frac{1}{n_k}\sum_{i=1}^{n_k} (x_i-\mu_k)(x_i-\mu_k)'$$
+$$\small{\Sigma = \frac{1}{K}\sum_{k=1}^K\frac{1}{n_k}\sum_{i=1}^{n_k} (x_i-\mu_k)(x_i-\mu_k)'}$$
 
 
 

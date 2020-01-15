@@ -275,8 +275,9 @@ where $h_i=\frac{1}{n}+\frac{(x_i-\bar{x})^2}{\sum_{i'}^n(x_{i'}-\bar{x})^2}$ (k
 3. Repeat $k$ times taking out a different part each time
 
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.5.pdf" target="_BLANK"> <img src="images/5.5.png" style="width: 100%; align: center"/> </a>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter5/5.5.pdf" target="_BLANK"> <img src="images/5.5.png" style="width: 70%; align: center"/> </a>
 
+.font_tiny[(Chapter 5/ 5.5)]
 
 
 ---
@@ -303,6 +304,9 @@ $$CV_{(k)} = \frac{1}{k}\sum_{i=1}^n \frac{(y_i-\hat{y})^2}{1-h_i}$$
 
 </center>
 
+
+.font_tiny[(Chapter 5/ 5.7)]
+
 ---
 ## Classification
 
@@ -311,6 +315,8 @@ $$CV_{(k)} = \frac{1}{k}\sum_{i=1}^n \frac{(y_i-\hat{y})^2}{1-h_i}$$
 
 Black line is .black[10-fold CV]; .blue[training] and TRUE .orange[test] error for different choices of polynomial (left) and KNN classifier (right). 
 
+
+.font_tiny[(Chapter 5/ 5.8)]
 ---
 
 layout: false
