@@ -409,7 +409,56 @@ refers to how much your estimate would change if you had different training data
 - In general, the .orange[more flexible] a method is, the .orange[more variance] it has. 
 - The .orange[size] of the training data has an impact on the variance.
 
+
+
 ---
+
+### High variance (over fitted) models can be problematic...
+
+<br>
+
+<center>
+ <img src="images/bird.jpg" style="width: 60%">
+
+</center>
+
+<br>
+
+.font_tiny[Source: Statistical Statistics Memes]
+
+
+---
+### ... as well as high bias (under fitted) models!
+
+<br>
+
+<center>
+ <img src="images/constraints.png" style="width: 60%">
+
+</center>
+
+<br>
+
+.font_tiny[Source: Statistical Statistics Memes]
+
+
+---
+
+## The Bias Variance Tradeoff
+
+As you may have guessed, there is a trade off between increasing variance (flexibility) and decreasing bias (simplicity) and vice versa.
+
+<br>
+
+<center>
+ <img src="images/tradeoff.png" style="width: 60%">
+
+</center>
+
+.green[Decomposing the MSE can give us a mathematical intuition as to why this occurs.]
+
+---
+
 
 ## MSE decomposition
 
@@ -421,8 +470,7 @@ Test MSE = Bias $^2$ + Variance + Irreducible variance
 
 - The expectation averages over the variability of $Y$ as well as the variability in the training data.
 - As the flexibility of $\hat{f}$ increases, its variance increases and its bias decreases.
--  Choosing the flexibility based on average test MSE amounts to a .orange[bias-variance trade-off]
-
+-  **Choosing the flexibility based on average test MSE amounts to the .orange[bias-variance trade-off]**
 
 ---
 .nopadding[
