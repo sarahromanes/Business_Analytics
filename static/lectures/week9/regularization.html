@@ -8,6 +8,8 @@
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
     <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="mystyle.css" type="text/css" />
     <link rel="stylesheet" href="libs\animate.css" type="text/css" />
   </head>
@@ -308,6 +310,217 @@ Final model fitted for `\(Y\)` using `\(Z_1, ..., Z_M\)`.
 
 Performance is no better than ridge regression or PCR. Can reduce bias, has potential to increase variance. .orange[PLS is similar to partial regression], where new variables are first regressed on predictors that are already in the model, and it is the residuals that are used.
 
+
+---
+
+class: split-two
+
+.column[.pad50px[
+## Recall -  SRBCT cancer prediction 
+
+- The SRBCT dataset (Khan et al., 2001) looks at classifying 4 classes of different childhood tumours sharing similar visual features during routine histology.
+- Data contains 83 microarray samples with 1586 features.
+- .orange[We will revisit this data later on in the course to explore high dimensional DA.]
+
+
+]]
+
+.column[.content.vmiddle.center[
+
+ &lt;img src="images/SRBCT-nature.jpg", width="70%"&gt;
+
+.purple[Source:] [Nature](https://www.nature.com/articles/modpathol2016119)
+
+]]
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## Diagonal Discriminant Analysis
+
+&lt;br&gt;
+- The simplest form of regularisation assumes that the features are independent within each class. 
+- Consider a *diagonal-covariance* LDA rule for classifying classes
+- A special case of the naive-Bayes classifier
+
+]]
+.column[.content.vmiddle.center[
+
+&lt;img src="regularization_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+]]
+
+
+---
+## Discriminant Function
+
+It can be shown that the discriminant score for a new observation `\(\mathbf{x}^*\)` when the features are considered independent reduces to the following:
+
+`$$\delta_k(\mathbf{x}^*) = - \sum_{j=1}^{p}\frac{(x_j^* - \bar{x}_{kj})^2}{s^2_j} + 2\log \pi_k.$$`
+
+The classification rule is then
+
+`$$C(\mathbf{x}^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(\mathbf{x}^*) = \max_k \delta_k(\mathbf{x}^*).$$`
+
+
+---
+
+## Filter features for prediction
+
+To motivate the upcoming method, consider a binary classfication DLDA problem. 
+
+One way we could establish which of the features are driving prediction would be to perform a two-sample `\(t\)`-test 
+
+`$$t_{j} = \frac{\bar{x}_{1j} - \bar{x}_{0j}}{s_j}$$`
+with the `\(t\)` statistic providing a measure of how significant the difference in class means for predictor `\(j\)`. 
+
+
+
+---
+
+## Filter features for prediction
+
+.green[Think about it:] Using the `\(t\)` statistic -  `\(t_{j} = \frac{\bar{x}_{1j} - \bar{x}_{0j}}{s_j}\)` for all features, what is one way we can determine important features for prediction?
+
+
+<div class="countdown" id="timer_5e218ca8" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+
+## Filter features for prediction
+
+.orange[Answer:] Can consider filtering for features with `\(\lvert t_j \lvert &gt; 2\)`, as this is deemed significant at the 5% level.
+
+&lt;img src="regularization_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+.font_tiny[Note - further consideration can be given to the issue of [*Multiple Testing*](https://en.wikipedia.org/wiki/Multiple_comparisons_problem)]
+
+---
+
+## Nearest Shrunken Centroids (NSC)
+
+Now consider the following statistic,
+
+&lt;br&gt;
+
+`$$d_{kj} = \frac{\bar{x}_{kj} - \bar{x}_j}{m_k(s_j + s_0)} \quad \mbox{with} \quad m_k^2 = \frac{1}{N_k} - \frac{1}{N}$$`
+and `\(s_0\)` a small value to protect `\(d_{kj}\)` from small expression values.
+
+&lt;br&gt;
+This statistic is a  measure for how significant the difference between the class `\(k\)` mean for predictor `\(j\)`, and the overall mean for predictor `\(j\)`.
+
+---
+
+##  Soft Thresholding
+
+Each `\(d_{kj}\)` is reduced by an amount `\(\Delta\)` in absolute value, and is set to zero if its absolute value is less than zero.
+
+`$$d'_{kj} = \mbox{sign}(d_{kj})( \lvert d_{kj} \lvert - \Delta)_{+},$$`
+&lt;center&gt;
+ &lt;img src="images/soft.JPG", width="40%"&gt;
+&lt;/center&gt;
+---
+## Nearest Shrunken Centroids Classifier
+
+The NSC uses either version of the statistic `\(d'_{kj}\)` to regularise by shinking the class means towards the overall mean for each predictor seperately as follows:
+
+`$$\bar{x}'_{kj} = \bar{x}_j + m_k(s_j + s_0)d'_{kj}$$`
+
+&lt;br&gt;
+
+.green.center[Unless a predictor has a significant difference to the overall mean for at least one class, it is useless for classification.]
+
+We then use the shrunken centroids `\(\bar{x}'_{kj}\)` in place of `\(\bar{x}_{kj}\)` in the DLDA discriminant function.
+
+---
+
+## Alternative - penalised multiple hypothesis testing (multiDA)
+
+&lt;br&gt;
+
+Another approach to high dimensional DA involves formulating the problem as a multiple hypothesis testing problem, and asking the question - .orange["What defines a discriminative feature?"], and then choosing discriminative features through a penalised likelihood ratio test.
+
+
+
+
+
+
+---
+## LRT – compare to the null
+
+.green[For `\\(K=3\\)` classes, there are `\\(m=5\\)` potential partitions of the data.]
+
+For all 5 hypotheses, compare the likelihood to the null. Pick the "partition" that is the most likely.
+
+&lt;center&gt;
+
+&lt;img src="images/LRT.png", width="80%"&gt;
+
+&lt;/center&gt;
+
+
+---
+
+## A penalised likelihood ratio test statistic
+
+Two forms of penalisation can be considered:
+
+- .green[The BIC] - useful when Positive Selection Rate is preferred to controlling False Discovery Rate (FDR). 
+`$$\nu_m \log(n)$$`
+- .green[The Extended BIC] - useful for high dimensional data, penalising additionally on the number of features `\(p\)`.
+`$$\nu_m[\log(n) + 2\log(p)]$$`
+
+.font_small[(Note - `\\(\nu_m = g_m - 1\\)` where `\\(g_m\\)` is the number of groupings considered in model `\\(m\\)`). ]
+
+
+---
+class: split-60
+
+.column[.pad50px[
+
+## multiDA in R
+ 
+&lt;br&gt;
+
+
+```r
+library(multiDA)
+res &lt;- multiDA(y = SRBCT$y, 
+               X = SRBCT$X,
+               penalty = "EBIC",
+               equal.var = TRUE,
+               set.options = "exhaustive")
+```
+
+We can then examine the class groupings using the `plot()` method for `multiDA`:
+
+
+```r
+plot(res, ranks= 1)
+```
+
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+&lt;img src="regularization_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+
+
+]]
+
+
+
+
+---
+
+## Compare performance - 100 trial, 5 fold CV
+
+&lt;img src="regularization_files/figure-html/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 ---
 

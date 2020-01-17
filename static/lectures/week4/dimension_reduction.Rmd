@@ -67,6 +67,36 @@ Space expands exponentially with dimension:
 As dimension increases the .orange[volume of a sphere] of same radius as cube side length becomes much .orange[smaller than the volume of the cube].
 
 
+---
+
+## Examples of High Dimensional Data
+
+High dimensional data occurs commonly in bioinformatics, when genetic studies often have many more information on genes than patients.
+
+<center>
+<img src="images/microarray.png" style="width: 70%; align: center"/>
+</center>
+---
+class: split-two
+
+.column[.pad50px[
+
+## Example -  SRBCT cancer prediction 
+
+- The SRBCT dataset (Khan et al., 2001) looks at classifying 4 classes of different childhood tumours sharing similar visual features during routine histology.
+- Data contains 83 microarray samples with 1586 features.
+- .orange[We will revisit this data later on in the course to explore high dimensional DA.]
+
+
+]]
+
+.column[.content.vmiddle.center[
+
+ <img src="images/SRBCT-nature.jpg", width="70%">
+
+.purple[Source:] [Nature](https://www.nature.com/articles/modpathol2016119)
+
+]]
 
 ---
 ## Sub-spaces
@@ -319,249 +349,6 @@ $$\text{TV} = \sum_{m=1}^M V_m \text{  where }M=\min(n-1,p).$$
 
 
 
-
----
-## How to choose $k$?
-
-.tip[.orange[Proportion of variance explained:]
-$$\text{PVE}_m = \frac{V_m}{TV}$$
-
-]
-
-Choosing the number of PCs that adequately summarises the variation in $X$, is achieved by examining the cumulative proportion of variance explained. 
-
-Cumulative proportion of variance explained:
-
-$$\text{CPVE}_k = \sum_{m=1}^k\frac{V_m}{TV}$$
-
-
----
-class: split-two
-layout: false
-
-.column[.pad50px[
-
-## How to choose $k$?
-
-<br>
-
-.tip[.orange[Scree plot: ].content[Plot of variance explained by each component vs number of component.]]
-
-]]
-.column[.content.vmiddle.center[
-
-```{r}
-library(tidyverse)
-df <- tibble(npcs=1:10, evl=c(3.5,2.7,2.2,0.5,0.3,0.3,0.2,0.1,0.1,0.1))
-p <- ggplot(df, aes(x=npcs, y=evl)) + geom_line() + 
-  xlab("Number of PCs") + ylab("Eigenvalue") +
-  scale_x_continuous(breaks=seq(0,10,1)) +
-  theme_minimal(base_size=18)
-p
-```
-
-]]
-
----
-
-
-class: split-two
-layout: false
-
-.column[.pad50px[
-
-## How to choose $k$?
-
-<br>
-
-.tip[.orange[Scree plot: ].content[Plot of variance explained by each component vs number of component.]]
-
-]]
-.column[.content.vmiddle.center[
-
-```{r}
-p + geom_vline(xintercept=4, colour="orange", size=3, alpha=0.7) +
-  annotate("text", x=4.5, y=3, label="Choose k=4", colour="orange", hjust = 0, size=8)
-```
-
-
-
-]]
-
-
-
-
----
-## Example - track records
-
-The data on national track records for women (as at 1984). 
-
-```{r}
-track <- read_csv("data/womens_track.csv")
-glimpse(track)
-```
-
-.font_tiny[*Source*: Johnson and Wichern, Applied multivariate analysis]
-
----
-## Explore the data
-
-```{r out.width="80%"}
-library(GGally)
-ggscatmat(track[,1:7])
-```
-
-
-
----
-## Compute PCA
-
-```{r}
-options(digits=2)
-```
-
-```{r echo=TRUE}
-track_pca <- prcomp(track[,1:7], center=TRUE, scale=TRUE)
-track_pca
-```
-
-
----
-## Assess
-
-Summary of the principal components: 
-
-```{r}
-library(kableExtra)
-library(knitr)
-track_pca_smry <- tibble(evl=track_pca$sdev^2) %>%
-  mutate(p = evl/sum(evl), cum_p = cumsum(evl/sum(evl))) %>% t() 
-colnames(track_pca_smry) <- colnames(track_pca$rotation)
-rownames(track_pca_smry) <- c("Variance", "Proportion", "Cum. prop")
-kable(track_pca_smry, digits=2, align="r") %>% 
-  kable_styling(full_width = T) %>%
-  row_spec(0, color="white", background = "#7570b3") %>%
-  column_spec(1, width = "2.5em", color="white", background = "#7570b3") %>%
-  column_spec(1:8, width = "2.5em") %>%
-  row_spec(3, color="white", background = "#CA6627")
-```
-
-Increase in variance explained large until $k=3$ PCs, and then tapers off. A choice of .orange[3 PCs] would explain 97% of the total variance. 
-
-
----
-class: split-two
-layout: false
-
-.column[.pad50px[
-
-## Assess
-
-<br>
-
-.green[Scree plot: Where is the elbow?]
-
-<br>
-
-At $k=2$, thus the scree plot suggests 2 PCs would be sufficient to explain the variability.
-
-
-
-]]
-.column[.content.vmiddle.center[
-
-```{r}
-track_pca_var <- tibble(n=1:length(track_pca$sdev), evl=track_pca$sdev^2)
-ggplot(track_pca_var, aes(x=n, y=evl)) + geom_line() +
-  xlab("Number of PCs") + ylab("Eigenvalue") +
-  theme_minimal(base_size = 18)
-```
-
-
-]]
-
-
----
-
-
-class: split-two
-layout: false
-
-.column[.pad50px[
-
-## Assess
-
-<br>
-
-.tip[.orange[Visualise model using a biplot]: Plot the principal component scores, and also the contribution of the original variables to the principal component.
-]
-
-
-
-]]
-.column[.content.vmiddle.center[
-
-```{r}
-library(ggrepel)
-track_pca_pcs <- as_tibble(track_pca$x[,1:2]) %>%
-  mutate(cnt=track$country)
-track_pca_evc <- as_tibble(track_pca$rotation[,1:2]) %>% 
-  mutate(origin=rep(0, 7), variable=colnames(track)[1:7],
-         varname=rownames(track_pca$rotation)) %>%
-  mutate(PC1s = PC1*(track_pca_var$evl[1]*2.5), 
-         PC2s = PC2*(track_pca_var$evl[2]*2.5))
-ggplot() + 
-  geom_segment(data=track_pca_evc, aes(x=origin, xend=PC1s, y=origin, yend=PC2s), colour="orange") +
-  geom_text_repel(data=track_pca_evc, aes(x=PC1s, y=PC2s, label=variable, nudge_y=sign(PC2)*0.1), colour="orange", nudge_x=0.1) +
-  geom_point(data=track_pca_pcs, aes(x=PC1, y=PC2)) +
-  geom_text(data=filter(track_pca_pcs, abs(PC1)>5), aes(x=PC1, y=PC2, label=cnt), nudge_y=0.1, nudge_x=-0.1) +
-  geom_text(data=filter(track_pca_pcs, abs(PC2)>1.5), aes(x=PC1, y=PC2, label=cnt), nudge_y=0.1, nudge_x=-0.1) +
-  xlab("PC1") + ylab("PC2") +
-  theme(aspect.ratio=1)
-```
-
-]]
-
----
-## Interpretation
-
-- PC1 measures overall magnitude, the strength of the athletics program. High positive values indicate .orange[poor] programs with generally slow times across events. 
-- PC2 measures the .orange[contrast] in the program between .orange[short and long distance] events. Some countries have relatively stronger long distance atheletes, while others have relatively stronger short distance athletes. 
-- There are several .orange[outliers] visible in this plot, `wsamoa`, `cookis`, `dpkorea`. PCA, because it is computed using the variance in the data, can be affected by outliers. It may be better to remove these countries, and re-run the PCA. 
----
-
-## Accuracy
-
-Bootstrap can be used to assess whether the coefficients of a PC are significantly different from 0. The 95% bootstrap confidence intervals are:
-
-```{r out.width="60%", fig.width=5, fig.height=2}
-library(boot)
-compute_PC1 <- function(data, index) {
-  pc1 <- prcomp(data[index,], center=TRUE, scale=TRUE)$rotation[,1]
-  # Coordinate signs
-  if (sign(pc1[1]) < 0) 
-    pc1 <- -pc1 
-  return(pc1)
-}
-# Make sure sign of first PC element is positive
-PC1_boot <- boot(data=track[,1:7], compute_PC1, R=1000)
-colnames(PC1_boot$t) <- colnames(track[,1:7])
-PC1_boot_ci <- as_tibble(PC1_boot$t) %>%
-  gather(var, coef) %>% 
-  mutate(var = factor(var, levels=c("m100", "m200", "m400", "m800", "m1500", "m3000", "marathon"))) %>%
-  group_by(var) %>%
-  summarise(q2.5 = quantile(coef, 0.025), 
-            q5 = median(coef),
-            q97.5 = quantile(coef, 0.975)) %>%
-  mutate(t0 = PC1_boot$t0) 
-  
-ggplot(PC1_boot_ci, aes(x=var, y=t0)) + geom_point() +
-  geom_errorbar(aes(ymin=q2.5, ymax=q97.5), width=0.1) +
-  geom_hline(yintercept=0, size=3, colour="white") +
-  xlab("") + ylab("coefficient")
-``` 
-
-All of the coefficients on PC1 are significantly different from 0, and positive, approximately equal, .orange[not significantly different from each other].
 
 
 

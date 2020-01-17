@@ -1,0 +1,601 @@
+---
+title: "ETC3250: High Dimensional DA"
+subtitle: "Semester 1, 2020"
+author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
+date: "Week 3 (a)"
+output:
+  xaringan::moon_reader:
+    css: ["kunoichi", "ninjutsu", "mystyle.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy = FALSE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE, 
+                      fig.align = "center",
+                      fig.retina = 4)
+options(htmltools.dir.version = FALSE)
+library(magick)
+```
+
+## High Dimensional Data
+
+.orange[High dimensional data] is data that has *many more* variables than observations, that is, $p \gg n$. It occurs commonly in bioinformatics, when genetic studies often have many more information on genes than patients.
+
+<center>
+<img src="images/microarray.png" style="width: 70%; align: center"/>
+</center>
+---
+class: split-two
+
+.column[.pad50px[
+
+## SRBCT cancer prediction 
+
+- The SRBCT dataset (Khan et al., 2001) looks at classifying 4 classes of different childhood tumours sharing similar visual features during routine histology.
+- Data contains 83 microarray samples with 1586 features.
+- .orange[**Goal**: to use DA techniques to classify cancer types based on ]
+
+
+]]
+
+.column[.content.vmiddle.center[
+
+ <img src="images/SRBCT-nature.jpg", width="70%">
+
+.purple[Source:] [Nature](https://www.nature.com/articles/modpathol2016119)
+
+]]
+
+
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## Diagonal Discriminant Analysis
+
+<br>
+- The simplest form of regularisation assumes that the features are independent within each class. 
+- Consider a *diagonal-covariance* LDA rule for classifying classes
+- A special case of the naive-Bayes classifier
+
+]]
+.column[.content.vmiddle.center[
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(mvtnorm)
+
+s <- matrix(c(4,2,2,3), ncol = 2)
+s1 <- matrix(c(4, -0.6,-0.6, 3), ncol=2)
+s2 <- matrix(c(4,-0.08,-0.08,3), ncol = 2)
+
+m1 <- c(0, 0)
+m2 <- c(-3, 4)
+m3 <- c(2,3)
+n <- 1000
+
+set.seed(42)
+x1 <- rmvnorm(n = n, mean = m1, sigma = s2)
+x2 <- rmvnorm(n = n, mean = m2, sigma = s1)
+x3 <- rmvnorm(n = n, mean = m3, sigma = s)
+
+
+d <- data.frame(rbind(x1,x2,x3))
+d$class <- as.factor(rep(c("1", "2", "3"), each = 1000))
+
+p2 <- ggplot(d, aes(x = X1, y = X2, group = class, color =class)) +
+  geom_point(alpha = .5) +
+  geom_density_2d() + 
+  scale_colour_brewer(palette = "Dark2") +
+  theme_minimal() +
+  theme(text = element_text(size=20),
+        legend.position = "bottom")
+
+
+  
+library(ggExtra)
+ggMarginal(p2, groupFill = TRUE, groupColour = TRUE)
+```
+
+]]
+
+
+---
+## Discriminant Function
+
+It can be shown that the discriminant score for a new observation $\mathbf{x}^*$ when the features are considered independent reduces to the following:
+
+$$\delta_k(\mathbf{x}^*) = - \sum_{j=1}^{p}\frac{(x_j^* - \bar{x}_{kj})^2}{s^2_j} + 2\log \pi_k.$$
+
+The classification rule is then
+
+$$C(\mathbf{x}^*) = \ell \quad \mbox{if} \quad \delta_{\ell}(\mathbf{x}^*) = \max_k \delta_k(\mathbf{x}^*).$$
+
+
+---
+
+## Filter features for prediction
+
+To motivate the upcoming method, consider a binary classfication DLDA problem. 
+
+One way we could establish which of the features are driving prediction would be to perform a two-sample $t$-test 
+
+$$t_{j} = \frac{\bar{x}_{1j} - \bar{x}_{0j}}{s_j}$$
+with the $t$ statistic providing a measure of how significant the difference in class means for predictor $j$. 
+
+
+
+---
+
+## Filter features for prediction
+
+.green[Think about it:] Using the $t$ statistic -  $t_{j} = \frac{\bar{x}_{1j} - \bar{x}_{0j}}{s_j}$ for all features, what is one way we can determine important features for prediction?
+
+
+```{r}
+library(countdown)
+countdown(minutes = 1, seconds = 0)
+```
+---
+
+## Filter features for prediction
+
+.orange[Answer:] Can consider filtering for features with $\lvert t_j \lvert > 2$, as this is deemed significant at the 5% level.
+
+```{r, fig.height = 5}
+
+funcShaded <- function(x) {
+    y <- dt(x, df = 30)
+    y[ abs(x) < 2] <- NA
+    return(y)
+}
+
+p_t <- ggplot(data.frame(t = c(-4, 4)), aes(x = t)) +
+       stat_function(fun = dt, args = list(df = 30), size = 1.2) +
+       stat_function(fun=funcShaded, geom="area", fill="#1b9e77", alpha=0.5) +
+       scale_x_continuous(name = "t",
+                     breaks = seq(-4, 4, 2),
+                     limits=c(-4, 4)) +
+       scale_y_continuous(name = "Density") +
+       scale_colour_brewer(palette="Dark2") +
+       theme_minimal() +
+       theme(text = element_text(size=20))
+p_t
+```
+
+.font_tiny[Note - further consideration can be given to the issue of [*Multiple Testing*](https://en.wikipedia.org/wiki/Multiple_comparisons_problem)]
+
+---
+
+## Nearest Shrunken Centroids (NSC)
+
+Now consider the following statistic,
+
+<br>
+
+$$d_{kj} = \frac{\bar{x}_{kj} - \bar{x}_j}{m_k(s_j + s_0)} \quad \mbox{with} \quad m_k^2 = \frac{1}{N_k} - \frac{1}{N}$$
+and $s_0$ a small value to protect $d_{kj}$ from small expression values.
+
+<br>
+This statistic is a  measure for how significant the difference between the class $k$ mean for predictor $j$, and the overall mean for predictor $j$.
+
+---
+
+##  Soft Thresholding
+
+Each $d_{kj}$ is reduced by an amount $\Delta$ in absolute value, and is set to zero if its absolute value is less than zero.
+
+$$d'_{kj} = \mbox{sign}(d_{kj})( \lvert d_{kj} \lvert - \Delta)_{+},$$
+<center>
+ <img src="images/soft.JPG", width="40%">
+</center>
+---
+## Nearest Shrunken Centroids Classifier
+
+The NSC uses either version of the statistic $d'_{kj}$ to regularise by shinking the class means towards the overall mean for each predictor seperately as follows:
+
+$$\bar{x}'_{kj} = \bar{x}_j + m_k(s_j + s_0)d'_{kj}$$
+
+<br>
+
+.green.center[Unless a predictor has a significant difference to the overall mean for at least one class, it is useless for classification.]
+
+We then use the shrunken centroids $\bar{x}'_{kj}$ in place of $\bar{x}_{kj}$ in the DLDA discriminant function.
+
+
+---
+## multiDA (DA via multiple hypothesis testing)
+
+<br>
+
+The multiDA method utilises a multiple hypothesis testing approach to select informative features. It uses a three step process:
+
+- .orange[Define] what is a discriminative feature
+- .orange[Estimate] parameters of the hypothesis testing process, and 
+- .orange[Predict] new data points using the estimates from training data.
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**One group**] (NOT a discriminative feature)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+funcShaded <- function(x,m,s) {
+  y <- dnorm(x, mean = m, sd = s)
+  return(y)
+}
+
+s_a = 0.15
+m_a =0.4
+
+p1 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Groups 1 + 2 + 3"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+p1
+```
+]]
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 2 and 3, against 1)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+m_a = 0.25
+m_b = 0.5
+
+
+s_a = 0.15
+s_b = 0.1
+
+p2 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Group 1"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_b, s_b),
+                aes(colour = "Groups 2 & 3"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_b, s_b), geom="area", fill="#d95f02", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+p2
+```
+]]
+
+---
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 1 and 3, against 2)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+m_a = 0.25
+m_b = 0.5
+
+
+s_a = 0.1
+s_b = 0.15
+
+p3 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Group 2"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_b, s_b),
+                aes(colour = "Groups 1 & 3"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_b, s_b), geom="area", fill="#d95f02", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+p3
+
+```
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Two groups**] (Groups 1 and 2, against 3)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+m_a = 0.25
+m_b = 0.5
+
+
+s_a = 0.1
+s_b = 0.1
+
+p4 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Group 3"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_b, s_b),
+                aes(colour = "Groups 1 & 2"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_b, s_b), geom="area", fill="#d95f02", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+p4
+
+```
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What defines a discriminative feature?
+ 
+  
+<br>
+
+Suppose we have 3 classes to model. If we assume the features are independent,  within each feature we can group them as:
+
+
+
+.orange[**Three groups**] (All groups are different)
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r, echo = FALSE, fig.retina=4, message = FALSE, warning = FALSE}
+
+m_a = 0.3
+m_b = 0.4
+m_c = 0.7
+
+s_a = 0.19
+s_b = 0.07
+s_c = 0.1
+
+p5 <- ggplot(data.frame(x = c(-0.2, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(m_a, s_a),
+                aes(colour = "Group 1"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_b, s_b),
+                aes(colour = "Group 2"), size = 1.5) +
+  stat_function(fun = dnorm, args = list(m_c, s_c),
+                aes(colour = "Group 3"), size = 1.5) +
+  stat_function(fun=funcShaded, args = list(m_a, s_a), geom="area", fill="#1b9e77", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_b, s_b), geom="area", fill="#d95f02", alpha=0.5) +
+  stat_function(fun=funcShaded, args = list(m_c, s_c), geom="area", fill="#7570b3", alpha=0.5) +
+  scale_x_continuous(name = "Value",
+                     breaks = seq(-0.2, 1, 0.2),
+                     limits=c(-0.2, 1)) +
+  scale_y_continuous(name = "Density") +
+  scale_colour_brewer(palette="Dark2") +
+  labs(colour = "Groups") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_blank(),
+        text = element_text(size=20))
+
+
+p5
+```
+]]
+
+---
+
+class: split-two
+
+.column[.pad50px[
+
+## What about K > 3 classes?
+ 
+.green[Question: How many ways can you partition a set of size K?]
+  
+The total number of partitions of a K-element set is the [Bell number](https://en.wikipedia.org/wiki/Bell_number) $B_K$. The first several Bell numbers are:
+$B_0= 1$, $B_1= 1$, $B_2= 2$, $B_3= 5$, $B_4= 15$, $B_5= 52$, and $B_6= 203$.
+
+.font_small[.orange[Right: The 52 partitions of a set with 5 elements]]
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+<img src="images/bell-number.png", width="40%">
+
+]]
+
+---
+
+## LRT – compare to the null
+
+For all 5 hypotheses, compare the likelihood to the null. Pick the "partition" that is the most likely.
+
+<center>
+
+<img src="images/LRT.png", width="80%">
+
+</center>
+
+---
+
+
+class: split-60
+
+.column[.pad50px[
+
+## multiDA in R
+ 
+<br>
+
+```{r, eval = TRUE, echo = TRUE}
+library(multiDA)
+res <- multiDA(y = SRBCT$y, 
+               X = SRBCT$X,
+               penalty = "EBIC",
+               equal.var = TRUE,
+               set.options = "exhaustive")
+```  
+
+We can then examine the class groupings using the `plot()` method for `multiDA`:
+
+```{r, eval = FALSE, echo = TRUE}
+plot(res, ranks= 1)
+```
+
+
+ ]]
+
+.column[.content.vmiddle.center[
+
+```{r}
+plot(res, ranks= 1)
+```
+
+
+
+]]
+
+
+
+
+---
+
+## Compare performance - 100 trial, 5 fold CV
+
+```{r, fig.width=12}
+load("data/SRBCT.RData")
+data$as.factor.ours.=as.factor(data$as.factor.ours.)
+library(ggthemes)
+library(ochRe)
+p_cv <- ggplot(data, aes(x = labels, y = 1-vals, fill=as.factor.ours.)) +
+              geom_boxplot() +
+              scale_fill_manual(values = c("thistle4","thistle3"))+
+              theme_hc() +
+              theme(legend.position="none",
+                    text = element_text(size=18)) +ylab("Accuracy (%)") + xlab(" ") 
+    
+p_cv
+```
+
+---
+layout: false
+# `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+<br>
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+<br> 
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
